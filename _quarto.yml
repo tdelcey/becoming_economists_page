@@ -1,0 +1,59 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  # navbar:
+  #   tools:
+  #     - icon: github
+  #       menu:
+  #         - text: Source Code
+  #           url:  https://github.com/tdelcey/becoming_economists
+  #         - text: Report a Bug
+  #           url:  https://github.com/tdelcey/becoming_economists/issues
+  #   background: primary
+  #   pinned: true 
+  #   left:
+  #     - text: "Home"
+  #       file: index.qmd
+  #     - file: documentation.qmd
+  #     - file: data.qmd
+  #     - file: application.qmd
+  #     - file: news.qmd
+  page-footer:
+   right: 
+    - text: "© Thomas Delcey, Aurélien Goutsmedt"
+      
+  sidebar:
+      logo: "assets/image/logo.webp"
+      pinned: true
+      align: center
+      tools: 
+      - icon: github
+        menu:
+          - text: Source Code
+            url:  https://github.com/tdelcey/becoming_economists
+          - text: Report a Bug
+            url:  https://github.com/tdelcey/becoming_economists/issues
+      style: "docked"
+      search: true
+      collapse-level: 1
+      contents: 
+        - file: index.qmd
+        - file: documentation.qmd
+        - file: data.qmd
+        - file: application.qmd
+        - file: news.qmd
+        - file: about.qmd
+      
+      
+format:
+  html:
+    # grid:
+    #   sidebar-width: 200px
+    #   body-width: 900px
+    #   margin-width: 300px
+    #   gutter-width: 1.5rem
+    theme: litera
+    css: styles.css
+

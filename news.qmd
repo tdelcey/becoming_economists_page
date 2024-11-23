@@ -1,0 +1,10 @@
+---
+title: "News"
+listing: 
+  type: default
+  contents: 
+    - "news/*/index.qmd"
+  fields: [image, date, title, author]  
+  sort: "date desc"
+  date-format: "YYYY"
+---

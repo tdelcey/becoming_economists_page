@@ -1,0 +1,22 @@
+---
+title: "A topic model of French Ph.D. in economics (because Thomas insisted)"
+author: 
+  - name: "Thomas Delcey"
+    affiliation: "Université de Bourgogne"
+    email: "Thomas.delcey@u-bourgogne.fr"
+  - name: "Aurelien Goutsmedt"
+    affiliation: "UC Louvain; ICHEC"
+    email: "" 
+page-layout: full
+toc: true
+toc_float: true
+date: "2024"
+date-format: "YYYY"
+execute:
+ echo: false
+ warning: false
+ message: false
+---
+
+![](picture.png)
+This is a topic model 

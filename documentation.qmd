@@ -1,0 +1,10 @@
+---
+title: "Documentation"
+listing: 
+  type: default
+  contents: 
+    - "documentation/*/index.qmd"
+  fields: [image, date, title, author, reading-time]  
+  sort: "date desc"
+  date-format: "YYYY"
+---

@@ -1,0 +1,25 @@
+---
+title: "Home"
+subtitle: "Becoming an economist: bibliometric data on economic Ph.D."
+sidebar: true
+listing: 
+  type: default
+  sort: "date"
+  contents: 
+    - "news/french/index.qmd"
+    - "application/french/index.qmd"
+
+---
+
+## Présentation
+
+This site aims to create a database of Ph.D. dissertations defended in economics during the 20th and 21st centuries across different countries. The team is actually working on three countries:
+
+- France, using data from the SUDOC and Theses.fr databases;
+- United States, gathering data from the lists of dissertations published annually by the American Economic Review and later by the Journal of Economic Literature;
+- United Kingdom, using the EThOS catalog.
+
+# Latest news
+
+
+---

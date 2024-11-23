@@ -1,0 +1,10 @@
+---
+title: "Application"
+listing: 
+  type: grid
+  contents: 
+    - "application"
+  fields: [image, date, title, author, categories]  
+  sort: "date desc"
+  date-format: "YYYY"
+---

@@ -1,0 +1,25 @@
+---
+title: "Documentation: the US database"
+author: 
+  - name: "Thomas Delcey"
+    affiliation: "Université de Bourgogne"
+    email: "Thomas.delcey@u-bourgogne.fr"
+  - name: "Aurelien Goutsmedt"
+    affiliation: "UC Louvain; ICHEC"
+    email: "" 
+format: html
+page-layout: full
+toc: true
+toc_float: true
+date: "2024"
+date-format: "YYYY"
+prefer-html: true
+execute:
+ echo: false
+ warning: false
+ message: false
+---
+
+![](picture.png)
+
+# Work in progress
