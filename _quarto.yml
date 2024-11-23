@@ -35,7 +35,7 @@ website:
             url:  https://github.com/tdelcey/becoming_economists
           - text: Report a Bug
             url:  https://github.com/tdelcey/becoming_economists/issues
-      style: "docked"
+      style: "floating"
       search: true
       collapse-level: 1
       contents: 
