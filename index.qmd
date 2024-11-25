@@ -11,13 +11,7 @@ listing:
 
 ---
 
-## Présentation
-
-This site aims to create a database of Ph.D. dissertations defended in economics during the 20th and 21st centuries across different countries. The team is actually working on three countries:
-
-- France, using data from the SUDOC and Theses.fr databases;
-- United States, gathering data from the lists of dissertations published annually by the American Economic Review and later by the Journal of Economic Literature;
-- United Kingdom, using the EThOS catalog.
+Welcome in the website of the project "Becoming an economist". This project is dedicated to the collection and analysis of bibliometric data on theses in economics in the 20th and 21st centuries across different countries. The team is actually working on three countries: France, the United States and the United Kingdom. 
 
 # Latest news
 

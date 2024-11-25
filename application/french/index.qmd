@@ -18,5 +18,287 @@ execute:
  message: false
 ---
 
-![](picture.png)
-This is a topic model 
+
+```{r}
+library(stm)
+
+#| echo: FALSE 
+#| results: "hide"
+#| warning: FALSE
+#| message: FALSE
+#| error: FALSE
+
+package_list <- c("pacman", #loading packages
+                  "here", # building clearer paths
+                  "tidyverse",
+                  "cli", # for managing alerts and messages
+                  "glue", # for string interpolation
+                  "data.table",
+                  "janitor", # cleaning column names of import csv
+                #  "arrow", # compressing large data base
+                # "humaniformat", # finding first name and surname for cleaning names,
+                  "stringi" 
+                #  "stringdist" 
+              )
+
+for (p in package_list) {
+  if (p %in% installed.packages() == FALSE) {
+    install.packages(p, dependencies = TRUE)
+  }
+  library(p, character.only = TRUE)
+}
+
+#### PATH ####
+
+#original text path stored in google drive 
+if(str_detect(getwd(), "tunex")){
+  data_path <- "G:/Mon Drive/Phd_Project/data"
+} else {
+  if(str_detect(getwd(), "Admin")) {
+    data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
+  } else {
+  if(str_detect(getwd(), "thomd")) {
+    data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
+    } else {
+      data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
+    }}
+  }
+
+# data type
+raw_data_path <- here(data_path, "raw_data")
+intermediate_data_path <- here(data_path, "intermediate_data")
+
+# country
+US_raw_data_path <- here(raw_data_path, "US")
+US_intermediate_data_path <- here(intermediate_data_path, "US")
+
+UK_raw_data_path <- here(raw_data_path, "UK")
+UK_intermediate_data_path <- here(intermediate_data_path, "UK")
+
+FR_raw_data_path <- here(raw_data_path, "FR")
+FR_intermediate_data_path <- here(intermediate_data_path, "FR")
+
+# database
+US_txt_raw_data_path <- here(US_raw_data_path, "AEA_JEL", "txt")
+US_txt_intermediate_data_path <- here(US_intermediate_data_path, "txt")
+
+US_pq_raw_data_path <- here(US_raw_data_path, "proquest")
+
+UK_ethos_raw_data_path <- here(UK_raw_data_path, "ethos")
+UK_ethos_intermediate_data_path <- here(UK_intermediate_data_path, "ethos")
+
+FR_thesefr_raw_data_path <- here(FR_raw_data_path, "these_fr")
+FR_thesefr_intermediate_data_path <- here(FR_intermediate_data_path, "these_fr")
+
+FR_sudoc_raw_data_path <- here(FR_raw_data_path, "sudoc")
+FR_sudoc_intermediate_data_path <- here(FR_intermediate_data_path, "sudoc")
+
+FR_cleaned_data_path <- here(data_path, "cleaned_data/FR")
+
+# Why saving this in the data file?? It should be in the project repo no?
+# figures_path <- here(data_path, "figures")
+
+```
+
+
+```{r}
+#| echo: FALSE
+#| eval: FALSE
+
+# load data
+
+thesis_metadata <- readRDS(here(FR_cleaned_data_path, "thesis_metadata.rds"))
+thesis_edge <- readRDS(here(FR_cleaned_data_path, "thesis_edge.rds"))
+thesis_person <- readRDS(here(FR_cleaned_data_path, "thesis_person.rds")) 
+
+
+# extract relevant data 
+
+data <- thesis_metadata %>% 
+  select(these_id, title_fr, year_defence) %>% 
+  filter(!is.na(title_fr)) %>% 
+  left_join(thesis_edge %>% filter(entity_role == "author") %>% select(entity_id, these_id), by = "these_id") %>%
+  left_join(thesis_person %>% select(entity_id, entity_name, entity_firstname, gender_expended), by = "entity_id") %>% 
+  filter(!is.na(gender_expended),
+         !is.na(year_defence)) %>% 
+  as_tibble
+
+
+# prepare data for stm
+
+prep <- stm::textProcessor(data$title_fr, metadata = data, stem = FALSE, language = "fr")
+
+out <- stm::prepDocuments(prep$documents, prep$vocab, prep$meta)
+
+# runnning a topic model
+
+k <- 50 
+
+stm <- stm::stm(out$documents, 
+                out$vocab, 
+                K = k, 
+                data = out$meta, 
+                prevalence = ~ gender_expended + s(year_defence),
+                init.type = "Spectral", 
+                verbose = TRUE, 
+                seed = 123)
+
+
+# save the model
+saveRDS(stm, here(FR_intermediate_data_path, "stm.rds"))
+
+topic_effects <- estimateEffect(stmobj = stm, 
+                             metadata = out$meta,
+                             formula = ~ gender_expended + s(year_defence))
+
+# save regression
+
+saveRDS(topic_effects, here(FR_intermediate_data_path, "topic_effects.rds"))
+
+```
+
+```{r}
+#| echo: FALSE
+#| label: fig-summary
+#| fig-cap: "Model summary"
+#| fig-width: 10
+#| fig-height: 15
+
+
+# plot the model
+
+stm <- readRDS(here(FR_intermediate_data_path, "stm.rds"))
+
+plot(stm, type = "summary")
+
+
+```
+# Trends in topic 
+
+```{r}
+#| echo: FALSE
+#| label: fig-trends
+#| fig-cap: "Trends in topics"
+
+
+# plot top 5 topics with the larger positive and negative slop in the time series
+
+topic_effects <- readRDS(here(FR_intermediate_data_path, "topic_effects.rds"))
+
+
+tidy_effects <- tidytext::tidy(topic_effects)
+
+
+linear_slopes <- tidy_effects %>%
+  filter(str_detect(term, "s\\(year_defence\\)")) %>%
+  select(topic, estimate) %>%
+  # average 
+  group_by(topic) %>%
+  summarise(mean = mean(estimate)) %>%
+  arrange(desc(mean))
+
+# Get the top 5 topics with the largest positive slopes
+top_5_topics <- linear_slopes %>%
+  slice_max(order_by = mean, n = 5)
+
+# Get the top 5 topics with the largest negative slopes
+
+bottom_5_topics <- linear_slopes %>%
+  slice_min(order_by = mean, n = 5)
+
+
+
+# Plot trends for these topics
+plot_effects <- plot.estimateEffect(topic_effects, 
+                                    covariate = "year_defence", 
+                                    topics = top_5_topics$topic, 
+                                    model = stm, 
+                                    method = "continuous",
+                                    xlab = "Year of Defence",
+                                    main = "Top 5 Topics with Increasing Prevalence",
+                                    labeltype = "frex",
+                                    n = 3)
+
+
+# Plot trends for these topics
+
+plot_effects <- plot.estimateEffect(topic_effects, 
+                                    covariate = "year_defence", 
+                                    topics = bottom_5_topics$topic, 
+                                    model = stm, 
+                                    method = "continuous",
+                                    xlab = "Year of Defence",
+                                    main = "Top 5 Topics with Decreasing Prevalence",
+                                    labeltype = "frex",
+                                    n = 3)
+
+```
+
+
+# Topic by gender
+
+```{r}
+#| echo: FALSE
+#| label: fig-gender
+#| fig-cap: "Top 5 topics with the largest positive and negative (Male as reference)" 
+
+tidy_effects <- tidytext::tidy(topic_effects)
+
+# Get the top 5 topics with the largest positive slopes and the top 5 topics with the largest negative slopes
+
+linear_slopes <- tidy_effects %>%
+  filter(str_detect(term, "gender")) %>% 
+  select(topic, estimate)
+
+positive <- linear_slopes %>%
+  slice_max(order_by = estimate, n = 5)
+
+negative <- linear_slopes %>%
+  slice_min(order_by = estimate, n = 5)
+
+# Plot trends for these topics
+
+plot.estimateEffect(
+  topic_effects,
+  covariate = "gender_expended",
+  topics = positive$topic,
+  model = stm,
+  method = "difference",
+  cov.value1 = "male",
+  cov.value2 = "female",
+  labeltype = "frex",
+  n = 3,
+  verbose.labels = FALSE,
+  xlim = c(-0.01, 0.02)
+) 
+
+
+plot.estimateEffect(
+  topic_effects,
+  covariate = "gender_expended",
+  topics = negative$topic,
+  model = stm,
+  method = "difference",
+  cov.value1 = "male",
+  cov.value2 = "female",
+  labeltype = "frex",
+  n = 3,
+  verbose.labels = FALSE, 
+  xlim = c(-0.02, 0)
+) 
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
