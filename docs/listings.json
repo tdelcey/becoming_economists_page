@@ -1,0 +1,33 @@
+[
+  {
+    "listing": "/news.html",
+    "items": [
+      "/news/french/index.html"
+    ]
+  },
+  {
+    "listing": "/index.html",
+    "items": [
+      "/news/french/index.html",
+      "/application/french/index.html"
+    ]
+  },
+  {
+    "listing": "/application.html",
+    "items": [
+      "/application/french/index.html"
+    ]
+  },
+  {
+    "listing": "/data.html",
+    "items": []
+  },
+  {
+    "listing": "/documentation.html",
+    "items": [
+      "/documentation/UK/index.html",
+      "/documentation/US/index.html",
+      "/documentation/french/index.html"
+    ]
+  }
+]

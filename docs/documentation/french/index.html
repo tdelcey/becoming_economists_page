@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Thomas Delcey">
+<meta name="author" content="Aurelien Goutsmedt">
+<meta name="dcterms.date" content="2024-01-01">
+
+<title>Documentation: the French database</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-07ba0ad10f5680c660e360ac31d2f3b6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-744d4dbbc3a74b851d5901a301437e3b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="../../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<link href="../../site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+
+<script src="../../site_libs/datatables-binding-0.33/datatables.js"></script>
+
+<script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<link href="../../site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+
+<link href="../../site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+
+<script src="../../site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+
+<link href="../../site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="../../site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+<script src="../../site_libs/plotly-binding-4.10.4/plotly.js"></script>
+
+<script src="../../site_libs/typedarray-0.1/typedarray.min.js"></script>
+
+<link href="../../site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+
+<script src="../../site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+<script src="../../site_libs/viz-1.8.2/viz.js"></script>
+
+<link href="../../site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+
+<script src="../../site_libs/grViz-binding-1.0.11/grViz.js"></script>
+
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Documentation: the French database</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../assets/image/logo.webp" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/tdelcey/becoming_economists">
+            Source Code
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/tdelcey/becoming_economists/issues">
+            Report a Bug
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../documentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Documentation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../application.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Application</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../news.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">News</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#method" id="toc-method" class="nav-link" data-scroll-target="#method">Method</a></li>
+  <li><a href="#presentation-of-the-tables" id="toc-presentation-of-the-tables" class="nav-link" data-scroll-target="#presentation-of-the-tables">Presentation of the tables</a>
+  <ul class="collapse">
+  <li><a href="#thesis-metadata" id="toc-thesis-metadata" class="nav-link" data-scroll-target="#thesis-metadata">Thesis Metadata</a></li>
+  <li><a href="#edges" id="toc-edges" class="nav-link" data-scroll-target="#edges">Edges</a></li>
+  <li><a href="#institutions" id="toc-institutions" class="nav-link" data-scroll-target="#institutions">Institutions</a></li>
+  <li><a href="#individuals" id="toc-individuals" class="nav-link" data-scroll-target="#individuals">Individuals</a></li>
+  </ul></li>
+  <li><a href="#data-collection-and-cleaning-process" id="toc-data-collection-and-cleaning-process" class="nav-link" data-scroll-target="#data-collection-and-cleaning-process">Data collection and cleaning process</a>
+  <ul class="collapse">
+  <li><a href="#general-presentation" id="toc-general-presentation" class="nav-link" data-scroll-target="#general-presentation">General presentation</a></li>
+  <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources">Data sources</a>
+  <ul class="collapse">
+  <li><a href="#theses.fr" id="toc-theses.fr" class="nav-link" data-scroll-target="#theses.fr">Theses.fr:</a></li>
+  <li><a href="#sudoc-système-universitaire-de-documentation" id="toc-sudoc-système-universitaire-de-documentation" class="nav-link" data-scroll-target="#sudoc-système-universitaire-de-documentation">SUDoc (Système Universitaire de Documentation):</a></li>
+  <li><a href="#idref-identifiants-et-référentiels-pour-lenseignement-supérieur-et-la-recherche" id="toc-idref-identifiants-et-référentiels-pour-lenseignement-supérieur-et-la-recherche" class="nav-link" data-scroll-target="#idref-identifiants-et-référentiels-pour-lenseignement-supérieur-et-la-recherche">IdRef (Identifiants et Référentiels pour l’Enseignement supérieur et la Recherche):</a></li>
+  </ul></li>
+  <li><a href="#data-collection" id="toc-data-collection" class="nav-link" data-scroll-target="#data-collection">Data collection</a></li>
+  <li><a href="#theses.fr-1" id="toc-theses.fr-1" class="nav-link" data-scroll-target="#theses.fr-1">theses.fr</a></li>
+  <li><a href="#sudoc" id="toc-sudoc" class="nav-link" data-scroll-target="#sudoc">SUDoc</a></li>
+  <li><a href="#idref" id="toc-idref" class="nav-link" data-scroll-target="#idref">IdRef</a></li>
+  <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning">Data cleaning</a>
+  <ul class="collapse">
+  <li><a href="#cleaning-sudoc-data" id="toc-cleaning-sudoc-data" class="nav-link" data-scroll-target="#cleaning-sudoc-data">Cleaning SUDoc data</a></li>
+  <li><a href="#cleaning-theses.fr-data" id="toc-cleaning-theses.fr-data" class="nav-link" data-scroll-target="#cleaning-theses.fr-data">Cleaning Theses.fr data</a></li>
+  <li><a href="#merging-theses.fr-and-sudoc-data" id="toc-merging-theses.fr-and-sudoc-data" class="nav-link" data-scroll-target="#merging-theses.fr-and-sudoc-data">Merging theses.fr and SUDoc data</a></li>
+  <li><a href="#sec-cleaning-metadata" id="toc-sec-cleaning-metadata" class="nav-link" data-scroll-target="#sec-cleaning-metadata">Cleaning thesis metadata</a></li>
+  <li><a href="#sec-cleaning-institutions" id="toc-sec-cleaning-institutions" class="nav-link" data-scroll-target="#sec-cleaning-institutions">Cleaning institutions</a></li>
+  <li><a href="#sec-cleaning-persons" id="toc-sec-cleaning-persons" class="nav-link" data-scroll-target="#sec-cleaning-persons">Cleaning individuals</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#usage-and-access" id="toc-usage-and-access" class="nav-link" data-scroll-target="#usage-and-access">Usage and Access</a>
+  <ul class="collapse">
+  <li><a href="#application-to-other-disciplines" id="toc-application-to-other-disciplines" class="nav-link" data-scroll-target="#application-to-other-disciplines">Application to other disciplines</a></li>
+  </ul></li>
+  <li><a href="#future-work-and-improvements" id="toc-future-work-and-improvements" class="nav-link" data-scroll-target="#future-work-and-improvements">Future work and improvements</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Documentation: the French database</h1>
+</div>
+
+
+<div class="quarto-title-meta-author column-body">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliations</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Thomas Delcey <a href="mailto:Thomas.delcey@u-bourgogne.fr" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Université de Bourgogne
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Aurelien Goutsmedt <a href="mailto:true" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            UC Louvain; ICHEC
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta column-body">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><img src="picture.png" class="img-fluid"></p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>This database gathers information on Ph.D.&nbsp;in economics defended in France since 1900. The project is part of a broader initiative entitled <em>Becoming an economists</em> that aim at building a comprehensive database of Ph.D.&nbsp;in economics across the world. The project is developed by Thomas Delcey and Aurélien Goutsmedt.</p>
+<p>The output of the french database is a relational database that connects different data frames. The database is structured in four main components:</p>
+<ul>
+<li><strong>Thesis Metadata:</strong> This component contains core details about each thesis. Each line represents a thesis record, including information such as the title, defense date, abstract, and other relevant details.</li>
+<li><strong>Edges:</strong> This table links the three previous tables, allowing to connect individuals to institutions and to theses.</li>
+<li><strong>Institutions Data:</strong> This includes all mentioned universities, laboratories, doctoral schools, and other institutions associated with the theses.</li>
+<li><strong>Individual Data:</strong> Each line represents an individual involved in the thesis, such as authors, supervisors, or jury members.</li>
+</ul>
+<p>WHY IN ENGLISH</p>
+</section>
+<section id="method" class="level1">
+<h1>Method</h1>
+<p>We relies on two principles to build this database:</p>
+<ul>
+<li><p><strong>no data transformation</strong>: our work is mainly a data collection, categorization, and cleaning work. We tried as less as possible to transform the data or limit the transformation to minimal and impactless transformation. To put it differently, we did not touch the cell values of the original data, mainly the encoded variables.</p></li>
+<li><p><strong>disambiguation</strong>: we tried to disambiguate the entities (thesis, authors, etc.) as much as possible. Disambiguation refers to the process of identifying and distinguishing between different entities that may have the same name. We tried to provide a unique identifier for each entity. The identifiers of the Agence Bibliographique de l’Enseignement Supérieur (ABSES) was the main source of unique identifiers (idref, nnt, etc.). When their identifiers were not available or disambiguaion was not possible, we created our own temporary unique identifiers.</p></li>
+</ul>
+</section>
+<section id="presentation-of-the-tables" class="level1">
+<h1>Presentation of the tables</h1>
+<section id="thesis-metadata" class="level2">
+<h2 class="anchored" data-anchor-id="thesis-metadata">Thesis Metadata</h2>
+<p>The thesis metadata table contains 15 variables:</p>
+<ul>
+<li><code>thesis_id</code>: the unique identifier of the thesis. If it exists, it is the officiel “national number of the thesis” created by the Agence Bibliographique de l’Enseignement Supérieur (ABES) and the theses.fr website. If not, it is a temporary identifier we have created.</li>
+<li><code>year_defence</code>: the date of the defence of the thesis. It covers the period between 1899 and 2023.</li>
+<li><code>language_1</code> and <code>language_2</code> are the languages of the thesis. It is a harmonized variables of the respective language variables found in SUDoc and These.fr.</li>
+<li><code>title_fr</code>: the title of the thesis in French.</li>
+<li><code>title_en</code>: the title of the thesis in English.</li>
+<li><code>title_other</code>: the title of the thesis in another language.</li>
+<li><code>abstract_fr</code>: the abstract of the thesis in French.</li>
+<li><code>abstract_en</code>: the abstract of the thesis in English.</li>
+<li><code>abstract_other</code>: the abstract of the thesis in another language.</li>
+<li><code>field</code>: the field of the thesis. It is a harmonized variable of the respective field variables found in SUDoc and These.fr.</li>
+<li><code>accessible</code>: a binary variable indicating whether the fulltext is accessible or not.</li>
+<li><code>type</code>: the type of the thesis. Type can take 6 values: Thèse, Thèse de 3e cycle, Thèse de docteur-ingénieur, Thèse d’État, Thèse complémentaire, Thèse sur travaux. All categories are categories found in SUDoc (see <a href="#tip-type" class="quarto-xref">Tip&nbsp;1</a>).</li>
+<li><code>country</code>: the country where the thesis was defended (à supprimer ?)</li>
+<li><code>url</code>: the url of the thesis, linking to the theses.fr website or the sudoc.fr website.</li>
+</ul>
+<div id="warning-language" class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Raw source data had an important rate of error in the title and abstract language: title in french were in the english column and vice versa. We have corrected this issue by using a language prediction model. The model is based on a combination of language predictive models to predict the language of abstracts and relocate abstracts in proper columns. See <a href="#sec-cleaning-metadata" class="quarto-xref">Section&nbsp;4.7.4</a> for details.</p>
+</div>
+</div>
+<p><a href="#tbl-metadata" class="quarto-xref">Table&nbsp;1</a> shows a sample of the thesis metadata table. The thesis metadata table contains 21025 theses. <a href="#fig-metadata_distribution" class="quarto-xref">Figure&nbsp;1</a> shows the distribution of theses over time.</p>
+<div class="cell">
+<div id="tbl-metadata" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-metadata-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Sample of the metadata table
+</figcaption>
+<div aria-describedby="tbl-metadata-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-396011541c694bb937f1" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-396011541c694bb937f1">{"x":{"filter":"none","vertical":false,"data":[["temp_sudoc_thesis_543771","2009POIT4016","2008LEMA2001","2010LYO22012","2002POIT4001","temp_sudoc_thesis_232950","1995DENS0003","temp_sudoc_thesis_344611","temp_sudoc_thesis_971630","1998PA010032","2002PA010071","temp_sudoc_thesis_340191","temp_sudoc_thesis_861740","2015PA100137","1998TOUL2001","2010PA010034","temp_sudoc_thesis_975211","1999PA010004","temp_sudoc_thesis_308351","temp_sudoc_thesis_104630","1986PA010010","1999DIJOE023","2001PA100042","1994DIJOE022","2014LIL12032","1982CLF1D012","temp_sudoc_thesis_858979","2000TOU10041","1985PA090055","1996PA100013","1976PA100071","2013PA020075","1992NICE0015","temp_sudoc_thesis_135946","1982MON10047","1978CLF1D003","temp_sudoc_thesis_992214","2018PA100159","temp_sudoc_thesis_399043","temp_sudoc_thesis_102460","2007GRE21043","temp_sudoc_thesis_828774","2002NICE0036","1987AIX24002","2003NICE0028","temp_sudoc_thesis_253030","temp_sudoc_thesis_233570","temp_sudoc_thesis_557203","1988POIT4005","2006AIX24006"],[1972,2009,2008,2010,2002,1976,1995,1983,1980,1998,2002,1908,1961,2015,1998,2010,1981,1999,1924,1977,1986,1999,2001,1994,2014,1982,1931,2000,1985,1996,1976,2013,1992,1985,1982,1978,1972,2018,1937,1985,2007,1965,2002,1987,2003,1911,1983,1968,1988,2006],["fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","en","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","en","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr","fr"],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["Les sucreries de la Guadeloupe dans la seconde ...","La géographie des collaborations pour l'innovat...","Essays on economic fluctuations, growth and the...","Economie politique des employeurs et néo-corpor...","Politiques de change, politiques financières et...","L'ENTREPRISE DANS LA PLANIFICATION SOCIALISTE","L'aide à la cohérence stratégique : méthodologi...","ETAT ET CAPITAL AU BRESIL-ESSAI SUR LA GENESE D...","ANALYSES RETROSPECTIVES ET PROSPECTIVES DES ECH...","Approche économétrique de la demande de soins d...","Commerce intra-firme et investissements directs...","Des différentes phases de l'occupation français...","Situation démo-économique à Revel\n(Haute-Garonne)","Politiques économiques publiques pour limiter l...","Pour une analyse globale de l'entrepreneur : de...",null,"LES INDUSTRIES DU MATERIEL MEDICAL\nENTREPRISES ...","Contributions à l'analyse économique de l'intég...","La loi agraire en Roumanie et ses conséquences ...","PRODUITS NOUVEAUX ET BIEN-ETRE DES CONSOMMATEURS","Information, incitations et contrats : des fond...","Les modélisations économétriques d'estimation d...","Pratiques de conservation et consolidation du p...","Stratégies d'entreprises en régime de contrôle ...","Talent, formation et expérience : le rôle nuanc...","Financement extérieur et politique de la santé\n...","Le Chômage en Grande-Bretagne depuis 1918\nses c...","La gestion des ressources financières de la fir...","Entreprises en difficultés et trajectoire de dé...","La dispersion des coûts de la main-d'œuvre dans...","Le système bancaire d'un pays producteur de pét...","L'apport des modèles d'équilibre général pour l...","La crise du système monétaire international : u...","CONSOMMATION D'ENERGIE ET MOBILITE DE PROXIMITE","Politique des équipements locaux et incidences ...","Comptabilité nationale et développement","Les systèmes formels de communication et la fon...","Interdépendances entre l'équité intra et interg...","Le Mandat anglais sur l'Irak\nson origine, son é...","Approche de l'investissement en éducation et an...","Les instruments économiques de régulation pour ...","La planification du développement économique en...","Développement soutenable et croissance endogene","Les logiques du système de soins : le cas de l'...","La gestion des ressources halieutiques dans une...","La banque d'État du Maroc","FAMINE ET COLLECTIVISATION EN URSS 1932-1934","Fondements économiques d'une organisation du ma...","Les modèles interénergétiques et leurs applicat...","Mémoire longue non stationnaire : estimations e..."],[null,"The geography of partnerships build up : the ro...",null,"Political Economy of Employers and Neo-Corporat...","Exchange rate policies, financial policies and ...",null,"Strategic coherence aid : methodology, concepts...",null,null,"Econometric approach of the demand for health c...","Intra-business company and direct investments t...",null,null,"Public economic policies to limit CO2 emissions...",null,"Trois études sur la mondialisation des services...",null,"Contributions th the economic analysis of verti...",null,null,null,"Econometric models of cost assessment in the au...","Practices of conserving and consolidating power...","Managerial strategies under price-regulation : ...","Talent, training, and experience : a subtle eff...",null,null,"Management of firm's financial resources : betw...",null,"The labour cost dispersion in the European unio...",null,"Contribution of general equilibrium models to c...",null,null,null,null,null,"Interdependencies between intra and intragenera...",null,null,"Regulatory instruments for the management of wa...",null,"Sustainable development and endogenous growth :...","The logics of health care system. The case of a...","Stock management fishery according to the conce...",null,null,null,null,"Nonstationary long memory : estimations and app..."],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,"Face à la forte polarisation des activités d'in...","Cette thèse s'intéresse aux fluctuations économ...","Notre travail se penche sur le financement de l...","Au début du mois de juillet 1997, les crises de...",null,"L'objectif de la thèse est de proposer un nouve...",null,null,"Dans les années 80, encouragés par les institut...","Le commerce intra-firme, est devenu, depuis les...",null,null,"Cette thèse porte sur les instruments de politi...","L'entrepreneur a ete longtemps exclu des theori...","Les trois premiers chapitres de cette thèse ont...",null,"La preoccupation centrale de cette these est l'...",null,null,null,"La recherche porte sur l'apport des modélisatio...","Depuis Machiavel, et même depuis Platon, le thè...","Le contrôle des prix constitue une atteinte à l...","L’entrepreneuriat suscite un fort intérêt, auss...",null,null,"Cette thèse montre qu'une compréhension satisfa...",null,"La determination des salaires, leur evolution m...",null,"L’objet de cette thèse est d’analyser comment l...","Beaucoup d'études ont été faites sur le système...",null,null,null,null,"Cette thèse se propose de montrer l'intérêt de ...",null,null,"La thèse trouve son origine dans le constat du ...",null,"La réalisation d'un \"double-dividende\" sous for...","La diversite des structures de depistage ou de ...","La gestion des ressources halieutiques et de no...",null,null,null,null,"Cette thèse s’intéresse à l’étude de mémoire lo..."],[null,"Regarding the well known spatial concentration ...",null,"Our work tackles the issue of the financing of ...",null,null,null,null,null,"In 1980's, encouraged by international institut...",null,null,null,"This Thesis analyses public economic policies e...",null,null,null,"The main preoccupation of this thesis is the an...",null,null,null,null,"Influence and control are a primary goal of ind...","Price control constitutes an attack on the free...","Entrepreneurship generates a strong interest,  ...",null,null,null,null,"Wage determination, evolution and dispersion ar...",null,"This thesis consists in analysing how competiti...",null,null,null,null,null,"This dissertation proposes to show the interest...",null,null,"Tradable emission permits have long been consid...",null,null,"The range of health care structures and the cos...","Our vital space and stock management fishery in...",null,null,null,null,"This thesis is interested in studying the long ..."],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"::The energetic system has known a fundamental mutation since 1973 before this date, the compensation though the offer predominates and promotes the domination of the petroleum products. The rising of the prices of the crude oil has occasioned the rising of the prices of the petroleum products and the mean price of the energy after this rising appeared a compensation toy the request through many tendencies : substitution of the other energies forms for petroleum products, reduction of the specifics consummation, equalization of the prices of thermal unit ( 1979 ), specialization of the energie over their employments the most valorized.",null],["Sciences économiques","Sciences économiques","Sciences économiques","Sciences économiques","Sciences économiques","Sciences économiques","Economie et gestion","Sciences économiques","Sciences économiques","Sciences économiques","Sciences économiques","Sciences politiques et économiques","Droit","Sciences économiques","Sciences économiques","Sciences économiques","Sciences économiques","Sciences économiques","Droit","Sciences économiques","Économie","Science économique","Sciences économiques","Sciences économiques","Sciences économiques","Economie du développement","Sciences économiques","Sciences économiques","Sciences économiques","Sciences économiques, gestion, mathématiques et informatiques","Sciences économiques","Sciences économiques","Sciences économiques","Sciences économiques","Sciences économiques","Sciences économiques","Sciences économiques","Sciences économiques","Sciences politiques et économiques","Sciences économiques","Économie appliquée","Science économique","Sciences économiques","Science économique","Sciences économiques","Sciences économiques et politiques","Sciences économiques","Sciences économiques","Analyse et politique économique","Sciences économiques"],[null,"non","non","oui","non",null,"non",null,null,"non","non",null,null,"oui","non","non",null,"non",null,null,"non","non","non","non","oui",null,null,"non","non","non",null,"non","non",null,null,null,null,"oui",null,null,"non",null,"non","non","non",null,null,null,"non","non"],["Thèse d'État","Thèse","Thèse","Thèse","Thèse","Thèse d'État","Thèse","Thèse de 3e cycle","Thèse de 3e cycle","Thèse","Thèse","Thèse","Thèse","Thèse","Thèse","Thèse","Thèse de 3e cycle","Thèse","Thèse","Thèse d'État","Thèse","Thèse","Thèse","Thèse","Thèse","Thèse de 3e cycle","Thèse","Thèse","Thèse","Thèse","Thèse de 3e cycle","Thèse","Thèse","Thèse de 3e cycle","Thèse de 3e cycle","Thèse d'État","Thèse d'État","Thèse","Thèse","Thèse de 3e cycle","Thèse","Thèse","Thèse","Thèse","Thèse","Thèse","Thèse de 3e cycle","Thèse","Thèse","Thèse"],["France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France","France"],["https://www.sudoc.fr/071297618.xml","https://theses.fr/2009POIT4016","https://theses.fr/2008LEMA2001","https://theses.fr/2010LYO22012","https://theses.fr/2002POIT4001","https://www.sudoc.fr/040920739.xml","https://theses.fr/1995DENS0003","https://www.sudoc.fr/041228650.xml","https://www.sudoc.fr/041066758.xml","https://theses.fr/1998PA010032","https://theses.fr/2002PA010071","https://www.sudoc.fr/047480653.xml","https://www.sudoc.fr/047249285.xml","https://theses.fr/2015PA100137","https://theses.fr/1998TOUL2001","https://theses.fr/2010PA010034","https://www.sudoc.fr/041164768.xml","https://theses.fr/1999PA010004","https://www.sudoc.fr/047386517.xml","https://www.sudoc.fr/04092789X.xml","https://theses.fr/1986PA010010","https://theses.fr/1999DIJOE023","https://theses.fr/2001PA100042","https://theses.fr/1994DIJOE022","https://theses.fr/2014LIL12032","https://www.sudoc.fr/245192778.xml","https://www.sudoc.fr/067617042.xml","https://theses.fr/2000TOU10041","https://theses.fr/1985PA090055","https://theses.fr/1996PA100013","https://www.sudoc.fr/041028538.xml","https://theses.fr/2013PA020075","https://theses.fr/1992NICE0015","https://www.sudoc.fr/041247124.xml","https://www.sudoc.fr/005204003.xml","https://www.sudoc.fr/232715785.xml","https://www.sudoc.fr/022378308.xml","https://theses.fr/2018PA100159","https://www.sudoc.fr/064935043.xml","https://www.sudoc.fr/041163842.xml","https://theses.fr/2007GRE21043","https://www.sudoc.fr/084397381.xml","https://theses.fr/2002NICE0036","https://theses.fr/1987AIX24002","https://theses.fr/2003NICE0028","https://www.sudoc.fr/054280206.xml","https://www.sudoc.fr/041241134.xml","https://www.sudoc.fr/081348959.xml","https://theses.fr/1988POIT4005","https://theses.fr/2006AIX24006"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>thesis_id<\/th>\n      <th>year_defence<\/th>\n      <th>language<\/th>\n      <th>language_2<\/th>\n      <th>title_fr<\/th>\n      <th>title_en<\/th>\n      <th>title_other<\/th>\n      <th>abstract_fr<\/th>\n      <th>abstract_en<\/th>\n      <th>abstract_other<\/th>\n      <th>field<\/th>\n      <th>accessible<\/th>\n      <th>type<\/th>\n      <th>country<\/th>\n      <th>url<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":1},{"name":"thesis_id","targets":0},{"name":"year_defence","targets":1},{"name":"language","targets":2},{"name":"language_2","targets":3},{"name":"title_fr","targets":4},{"name":"title_en","targets":5},{"name":"title_other","targets":6},{"name":"abstract_fr","targets":7},{"name":"abstract_en","targets":8},{"name":"abstract_other","targets":9},{"name":"field","targets":10},{"name":"accessible","targets":11},{"name":"type","targets":12},{"name":"country","targets":13},{"name":"url","targets":14}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100],"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Distribution</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Distribution by type of thesis</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div id="fig-metadata_distribution" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-metadata_distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-b33ffc3d4e0062f97d52" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-b33ffc3d4e0062f97d52">{"x":{"data":[{"orientation":"v","width":[0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,null],"base":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"x":[1899,1900,1901,1902,1903,1904,1905,1906,1907,1908,1909,1910,1911,1912,1913,1914,1915,1916,1917,1918,1919,1920,1921,1922,1923,1924,1925,1926,1927,1928,1929,1930,1931,1932,1933,1934,1935,1936,1937,1938,1939,1940,1941,1942,1943,1944,1945,1946,1947,1948,1949,1950,1951,1952,1953,1954,1955,1956,1957,1958,1959,1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,null],"y":[5,31,37,27,40,34,45,38,48,44,51,65,38,71,29,30,8,6,12,11,25,52,46,69,72,70,61,54,62,38,40,29,45,42,47,37,48,45,37,40,53,22,29,35,30,33,29,29,45,35,33,44,41,36,30,48,26,32,30,35,45,49,35,50,55,61,55,69,68,85,86,92,134,164,216,270,372,322,395,455,451,510,509,507,514,462,454,341,315,253,212,180,208,275,264,292,256,296,372,338,323,427,345,316,340,316,312,296,350,361,363,397,405,367,394,361,373,392,360,353,339,310,351,308,129,0],"text":["Defense date: 1899 <br> Number of theses: 5","Defense date: 1900 <br> Number of theses: 31","Defense date: 1901 <br> Number of theses: 37","Defense date: 1902 <br> Number of theses: 27","Defense date: 1903 <br> Number of theses: 40","Defense date: 1904 <br> Number of theses: 34","Defense date: 1905 <br> Number of theses: 45","Defense date: 1906 <br> Number of theses: 38","Defense date: 1907 <br> Number of theses: 48","Defense date: 1908 <br> Number of theses: 44","Defense date: 1909 <br> Number of theses: 51","Defense date: 1910 <br> Number of theses: 65","Defense date: 1911 <br> Number of theses: 38","Defense date: 1912 <br> Number of theses: 71","Defense date: 1913 <br> Number of theses: 29","Defense date: 1914 <br> Number of theses: 30","Defense date: 1915 <br> Number of theses: 8","Defense date: 1916 <br> Number of theses: 6","Defense date: 1917 <br> Number of theses: 12","Defense date: 1918 <br> Number of theses: 11","Defense date: 1919 <br> Number of theses: 25","Defense date: 1920 <br> Number of theses: 52","Defense date: 1921 <br> Number of theses: 46","Defense date: 1922 <br> Number of theses: 69","Defense date: 1923 <br> Number of theses: 72","Defense date: 1924 <br> Number of theses: 70","Defense date: 1925 <br> Number of theses: 61","Defense date: 1926 <br> Number of theses: 54","Defense date: 1927 <br> Number of theses: 62","Defense date: 1928 <br> Number of theses: 38","Defense date: 1929 <br> Number of theses: 40","Defense date: 1930 <br> Number of theses: 29","Defense date: 1931 <br> Number of theses: 45","Defense date: 1932 <br> Number of theses: 42","Defense date: 1933 <br> Number of theses: 47","Defense date: 1934 <br> Number of theses: 37","Defense date: 1935 <br> Number of theses: 48","Defense date: 1936 <br> Number of theses: 45","Defense date: 1937 <br> Number of theses: 37","Defense date: 1938 <br> Number of theses: 40","Defense date: 1939 <br> Number of theses: 53","Defense date: 1940 <br> Number of theses: 22","Defense date: 1941 <br> Number of theses: 29","Defense date: 1942 <br> Number of theses: 35","Defense date: 1943 <br> Number of theses: 30","Defense date: 1944 <br> Number of theses: 33","Defense date: 1945 <br> Number of theses: 29","Defense date: 1946 <br> Number of theses: 29","Defense date: 1947 <br> Number of theses: 45","Defense date: 1948 <br> Number of theses: 35","Defense date: 1949 <br> Number of theses: 33","Defense date: 1950 <br> Number of theses: 44","Defense date: 1951 <br> Number of theses: 41","Defense date: 1952 <br> Number of theses: 36","Defense date: 1953 <br> Number of theses: 30","Defense date: 1954 <br> Number of theses: 48","Defense date: 1955 <br> Number of theses: 26","Defense date: 1956 <br> Number of theses: 32","Defense date: 1957 <br> Number of theses: 30","Defense date: 1958 <br> Number of theses: 35","Defense date: 1959 <br> Number of theses: 45","Defense date: 1960 <br> Number of theses: 49","Defense date: 1961 <br> Number of theses: 35","Defense date: 1962 <br> Number of theses: 50","Defense date: 1963 <br> Number of theses: 55","Defense date: 1964 <br> Number of theses: 61","Defense date: 1965 <br> Number of theses: 55","Defense date: 1966 <br> Number of theses: 69","Defense date: 1967 <br> Number of theses: 68","Defense date: 1968 <br> Number of theses: 85","Defense date: 1969 <br> Number of theses: 86","Defense date: 1970 <br> Number of theses: 92","Defense date: 1971 <br> Number of theses: 134","Defense date: 1972 <br> Number of theses: 164","Defense date: 1973 <br> Number of theses: 216","Defense date: 1974 <br> Number of theses: 270","Defense date: 1975 <br> Number of theses: 372","Defense date: 1976 <br> Number of theses: 322","Defense date: 1977 <br> Number of theses: 395","Defense date: 1978 <br> Number of theses: 455","Defense date: 1979 <br> Number of theses: 451","Defense date: 1980 <br> Number of theses: 510","Defense date: 1981 <br> Number of theses: 509","Defense date: 1982 <br> Number of theses: 507","Defense date: 1983 <br> Number of theses: 514","Defense date: 1984 <br> Number of theses: 462","Defense date: 1985 <br> Number of theses: 454","Defense date: 1986 <br> Number of theses: 341","Defense date: 1987 <br> Number of theses: 315","Defense date: 1988 <br> Number of theses: 253","Defense date: 1989 <br> Number of theses: 212","Defense date: 1990 <br> Number of theses: 180","Defense date: 1991 <br> Number of theses: 208","Defense date: 1992 <br> Number of theses: 275","Defense date: 1993 <br> Number of theses: 264","Defense date: 1994 <br> Number of theses: 292","Defense date: 1995 <br> Number of theses: 256","Defense date: 1996 <br> Number of theses: 296","Defense date: 1997 <br> Number of theses: 372","Defense date: 1998 <br> Number of theses: 338","Defense date: 1999 <br> Number of theses: 323","Defense date: 2000 <br> Number of theses: 427","Defense date: 2001 <br> Number of theses: 345","Defense date: 2002 <br> Number of theses: 316","Defense date: 2003 <br> Number of theses: 340","Defense date: 2004 <br> Number of theses: 316","Defense date: 2005 <br> Number of theses: 312","Defense date: 2006 <br> Number of theses: 296","Defense date: 2007 <br> Number of theses: 350","Defense date: 2008 <br> Number of theses: 361","Defense date: 2009 <br> Number of theses: 363","Defense date: 2010 <br> Number of theses: 397","Defense date: 2011 <br> Number of theses: 405","Defense date: 2012 <br> Number of theses: 367","Defense date: 2013 <br> Number of theses: 394","Defense date: 2014 <br> Number of theses: 361","Defense date: 2015 <br> Number of theses: 373","Defense date: 2016 <br> Number of theses: 392","Defense date: 2017 <br> Number of theses: 360","Defense date: 2018 <br> Number of theses: 353","Defense date: 2019 <br> Number of theses: 339","Defense date: 2020 <br> Number of theses: 310","Defense date: 2021 <br> Number of theses: 351","Defense date: 2022 <br> Number of theses: 308","Defense date: 2023 <br> Number of theses: 129","Defense date: NA <br> Number of theses: 26"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(135,206,235,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":40.182648401826491,"l":43.105022831050235},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Distribution of theses by defense date","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1892.3049999999998,2029.6950000000002],"tickmode":"array","ticktext":["1920","1960","2000"],"tickvals":[1920,1960,2000],"categoryorder":"array","categoryarray":["1920","1960","2000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Defense date","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-25.700000000000003,539.70000000000005],"tickmode":"array","ticktext":["0","100","200","300","400","500"],"tickvals":[-3.5527136788005009e-15,100,200,300,400,500.00000000000006],"categoryorder":"array","categoryarray":["0","100","200","300","400","500"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Number of theses","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"5801021d87d1":{"x":{},"y":{},"text":{},"type":"bar"}},"cur_data":"5801021d87d1","visdat":{"5801021d87d1":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-metadata_distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Distribution of theses by defense date
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div id="fig-metadata_distribution_type" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-metadata_distribution_type-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-2f03720449822dfa6231" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-2f03720449822dfa6231">{"x":{"data":[{"orientation":"v","width":[0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,null],"base":[0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,3,0,1,2,1,3,14,12,11,18,28,31,43,67,64,104,156,281,242,304,390,371,458,485,470,485,436,220,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"x":[1899,1900,1901,1902,1903,1904,1905,1906,1907,1908,1909,1910,1911,1912,1913,1914,1915,1916,1917,1918,1919,1920,1921,1922,1923,1924,1925,1926,1927,1928,1929,1930,1931,1932,1933,1934,1935,1936,1937,1938,1939,1940,1941,1942,1943,1944,1945,1946,1947,1948,1949,1950,1951,1952,1953,1954,1955,1956,1957,1958,1959,1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,null],"y":[5,31,37,27,40,34,45,38,48,44,51,65,38,70,29,30,8,6,12,11,25,52,46,68,72,70,61,54,62,38,40,28,45,42,47,37,48,45,37,39,52,22,29,34,30,33,29,29,45,35,33,44,41,36,30,48,26,30,30,32,45,48,33,49,52,47,43,58,50,57,55,49,67,100,112,114,91,80,91,65,80,52,24,37,29,26,234,341,315,253,212,180,208,275,264,292,256,296,372,338,323,427,345,316,340,315,312,296,350,361,363,397,405,367,394,361,373,392,360,353,339,310,351,308,129,0],"text":["Defense date: 1899 <br> Type: Thèse <br> Number of theses: 5","Defense date: 1900 <br> Type: Thèse <br> Number of theses: 31","Defense date: 1901 <br> Type: Thèse <br> Number of theses: 37","Defense date: 1902 <br> Type: Thèse <br> Number of theses: 27","Defense date: 1903 <br> Type: Thèse <br> Number of theses: 40","Defense date: 1904 <br> Type: Thèse <br> Number of theses: 34","Defense date: 1905 <br> Type: Thèse <br> Number of theses: 45","Defense date: 1906 <br> Type: Thèse <br> Number of theses: 38","Defense date: 1907 <br> Type: Thèse <br> Number of theses: 48","Defense date: 1908 <br> Type: Thèse <br> Number of theses: 44","Defense date: 1909 <br> Type: Thèse <br> Number of theses: 51","Defense date: 1910 <br> Type: Thèse <br> Number of theses: 65","Defense date: 1911 <br> Type: Thèse <br> Number of theses: 38","Defense date: 1912 <br> Type: Thèse <br> Number of theses: 70","Defense date: 1913 <br> Type: Thèse <br> Number of theses: 29","Defense date: 1914 <br> Type: Thèse <br> Number of theses: 30","Defense date: 1915 <br> Type: Thèse <br> Number of theses: 8","Defense date: 1916 <br> Type: Thèse <br> Number of theses: 6","Defense date: 1917 <br> Type: Thèse <br> Number of theses: 12","Defense date: 1918 <br> Type: Thèse <br> Number of theses: 11","Defense date: 1919 <br> Type: Thèse <br> Number of theses: 25","Defense date: 1920 <br> Type: Thèse <br> Number of theses: 52","Defense date: 1921 <br> Type: Thèse <br> Number of theses: 46","Defense date: 1922 <br> Type: Thèse <br> Number of theses: 68","Defense date: 1923 <br> Type: Thèse <br> Number of theses: 72","Defense date: 1924 <br> Type: Thèse <br> Number of theses: 70","Defense date: 1925 <br> Type: Thèse <br> Number of theses: 61","Defense date: 1926 <br> Type: Thèse <br> Number of theses: 54","Defense date: 1927 <br> Type: Thèse <br> Number of theses: 62","Defense date: 1928 <br> Type: Thèse <br> Number of theses: 38","Defense date: 1929 <br> Type: Thèse <br> Number of theses: 40","Defense date: 1930 <br> Type: Thèse <br> Number of theses: 28","Defense date: 1931 <br> Type: Thèse <br> Number of theses: 45","Defense date: 1932 <br> Type: Thèse <br> Number of theses: 42","Defense date: 1933 <br> Type: Thèse <br> Number of theses: 47","Defense date: 1934 <br> Type: Thèse <br> Number of theses: 37","Defense date: 1935 <br> Type: Thèse <br> Number of theses: 48","Defense date: 1936 <br> Type: Thèse <br> Number of theses: 45","Defense date: 1937 <br> Type: Thèse <br> Number of theses: 37","Defense date: 1938 <br> Type: Thèse <br> Number of theses: 39","Defense date: 1939 <br> Type: Thèse <br> Number of theses: 52","Defense date: 1940 <br> Type: Thèse <br> Number of theses: 22","Defense date: 1941 <br> Type: Thèse <br> Number of theses: 29","Defense date: 1942 <br> Type: Thèse <br> Number of theses: 34","Defense date: 1943 <br> Type: Thèse <br> Number of theses: 30","Defense date: 1944 <br> Type: Thèse <br> Number of theses: 33","Defense date: 1945 <br> Type: Thèse <br> Number of theses: 29","Defense date: 1946 <br> Type: Thèse <br> Number of theses: 29","Defense date: 1947 <br> Type: Thèse <br> Number of theses: 45","Defense date: 1948 <br> Type: Thèse <br> Number of theses: 35","Defense date: 1949 <br> Type: Thèse <br> Number of theses: 33","Defense date: 1950 <br> Type: Thèse <br> Number of theses: 44","Defense date: 1951 <br> Type: Thèse <br> Number of theses: 41","Defense date: 1952 <br> Type: Thèse <br> Number of theses: 36","Defense date: 1953 <br> Type: Thèse <br> Number of theses: 30","Defense date: 1954 <br> Type: Thèse <br> Number of theses: 48","Defense date: 1955 <br> Type: Thèse <br> Number of theses: 26","Defense date: 1956 <br> Type: Thèse <br> Number of theses: 30","Defense date: 1957 <br> Type: Thèse <br> Number of theses: 30","Defense date: 1958 <br> Type: Thèse <br> Number of theses: 32","Defense date: 1959 <br> Type: Thèse <br> Number of theses: 45","Defense date: 1960 <br> Type: Thèse <br> Number of theses: 48","Defense date: 1961 <br> Type: Thèse <br> Number of theses: 33","Defense date: 1962 <br> Type: Thèse <br> Number of theses: 49","Defense date: 1963 <br> Type: Thèse <br> Number of theses: 52","Defense date: 1964 <br> Type: Thèse <br> Number of theses: 47","Defense date: 1965 <br> Type: Thèse <br> Number of theses: 43","Defense date: 1966 <br> Type: Thèse <br> Number of theses: 58","Defense date: 1967 <br> Type: Thèse <br> Number of theses: 50","Defense date: 1968 <br> Type: Thèse <br> Number of theses: 57","Defense date: 1969 <br> Type: Thèse <br> Number of theses: 55","Defense date: 1970 <br> Type: Thèse <br> Number of theses: 49","Defense date: 1971 <br> Type: Thèse <br> Number of theses: 67","Defense date: 1972 <br> Type: Thèse <br> Number of theses: 100","Defense date: 1973 <br> Type: Thèse <br> Number of theses: 112","Defense date: 1974 <br> Type: Thèse <br> Number of theses: 114","Defense date: 1975 <br> Type: Thèse <br> Number of theses: 91","Defense date: 1976 <br> Type: Thèse <br> Number of theses: 80","Defense date: 1977 <br> Type: Thèse <br> Number of theses: 91","Defense date: 1978 <br> Type: Thèse <br> Number of theses: 65","Defense date: 1979 <br> Type: Thèse <br> Number of theses: 80","Defense date: 1980 <br> Type: Thèse <br> Number of theses: 52","Defense date: 1981 <br> Type: Thèse <br> Number of theses: 24","Defense date: 1982 <br> Type: Thèse <br> Number of theses: 37","Defense date: 1983 <br> Type: Thèse <br> Number of theses: 29","Defense date: 1984 <br> Type: Thèse <br> Number of theses: 26","Defense date: 1985 <br> Type: Thèse <br> Number of theses: 234","Defense date: 1986 <br> Type: Thèse <br> Number of theses: 341","Defense date: 1987 <br> Type: Thèse <br> Number of theses: 315","Defense date: 1988 <br> Type: Thèse <br> Number of theses: 253","Defense date: 1989 <br> Type: Thèse <br> Number of theses: 212","Defense date: 1990 <br> Type: Thèse <br> Number of theses: 180","Defense date: 1991 <br> Type: Thèse <br> Number of theses: 208","Defense date: 1992 <br> Type: Thèse <br> Number of theses: 275","Defense date: 1993 <br> Type: Thèse <br> Number of theses: 264","Defense date: 1994 <br> Type: Thèse <br> Number of theses: 292","Defense date: 1995 <br> Type: Thèse <br> Number of theses: 256","Defense date: 1996 <br> Type: Thèse <br> Number of theses: 296","Defense date: 1997 <br> Type: Thèse <br> Number of theses: 372","Defense date: 1998 <br> Type: Thèse <br> Number of theses: 338","Defense date: 1999 <br> Type: Thèse <br> Number of theses: 323","Defense date: 2000 <br> Type: Thèse <br> Number of theses: 427","Defense date: 2001 <br> Type: Thèse <br> Number of theses: 345","Defense date: 2002 <br> Type: Thèse <br> Number of theses: 316","Defense date: 2003 <br> Type: Thèse <br> Number of theses: 340","Defense date: 2004 <br> Type: Thèse <br> Number of theses: 315","Defense date: 2005 <br> Type: Thèse <br> Number of theses: 312","Defense date: 2006 <br> Type: Thèse <br> Number of theses: 296","Defense date: 2007 <br> Type: Thèse <br> Number of theses: 350","Defense date: 2008 <br> Type: Thèse <br> Number of theses: 361","Defense date: 2009 <br> Type: Thèse <br> Number of theses: 363","Defense date: 2010 <br> Type: Thèse <br> Number of theses: 397","Defense date: 2011 <br> Type: Thèse <br> Number of theses: 405","Defense date: 2012 <br> Type: Thèse <br> Number of theses: 367","Defense date: 2013 <br> Type: Thèse <br> Number of theses: 394","Defense date: 2014 <br> Type: Thèse <br> Number of theses: 361","Defense date: 2015 <br> Type: Thèse <br> Number of theses: 373","Defense date: 2016 <br> Type: Thèse <br> Number of theses: 392","Defense date: 2017 <br> Type: Thèse <br> Number of theses: 360","Defense date: 2018 <br> Type: Thèse <br> Number of theses: 353","Defense date: 2019 <br> Type: Thèse <br> Number of theses: 339","Defense date: 2020 <br> Type: Thèse <br> Number of theses: 310","Defense date: 2021 <br> Type: Thèse <br> Number of theses: 351","Defense date: 2022 <br> Type: Thèse <br> Number of theses: 308","Defense date: 2023 <br> Type: Thèse <br> Number of theses: 129","Defense date: NA <br> Type: Thèse <br> Number of theses: 18"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"Thèse","legendgroup":"Thèse","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,null],"base":[2,10,7,19,26,32,56,57,91,146,258,219,297,380,365,450,482,467,483,434,219,0],"x":[1963,1964,1966,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,null],"y":[1,4,4,9,5,11,11,7,13,10,23,23,7,10,6,8,3,3,2,2,1,0],"text":["Defense date: 1963 <br> Type: Thèse complémentaire <br> Number of theses: 1","Defense date: 1964 <br> Type: Thèse complémentaire <br> Number of theses: 4","Defense date: 1966 <br> Type: Thèse complémentaire <br> Number of theses: 4","Defense date: 1968 <br> Type: Thèse complémentaire <br> Number of theses: 9","Defense date: 1969 <br> Type: Thèse complémentaire <br> Number of theses: 5","Defense date: 1970 <br> Type: Thèse complémentaire <br> Number of theses: 11","Defense date: 1971 <br> Type: Thèse complémentaire <br> Number of theses: 11","Defense date: 1972 <br> Type: Thèse complémentaire <br> Number of theses: 7","Defense date: 1973 <br> Type: Thèse complémentaire <br> Number of theses: 13","Defense date: 1974 <br> Type: Thèse complémentaire <br> Number of theses: 10","Defense date: 1975 <br> Type: Thèse complémentaire <br> Number of theses: 23","Defense date: 1976 <br> Type: Thèse complémentaire <br> Number of theses: 23","Defense date: 1977 <br> Type: Thèse complémentaire <br> Number of theses: 7","Defense date: 1978 <br> Type: Thèse complémentaire <br> Number of theses: 10","Defense date: 1979 <br> Type: Thèse complémentaire <br> Number of theses: 6","Defense date: 1980 <br> Type: Thèse complémentaire <br> Number of theses: 8","Defense date: 1981 <br> Type: Thèse complémentaire <br> Number of theses: 3","Defense date: 1982 <br> Type: Thèse complémentaire <br> Number of theses: 3","Defense date: 1983 <br> Type: Thèse complémentaire <br> Number of theses: 2","Defense date: 1984 <br> Type: Thèse complémentaire <br> Number of theses: 2","Defense date: 1985 <br> Type: Thèse complémentaire <br> Number of theses: 1","Defense date: NA <br> Type: Thèse complémentaire <br> Number of theses: 4"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(183,159,0,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"Thèse complémentaire","legendgroup":"Thèse complémentaire","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,null],"base":[0,0,0,0,0,0,0,0,0,0,0,1,2,2,3,10,13,18,25,45,47,79,94,143,144,208,292,279,351,406,393,428,375,187,0],"x":[1912,1922,1930,1938,1939,1942,1956,1958,1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,null],"y":[1,1,1,1,1,1,2,3,1,2,1,1,8,10,4,8,6,8,7,11,10,12,52,115,75,89,88,86,99,76,74,55,59,32,0],"text":["Defense date: 1912 <br> Type: Thèse d'État <br> Number of theses: 1","Defense date: 1922 <br> Type: Thèse d'État <br> Number of theses: 1","Defense date: 1930 <br> Type: Thèse d'État <br> Number of theses: 1","Defense date: 1938 <br> Type: Thèse d'État <br> Number of theses: 1","Defense date: 1939 <br> Type: Thèse d'État <br> Number of theses: 1","Defense date: 1942 <br> Type: Thèse d'État <br> Number of theses: 1","Defense date: 1956 <br> Type: Thèse d'État <br> Number of theses: 2","Defense date: 1958 <br> Type: Thèse d'État <br> Number of theses: 3","Defense date: 1960 <br> Type: Thèse d'État <br> Number of theses: 1","Defense date: 1961 <br> Type: Thèse d'État <br> Number of theses: 2","Defense date: 1962 <br> Type: Thèse d'État <br> Number of theses: 1","Defense date: 1963 <br> Type: Thèse d'État <br> Number of theses: 1","Defense date: 1964 <br> Type: Thèse d'État <br> Number of theses: 8","Defense date: 1965 <br> Type: Thèse d'État <br> Number of theses: 10","Defense date: 1966 <br> Type: Thèse d'État <br> Number of theses: 4","Defense date: 1967 <br> Type: Thèse d'État <br> Number of theses: 8","Defense date: 1968 <br> Type: Thèse d'État <br> Number of theses: 6","Defense date: 1969 <br> Type: Thèse d'État <br> Number of theses: 8","Defense date: 1970 <br> Type: Thèse d'État <br> Number of theses: 7","Defense date: 1971 <br> Type: Thèse d'État <br> Number of theses: 11","Defense date: 1972 <br> Type: Thèse d'État <br> Number of theses: 10","Defense date: 1973 <br> Type: Thèse d'État <br> Number of theses: 12","Defense date: 1974 <br> Type: Thèse d'État <br> Number of theses: 52","Defense date: 1975 <br> Type: Thèse d'État <br> Number of theses: 115","Defense date: 1976 <br> Type: Thèse d'État <br> Number of theses: 75","Defense date: 1977 <br> Type: Thèse d'État <br> Number of theses: 89","Defense date: 1978 <br> Type: Thèse d'État <br> Number of theses: 88","Defense date: 1979 <br> Type: Thèse d'État <br> Number of theses: 86","Defense date: 1980 <br> Type: Thèse d'État <br> Number of theses: 99","Defense date: 1981 <br> Type: Thèse d'État <br> Number of theses: 76","Defense date: 1982 <br> Type: Thèse d'État <br> Number of theses: 74","Defense date: 1983 <br> Type: Thèse d'État <br> Number of theses: 55","Defense date: 1984 <br> Type: Thèse d'État <br> Number of theses: 59","Defense date: 1985 <br> Type: Thèse d'État <br> Number of theses: 32","Defense date: NA <br> Type: Thèse d'État <br> Number of theses: 1"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,186,56,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"Thèse d'État","legendgroup":"Thèse d'État","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,null],"base":[0,0,0,0,0,0,1,0,0,0,0,0,0,0,4,0,2,1,0,1,1,5,9,0,0],"x":[1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,2004,null],"y":[1,2,2,3,10,13,17,25,45,47,79,94,143,144,204,292,277,350,406,392,427,370,178,1,0],"text":["Defense date: 1963 <br> Type: Thèse de 3e cycle <br> Number of theses: 1","Defense date: 1964 <br> Type: Thèse de 3e cycle <br> Number of theses: 2","Defense date: 1965 <br> Type: Thèse de 3e cycle <br> Number of theses: 2","Defense date: 1966 <br> Type: Thèse de 3e cycle <br> Number of theses: 3","Defense date: 1967 <br> Type: Thèse de 3e cycle <br> Number of theses: 10","Defense date: 1968 <br> Type: Thèse de 3e cycle <br> Number of theses: 13","Defense date: 1969 <br> Type: Thèse de 3e cycle <br> Number of theses: 17","Defense date: 1970 <br> Type: Thèse de 3e cycle <br> Number of theses: 25","Defense date: 1971 <br> Type: Thèse de 3e cycle <br> Number of theses: 45","Defense date: 1972 <br> Type: Thèse de 3e cycle <br> Number of theses: 47","Defense date: 1973 <br> Type: Thèse de 3e cycle <br> Number of theses: 79","Defense date: 1974 <br> Type: Thèse de 3e cycle <br> Number of theses: 94","Defense date: 1975 <br> Type: Thèse de 3e cycle <br> Number of theses: 143","Defense date: 1976 <br> Type: Thèse de 3e cycle <br> Number of theses: 144","Defense date: 1977 <br> Type: Thèse de 3e cycle <br> Number of theses: 204","Defense date: 1978 <br> Type: Thèse de 3e cycle <br> Number of theses: 292","Defense date: 1979 <br> Type: Thèse de 3e cycle <br> Number of theses: 277","Defense date: 1980 <br> Type: Thèse de 3e cycle <br> Number of theses: 350","Defense date: 1981 <br> Type: Thèse de 3e cycle <br> Number of theses: 406","Defense date: 1982 <br> Type: Thèse de 3e cycle <br> Number of theses: 392","Defense date: 1983 <br> Type: Thèse de 3e cycle <br> Number of theses: 427","Defense date: 1984 <br> Type: Thèse de 3e cycle <br> Number of theses: 370","Defense date: 1985 <br> Type: Thèse de 3e cycle <br> Number of theses: 178","Defense date: 2004 <br> Type: Thèse de 3e cycle <br> Number of theses: 1","Defense date: NA <br> Type: Thèse de 3e cycle <br> Number of theses: 3"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"Thèse de 3e cycle","legendgroup":"Thèse de 3e cycle","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095,0.90000000000009095],"base":[0,0,0,0,0,0,0],"x":[1969,1979,1980,1982,1983,1984,1985],"y":[1,2,1,1,1,5,9],"text":["Defense date: 1969 <br> Type: Thèse de docteur-ingénieur <br> Number of theses: 1","Defense date: 1979 <br> Type: Thèse de docteur-ingénieur <br> Number of theses: 2","Defense date: 1980 <br> Type: Thèse de docteur-ingénieur <br> Number of theses: 1","Defense date: 1982 <br> Type: Thèse de docteur-ingénieur <br> Number of theses: 1","Defense date: 1983 <br> Type: Thèse de docteur-ingénieur <br> Number of theses: 1","Defense date: 1984 <br> Type: Thèse de docteur-ingénieur <br> Number of theses: 5","Defense date: 1985 <br> Type: Thèse de docteur-ingénieur <br> Number of theses: 9"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(97,156,255,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"Thèse de docteur-ingénieur","legendgroup":"Thèse de docteur-ingénieur","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000009095,"base":0,"x":[1977],"y":[4],"text":"Defense date: 1977 <br> Type: Thèse sur travaux <br> Number of theses: 4","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(245,100,227,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"Thèse sur travaux","legendgroup":"Thèse sur travaux","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":40.182648401826491,"l":43.105022831050235},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Distribution of theses by defense date and type of thesis","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1892.3049999999998,2029.6950000000002],"tickmode":"array","ticktext":["1920","1960","2000"],"tickvals":[1920,1960,2000],"categoryorder":"array","categoryarray":["1920","1960","2000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Defense date","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-25.700000000000003,539.70000000000005],"tickmode":"array","ticktext":["0","100","200","300","400","500"],"tickvals":[-3.5527136788005009e-15,100,200,300,400,500.00000000000006],"categoryorder":"array","categoryarray":["0","100","200","300","400","500"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Number of theses","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Type of thesis","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"5801074a03313":{"x":{},"y":{},"fill":{},"text":{},"type":"bar"}},"cur_data":"5801074a03313","visdat":{"5801074a03313":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-metadata_distribution_type-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Distribution of theses by defense date and type of thesis
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="tip-type" class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note&nbsp;1: Type of theses in the French system
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that the French education system did not have a harmonized Ph.D.&nbsp;system between the early 1960s and 1984, date of the Sauvy reform that harmonized the Ph.D.&nbsp;system. During this period, various types of theses existed before. It was usual in the mid 1970s to start with a “Doctorat de 3e cycle” before making a “Doctorat d’Etat”. Thus, one author can have several types of theses. <a href="#fig-metadata_distribution_type" class="quarto-xref">Figure&nbsp;2</a> shows the distribution of theses over time by the type of thesis.</p>
+</div>
+</div>
+</section>
+<section id="edges" class="level2">
+<h2 class="anchored" data-anchor-id="edges">Edges</h2>
+<p>Each line in the edge table is a unique edge between a thesis and an entity. We define entity as any individual or institution involved in the thesis. The edge table has 6:</p>
+<ul>
+<li><code>thesis_id</code>: the identifiers of a thesis (the same than in <code>thesis_medata</code>). In the edge table, a <code>thesis_id</code> can have several edges. A <code>thesis_id</code> has at least two edges: the author and the institution in which the thesis was defended.</li>
+<li><code>entity_id</code>: the identifiers of an entity.</li>
+<li><code>entity_role</code>: the role of the entity. A person can be either an author, a supervisor, a referee, a president or a member of jury. In addition to the main institution in which the Ph.D.&nbsp;was defended, the <code>entity_role</code> can contain additional information we were able to collect such as the other institutions, laboratories, doctoral schools (the institution organizing the doctorate in french university). Note that it concerns only theses collected in these.fr after 1985. For SUDoc, the value <code>etablissements_soutenance_from_info</code> may provide additional information on the institution.</li>
+<li><code>entity_firstname</code>: The name of the entity. Each entity has a <code>entity_name</code>. Note that the entity identifiers is unique but the entity name is not unique. For instance, two different persons can have the same name. When available, an individual can have a <code>entity_firstname</code>.</li>
+</ul>
+<div id="warning-edges" class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Most of our effort in building the database was to delete duplicates in entities so that users can easily estimate the involvement of an entity in theses. It is the case for most institutions which are well identified by an unique idref. Unfortunately, it was impossible to disambiguous all entities for individuals. To illustrate this point, it is very easy to spot that the string “Paris I” and “Paris I Panthéon-Sorbonne” are the same entity but we cannot be sure that “Thomas Delcey” authoring a Ph.D in 2021 is the same person than “Thomas Delcey” supervising a Ph.D.&nbsp;in 2022. The variable <code>homonym_of</code> allows the user to spot potential duplicates. See details in <a href="#sec-cleaning-persons" class="quarto-xref">Section&nbsp;4.7.6</a>.</p>
+</div>
+</div>
+<p><a href="#tbl-edges" class="quarto-xref">Table&nbsp;2</a> shows a sample of the thesis edge table. We identify 108221 edges in total. <a href="#fig-person-role" class="quarto-xref">Figure&nbsp;3</a> shows the distribution of individuals by role. <a href="#fig-person-institution" class="quarto-xref">Figure&nbsp;4</a> shows the distribution of individuals for the top institutions.</p>
+<div class="cell">
+<div id="tbl-edges" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-edges-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Sample of the edges table
+</figcaption>
+<div aria-describedby="tbl-edges-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-b22714a409e8d8453c26" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-b22714a409e8d8453c26">{"x":{"filter":"none","vertical":false,"data":[["2022UBFCB008","2006CAEN0635","1980PA100064","1983PA131006","2017PA100140","2005INPT017A","2010CERG0473","temp_sudoc_thesis_371307","2020MONTD030","temp_sudoc_thesis_103945","2001BOR40039","2015PA010006","2019SACLV038","temp_sudoc_thesis_389011","2016BRES0008","2016SACLV078","2011PA010032","2022NANU3022","1984MON10051","2011AIX24025","2012PA111007","2010EVRY0027","temp_sudoc_thesis_801783","1987TOU10052","1997PA100131","2018CLFAD003","2015EHES0154","2007PA010026","2020IPPAG005","1990DIJOE003","2016EHES0046","1980PA100100","2022PA100018","1990PA100005","2017IEPP0009","2021EHEC0009","2019AIXM0330","1977ORLE0501","temp_sudoc_thesis_847121","2001AIX32013","temp_sudoc_thesis_666395","2007ROUED005","2010MON10015","2014PA100068","temp_sudoc_thesis_280401","2010NSARE031","2016MONTD018","1998AIX24019","2020UPSLE079","2020CYUN1078"],["supervisor","author","author","institution_defence","member","supervisor","institution_defense","institution_defence_from_info","member","author","reviewer","reviewer","author","supervisor","supervisor","reviewer","member","doctoral_schools","supervisor","member","reviewer","supervisor","author","institution_defense","author","reviewer","member","supervisor","research_partner","member","institution_defense","supervisor","author","supervisor","supervisor","research_partner","doctoral_schools","institution_defence","institution_defence_from_info","supervisor","institution_defence_from_info","supervisor","author","member","institution_defence_from_info","institution_defense","supervisor","institution_defense","member","supervisor"],["temp_thesefr_person_101567","112117465","029294150","02640463X","15186649X","130334383","03463486X","temp_sudoc_institution_390123","176157522","234202947","029109825","028264924","242198481","072853425","059315121","107696770","026886065","267605285","026700379","temp_thesefr_person_100942","temp_thesefr_person_101193","136554350","061280690","026404354","113467982","030821169","159799309","027022544","026375036","03215318X","026374889","026757133","262782383","060977094","061677396","084162813","145585387","028956834","temp_sudoc_institution_602112","058566384","temp_sudoc_institution_749968","059790067","147650291","076145182","temp_sudoc_institution_594494","147800374","078711568","026402882","242723705","068891342"],["Founanou","Galouon Eta","Taylor","Université Sorbonne Paris Nord","Refait","Olivier","Cergy-Pontoise","Paris","Chort","Alteroche","Jeanrenaud","Richet","Vallejo","Aujac","Guyader","Bouquet","Gazier","École doctorale Sciences Economiques et sciences De Gestion - Bretagne (Rennes ; 2022-....)","Badouin","Willinger","Bertschek","Bosi","Gontard","Toulouse 1","Renard","Dubois","Rancière","Ménard","Ecole nationale de la statistique et de l'administration économique (Palaiseau, Essonne)","Laisney","Paris, EHESS","Brunhoff","Ibrahim","Tissier","Algan","Groupement d'études et de recherche en gestion à HEC (Jouy-en-Josas, Yvelines)","Ecole Doctorale Sciences Economiques et de Gestion d'Aix-Marseille (Aix-en-Provence)","Université d'Orléans","Paris 1","Centi","Paris","Beaumais","Xiao","Couharde","Paris 1","Rennes, Agrocampus Ouest","Mussard","Aix-Marseille 2","Ferriere","Donni"],["Mathurin","Eymard","Robert",null,"Catherine","Valérie",null,null,"Isabelle","Jacques d'","Claude","Xavier","José Luis","Henri","Olivier","Emmanuelle","Bernard",null,"Robert","Marc","Irène","Stefano","Daniel",null,"Loïc","Jean-Luc","Romain","Claude",null,"François",null,"Suzanne de","Dalia","Patrick","Yann",null,null,null,null,"Jean-Pierre",null,"Olivier","Liping","Cécile",null,null,"Stéphane",null,"Axelle","Olivier"],["thesesfr","thesesfr","sudoc","sudoc","thesesfr","thesesfr","thesesfr","sudoc","thesesfr","sudoc","thesesfr","thesesfr","thesesfr","sudoc","thesesfr","thesesfr","thesesfr","thesesfr","sudoc","thesesfr","thesesfr","thesesfr","sudoc","thesesfr","thesesfr","thesesfr","thesesfr","thesesfr","thesesfr","thesesfr","thesesfr","sudoc","thesesfr","thesesfr","thesesfr","thesesfr","thesesfr","sudoc","sudoc","thesesfr","sudoc","thesesfr","thesesfr","thesesfr","sudoc","thesesfr","thesesfr","thesesfr","thesesfr","thesesfr"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>thesis_id<\/th>\n      <th>entity_role<\/th>\n      <th>entity_id<\/th>\n      <th>entity_name<\/th>\n      <th>entity_firstname<\/th>\n      <th>source<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"name":"thesis_id","targets":0},{"name":"entity_role","targets":1},{"name":"entity_id","targets":2},{"name":"entity_name","targets":3},{"name":"entity_firstname","targets":4},{"name":"source","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100],"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Top roles</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Top institutions</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<div id="fig-person-role" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-person-role-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-d52faa05911e8df862c5" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-d52faa05911e8df862c5">{"x":{"data":[{"visible":false,"showlegend":false,"xaxis":null,"yaxis":null,"hoverinfo":"text","x":[null],"y":[null],"frame":null}],"layout":{"margin":{"t":26.228310502283104,"r":7.3059360730593621,"b":28.493150684931511,"l":10.958904109589042},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.050000000000000003,1.05],"tickmode":"array","ticktext":[],"tickvals":[],"categoryorder":"array","categoryarray":[],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Number of individuals","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.050000000000000003,1.05],"tickmode":"array","ticktext":[],"tickvals":[],"categoryorder":"array","categoryarray":[],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"580107afe6aba":{"x":{},"y":{},"text":{},"type":"scatter"}},"cur_data":"580107afe6aba","visdat":{"580107afe6aba":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-person-role-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Top role
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-person-institution" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-person-institution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-person-institution-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-person-institution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Top role
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="institutions" class="level2">
+<h2 class="anchored" data-anchor-id="institutions">Institutions</h2>
+<p>The thesis institution table contains 1790 institutions. Institutions are the universities, laboratories, doctoral schools, and other institutions associated with the theses.</p>
+<p>The thesis institution table contains 19 variables. It consists of two core variables:</p>
+<ul>
+<li><code>entity_id</code>: the unique identifier of the entity (here the institution).</li>
+<li><code>entity_name</code>: the name of the entity.</li>
+</ul>
+<p>The other variables are additional information on the institution provided by the IdRef database:</p>
+<ul>
+<li><code>url</code>: the url of the entity.</li>
+<li><code>scraped_id</code>: the identifier of the entity in the scraped data.</li>
+<li><code>pref_name</code>: the preferred name of the entity.</li>
+<li><code>other_labels</code>: other labels of the entity.</li>
+<li><code>country</code>: the country of the entity.</li>
+<li><code>date_of_birth</code>: the date of birth of the entity.</li>
+<li><code>date_of_death</code>: the date of death of the entity.</li>
+<li><code>information</code>: additional information on the entity.</li>
+<li><code>replaced_idref</code>: the identifier of the entity that replaced the entity.</li>
+<li><code>predecessor</code>: the predecessor of the entity.</li>
+<li><code>predecessor_idref</code>: the identifier of the predecessor of the entity.</li>
+<li><code>successor</code>: the successor of the entity.</li>
+<li><code>successor_idref</code>: the identifier of the successor of the entity.</li>
+<li><code>subordinated</code>: the subordinated entity.</li>
+<li><code>subordinated_idref</code>: the identifier of the subordinated entity.</li>
+<li><code>unit_of</code>: the unit of the entity.</li>
+<li><code>unit_of_idref</code>: the identifier of the unit of the entity.</li>
+<li><code>other_link</code>: other links of the entity.</li>
+<li><code>info</code>: additional information on the entity.</li>
+<li><code>country_name</code>: the country name of the entity.</li>
+</ul>
+<p><a href="#tbl-institution" class="quarto-xref">Table&nbsp;3</a> shows a sample of the thesis institution table.</p>
+<div class="cell">
+<div id="tbl-institution" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-institution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Sample of the thesis institution table
+</figcaption>
+<div aria-describedby="tbl-institution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-b20f89c036d373b22a95" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-b20f89c036d373b22a95">{"x":{"filter":"none","vertical":false,"data":[["09044695X","145585387","temp_sudoc_institution_880654","234640758","190456396"],["Università degli studi di Napoli \"L'Orientale\"","Ecole doctorale Sciences Economiques et de Gestion d'Aix-Marseille (Aix-en-Provence ; 2000-....)","Rennes","Faculté latinoamericaine de sciences sociales. Programa Ecuador","Université Paris-Est (2015-....)"],[[null],[null],[null],[null],[null]],["https://www.idref.fr/09044695X.rdf","https://www.idref.fr/145585387.rdf",null,"https://www.idref.fr/234640758.rdf","https://www.idref.fr/190456396.rdf"],[["Università degli studi (Naples, Italie)","Università degli studi (Napoli, Italie)","Università degli studi \"L'Orientale\" (Naples, Italie)","Università degli studi \"L'Orientale\" (Napoli, Italie)","Università \"L'Orientale\" (Naples, Italie)","Università \"L'Orientale\" (Napoli, Italie)","Istituto Universitario Orientale di Napoli","Istituto Universitario Orientale (Naples, Italie)","UNIOR (Napoli, Italie)","Societies and Institutes Istituto Universitario Orientale (Naples) (Napoli, Italie)","Institutum Orientale Neapolitanum"],"ED 372",null,"FLASCO. Programa Ecuador",["UPE","Université de Paris-Est","Université Paris Est","ComUE Paris-Est","ComUE Paris Est","Communauté d'universités et d'établissements Paris-Est","Communauté d'universités et d'établissements Paris Est","Paris-Est Sup"]],[null,"2000",null,null,"2015-02-11"],[null,null,null,null,null],[["Université italienne dont l'adresse du siège administratif est : Via Chiatamone, 61-62 - 80121 - Napoli","L'Université de Naples \"L'Orientale\" a été d'abord connu comme \"Istituto Universitario Orientale\""],["Adresse : Château Lafarge, Route des Milles, 13290 Aix-en-Provence Les Milles","Ancienne adresse: Clos Guiot CS 30063 13089 Aix-en-Provence Cedex 2 France"],null,[],["Établissement public à caractère scientifique, culturel et professionnel (EPSCP) de type communauté d'universités et d'établissements, l'Université Paris-Est a été créée par décret le 11 février 2015 (décret n°2015-156). Au moment de sa création, les membres sont : le Centre national de la recherche scientifique (CNRS), l'Ecole nationale des ponts et chaussées (ENPC), l'Ecole nationale vétérinaire d'Alfort (ENVA), l'Ecole d'ingénieurs de la chambre de commerce et d'industrie de Paris Ile-de-France (ESIEE Paris), l'Institut français des sciences et technologies des transports, de l'aménagement et des réseaux (IFSTTAR), l'Université Paris-Est Créteil Val-de-Marne (UPEC) et l'Université Paris-Est Marne-la-Vallée (UPEM)","Siège : 6-8, avenue Blaise-Pascal, Champs-sur-Marne, 77455 Marne-la-Vallée"]],[["026457512","026457679"],"17544000X",null,[],[]],[[],[],null,[],"Université Paris-Est"],[[],[],null,[],"121855465"],[[],[],null,[],[]],[[],[],null,[],[]],[[],[],null,[],[]],[[],[],null,[],[]],[[],[],null,[],[]],[[],[],null,[],[]],[["http://isni.org/isni/0000000121042363","http://data.bnf.fr/ark:/12148/cb11870233n#foaf:Organization","http://data.bnf.fr/ark:/12148/cb11870248p#foaf:Organization","http://viaf.org/viaf/122204275","http://viaf.org/viaf/148481582","https://fr.wikipedia.org/wiki/Université_de_Naples_-_L'Orientale"],"http://viaf.org/viaf/220389213",null,"http://viaf.org/viaf/242157098346872550360",["https://ror.org/0268ecp52#foaf:Organization","http://isni.org/isni/000000012200203X","http://viaf.org/viaf/167848725"]],["Italy","France",null,"Ecuador","France"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>entity_id<\/th>\n      <th>entity_name<\/th>\n      <th>old_id<\/th>\n      <th>url<\/th>\n      <th>other_labels<\/th>\n      <th>date_of_birth<\/th>\n      <th>date_of_death<\/th>\n      <th>information<\/th>\n      <th>replaced_idref<\/th>\n      <th>predecessor<\/th>\n      <th>predecessor_idref<\/th>\n      <th>successor<\/th>\n      <th>successor_idref<\/th>\n      <th>subordinated<\/th>\n      <th>subordinated_idref<\/th>\n      <th>unit_of<\/th>\n      <th>unit_of_idref<\/th>\n      <th>other_link<\/th>\n      <th>country_name<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"name":"entity_id","targets":0},{"name":"entity_name","targets":1},{"name":"old_id","targets":2},{"name":"url","targets":3},{"name":"other_labels","targets":4},{"name":"date_of_birth","targets":5},{"name":"date_of_death","targets":6},{"name":"information","targets":7},{"name":"replaced_idref","targets":8},{"name":"predecessor","targets":9},{"name":"predecessor_idref","targets":10},{"name":"successor","targets":11},{"name":"successor_idref","targets":12},{"name":"subordinated","targets":13},{"name":"subordinated_idref","targets":14},{"name":"unit_of","targets":15},{"name":"unit_of_idref","targets":16},{"name":"other_link","targets":17},{"name":"country_name","targets":18}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="individuals" class="level2">
+<h2 class="anchored" data-anchor-id="individuals">Individuals</h2>
+<p>The thesis person table contains 14 variables. The four core variables are:</p>
+<ul>
+<li><code>entity_id</code>: the unique identifier of the individual.</li>
+<li><code>entity_name</code>: the name of the individual.</li>
+<li><code>entity_firstname</code>: the first name of the individual.</li>
+<li><code>gender</code>: the gender of the individual according to the IdRef database.</li>
+<li><code>gender_expanded</code>: the gender of the individual according to the IdRef database augmented for missing values with the French census data (see details in <a href="#sec-cleaning-institutions" class="quarto-xref">Section&nbsp;4.7.5</a>).</li>
+</ul>
+<p>The other variables are additional information on the individual provided by the IdRef database:</p>
+<ul>
+<li><code>birth</code>: the birth date of the individual.</li>
+<li><code>country</code>: the country of the individual.</li>
+<li><code>info</code>: additional information on the individual.</li>
+<li><code>organization</code>: the organization of the individual.</li>
+<li><code>last_date_org</code>: the last date of the organization.</li>
+<li><code>start_date_org</code>: the start date of the organization.</li>
+<li><code>end_date_org</code>: the end date of the organization.</li>
+<li><code>other_link</code>: other links of the individual.</li>
+<li><code>country_name</code>: the country name of the individual.</li>
+<li><code>homonym_of</code>: the identifier of the homonyms in the database.</li>
+</ul>
+<p><a href="#tbl-person" class="quarto-xref">Table&nbsp;4</a> shows a sample of the thesis metadata table.</p>
+<div class="cell">
+<div id="tbl-person" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-person-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: Sample of the thesis person table
+</figcaption>
+<div aria-describedby="tbl-person-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-584daacb2aa2727dacbe" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-584daacb2aa2727dacbe">{"x":{"filter":"none","vertical":false,"data":[["Isabelle","Benoît","Thomas Warren","Mahmoud","Mathilde"],["070426368","030582814","05052867X","152793852","230179274"],["Cristiani D'ornano","Daviron","Hertel","Najafy Abranbdabady","Viennot"],["female","male",null,"male","female"],["female","male","male","male","female"],["1967","1959","1953","1957","1990"],["France","France","United States",null,"France"],["Chercheur au Wuppertal Institute for climate, environment and Evergy, Allemagne. Professeur à University College London (en 2019).","Docteur ès-sciences économiques (Grenoble 2, 1988)","Docteur en sciences économiques (Reims, 2000).- Professeur d'économie à Kedge business school et chercheur affilié au LIEPP - Laboratoire interdisciplinaire d'évaluation des politiques publiques (en 2019)","Auteur d'une thèse en Sciences économiques à Nice en 2015","Auteur d'une thèse en Sciences économiques à l'Université de Bourgogne Franche-Comté en 2022"],[[],["Centre de coopération internationale en recherche agronomique pour le développement (France)"],[],[],[]],[[],[null],[],[],[]],[[],[null],[],[],[]],[[],[null],[],[],[]],[["http://isni.org/isni/0000000071052642","http://data.bnf.fr/ark:/12148/cb161190801#foaf:Person","http://viaf.org/viaf/95361955"],["http://isni.org/isni/0000000036462929","http://data.bnf.fr/ark:/12148/cb121969352#foaf:Person","http://viaf.org/viaf/61592727","https://www.persee.fr/authority/164806"],["http://isni.org/isni/0000000109568717","http://data.bnf.fr/ark:/12148/cb135926609#foaf:Person","http://viaf.org/viaf/263290083","https://www.persee.fr/authority/663461"],["http://isni.org/isni/0000000357454559","http://viaf.org/viaf/198132128"],["http://viaf.org/viaf/76153953330105562881"]],[[null],[null],[null],[null],[null]]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>entity_firstname<\/th>\n      <th>entity_id<\/th>\n      <th>entity_name<\/th>\n      <th>gender<\/th>\n      <th>gender_expanded<\/th>\n      <th>birth<\/th>\n      <th>country_name<\/th>\n      <th>info<\/th>\n      <th>organization<\/th>\n      <th>last_date_org<\/th>\n      <th>start_date_org<\/th>\n      <th>end_date_org<\/th>\n      <th>other_link<\/th>\n      <th>homonym_of<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"name":"entity_firstname","targets":0},{"name":"entity_id","targets":1},{"name":"entity_name","targets":2},{"name":"gender","targets":3},{"name":"gender_expanded","targets":4},{"name":"birth","targets":5},{"name":"country_name","targets":6},{"name":"info","targets":7},{"name":"organization","targets":8},{"name":"last_date_org","targets":9},{"name":"start_date_org","targets":10},{"name":"end_date_org","targets":11},{"name":"other_link","targets":12},{"name":"homonym_of","targets":13}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Gender</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Country</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="cell">
+<div id="fig-person_genre" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-person_genre-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-40f27eb0570d09129d85" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-40f27eb0570d09129d85">{"x":{"data":[{"orientation":"v","width":[0.90000000000000013,0.89999999999999991,0.90000000000000036],"base":[0,0,0],"x":[2,1,3],"y":[70.515007440206148,23.775995354407868,5.7089972053859839],"text":["Gender: male <br> Number of theses: 19429 <br> % : 70.52","Gender: female <br> Number of theses: 6551 <br> % : 23.78","Gender: Unknown <br> Number of theses: 1573 <br> % : 5.71"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(135,206,235,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.228310502283104,"r":7.3059360730593621,"b":40.182648401826491,"l":22.648401826484022},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,3.6000000000000001],"tickmode":"array","ticktext":["female","male","Unknown"],"tickvals":[1,2,3],"categoryorder":"array","categoryarray":["female","male","Unknown"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"gender_expanded","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-3.5257503720103074,74.040757812216455],"tickmode":"array","ticktext":["0","20","40","60"],"tickvals":[0,20,40,59.999999999999993],"categoryorder":"array","categoryarray":["0","20","40","60"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"580106d51122":{"x":{},"y":{},"text":{},"type":"bar"}},"cur_data":"580106d51122","visdat":{"580106d51122":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-person_genre-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Distribution of individuals by gender
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-person_country" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-person_country-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-person_country-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-person_country-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Distribution of individuals by country (top 10 excluding France)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="data-collection-and-cleaning-process" class="level1">
+<h1>Data collection and cleaning process</h1>
+<section id="general-presentation" class="level2">
+<h2 class="anchored" data-anchor-id="general-presentation">General presentation</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="grViz html-widget html-fill-item" id="htmlwidget-9835448ec50ba8458183" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-9835448ec50ba8458183">{"x":{"diagram":"\ndigraph project_dag {\n graph [layout = dot, rankdir = TB]\n \n # Define nodes\n scraping_sudocc_id [label = \"scraping_sudoc_id.R\", shape = box, style = filled, fillcolor = lightblue]\n scraping_sudoc_api [label = \"scraping_sudoc_api.R\", shape = box, style = filled, fillcolor = lightblue]\n cleaning_SUDoc[label = \"1_FR_sudoc_cleaning.R\", shape = box, style = filled, fillcolor = lightyellow]\n downloading_theses_fr [label = \"downloading_theses_fr.R\", shape = box, style = filled, fillcolor = lightblue]\n cleaning_thesesfr [label = \"2_FR_thesesfr_cleaning.R\", shape = box, style = filled, fillcolor = lightyellow]\n merging_database [label = \"3_FR_merging_database.R\", shape = box, style = filled, fillcolor = lightyellow]\n idref_institutions [label = \"scraping_idref_institution.R\", shape = box, style = filled, fillcolor = lightblue]\n idref_persons [label = \"scraping_idref_person.R\", shape = box, style = filled, fillcolor = lightblue]\n cleaning_metadata [label = \"4_FR_cleaning_thesis_metada.R\", shape = box, style = filled, fillcolor = lightyellow]\n cleaning_institutions [label = \"5_FR_cleaning_institutions.R\", shape = box, style = filled, fillcolor = lightyellow]\n cleaning_persons [label = \"6_FR_cleaning_persons.R\", shape = box, style = filled, fillcolor = lightyellow]\n cleaning_edges [label = \"7_FR_cleaning_edges.R\", shape = box, style = filled, fillcolor = lightyellow]\n \n # Define edges\n scraping_sudoc_id -> scraping_sudoc_api\n scraping_sudoc_api -> cleaning_sudoc \n downloading_theses_fr -> cleaning_thesesfr\n cleaning_sudoc-> merging_database\n cleaning_thesesfr -> merging_database\n merging_database -> idref_institutions\n merging_database -> idref_persons\n merging_database -> cleaning_metadata\n idref_institutions -> cleaning_institutions\n idref_persons -> cleaning_persons\n cleaning_metadata -> cleaning_edges\n cleaning_institutions -> cleaning_edges\n cleaning_persons -> cleaning_edges\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="data-sources" class="level2">
+<h2 class="anchored" data-anchor-id="data-sources">Data sources</h2>
+<p>The data used in this project comes from three mains sources:</p>
+<ul>
+<li><strong>Theses.fr:</strong> <a href="https://theses.fr/" class="uri">https://theses.fr/</a></li>
+<li><strong>SUDoc:</strong> <a href="https://www.sudoc.fr/" class="uri">https://www.sudoc.fr/</a></li>
+<li><strong>IdRef:</strong> <a href="https://www.idref.fr/" class="uri">https://www.idref.fr/</a></li>
+</ul>
+<p>These sources are the result of the work of the <a href="https://abes.fr/l-abes/presentation/">ABES</a> (l’Agence bibliographique de l’enseignement supérieur) who produced metadata and APIs regarding research and superior education. The data of the three sources mentionned above are under the <a href="https://www.etalab.gouv.fr/licence-ouverte-open-licence/">Etabab “Open Licence”</a>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<section id="theses.fr" class="level3">
+<h3 class="anchored" data-anchor-id="theses.fr">Theses.fr:</h3>
+<p><a href="https://theses.fr/">Theses.fr</a> is a comprehensive repository for PhD dissertations defended in French institutions since 1985.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> It includes metadata such as the title of the dissertation, author, date of defense, institution, supervisor, abstract, etc.. The database covers a wide range of disciplines, providing access, in some cases, to digital theses.</p>
+</section>
+<section id="sudoc-système-universitaire-de-documentation" class="level3">
+<h3 class="anchored" data-anchor-id="sudoc-système-universitaire-de-documentation">SUDoc (Système Universitaire de Documentation):</h3>
+<p><a href="https://www.SUDoc%20.fr/">SUDoc</a> is a union catalog that includes references to various documents held in French academic and research libraries. It covers books, journal articles, dissertations, and other academic works. The SUDoc database includes metadata like title, author, publication date, and library locations where the documents can be found. It’s a key resource for academic research in France, providing a broad overview of available scholarly materials. Regarding PhD, it allows to find dissertations defended before 1985, and to recover relevant metadata.</p>
+</section>
+<section id="idref-identifiants-et-référentiels-pour-lenseignement-supérieur-et-la-recherche" class="level3">
+<h3 class="anchored" data-anchor-id="idref-identifiants-et-référentiels-pour-lenseignement-supérieur-et-la-recherche">IdRef (Identifiants et Référentiels pour l’Enseignement supérieur et la Recherche):</h3>
+<p><a href="https://www.idref.fr/">IdRef</a> is a database focused on managing and standardizing the names and identifiers of authors and other contributors to academic and research works. It provides authority control for names used in academic cataloging, ensuring consistency and aiding in accurate attribution of works. IdRef is used in conjunction with SUDoc and other databases to support the management of bibliographic data in the French higher education and research sectors. In our project, it allows us to find additional data on individuals and institutions.</p>
+</section>
+</section>
+<section id="data-collection" class="level2">
+<h2 class="anchored" data-anchor-id="data-collection">Data collection</h2>
+</section>
+<section id="theses.fr-1" class="level2">
+<h2 class="anchored" data-anchor-id="theses.fr-1">theses.fr</h2>
+<p>Theses records are registered in <a href="https://theses.fr/">theses.fr</a> since 1985. Theses.fr data are also stored on <a href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/#/resources">data.gouv.fr</a> website. They can be downloaded directly at this <a href="https://www.data.gouv.fr/fr/datasets/r/eb06a4f5-a9f1-4775-8226-33425c933272">URL</a>. The <a href="../scripts/scraping_scripts/FR/downloading_theses_fr.R">downloading_theses_fr.R</a> script allows to download the <code>.csv</code> on data.gouv and to compress and store it in <code>.rds</code> format.</p>
+</section>
+<section id="sudoc" class="level2">
+<h2 class="anchored" data-anchor-id="sudoc">SUDoc</h2>
+<p>We systematically collect metadata on French dissertations archived in the <a href="https://www.SUDoc%20.fr/">SUDoc</a> database, focusing on theses in economics through two distinct query strategies:</p>
+<ul>
+<li><p>First query: We search for dissertations with a term starting with “econo” in the “Note de Thèse” field, which denotes the thesis discipline. This keyword captures terms like “économie” or “Economique” since SUDoc ’s search function is case-insensitive and ignores accents. The time frame is limited to 1900–1985, as dissertations from later years are systematically cataloged in <a href="https://theses.fr/">Theses.fr</a>. <a href="https://www.SUDoc%20.abes.fr/cbs//DB=2.1/SET=28/TTL=10/CMD?ACT=SRCHM&amp;MATCFILTER=Y&amp;MATCSET=Y&amp;NOSCAN=Y&amp;PARSE_MNEMONICS=N&amp;PARSE_OPWORDS=N&amp;PARSE_OLDSETS=N&amp;IMPLAND=Y&amp;ACT0=SRCHA&amp;screen_mode=Recherche&amp;IKT0=63&amp;TRM0=econo*&amp;ACT1=-&amp;IKT1=63&amp;TRM1=&amp;ACT2=%2B&amp;IKT2=63&amp;TRM2=&amp;ACT3=%2B&amp;IKT3=4&amp;TRM3=&amp;SRT=YOP&amp;ADI_TAA=&amp;ADI_LND=fr&amp;ADI_JVU=1900-1985&amp;ADI_MAT=Y&amp;ILN_DEP_BIB=DEP&amp;NOT_USED_ADI_BIB=+">Here is the query</a>, allowing to retrieve thesis records.</p></li>
+<li><p>Second query: We search for dissertations where “droit” (law) is specified in the “Note de Thèse” field, and where a term starting with “econo” appears in the title. This search is limited to 1900-1968 to capture dissertations classified as law theses before 1968 that likely focus on economics. <a href="https://www.SUDoc%20.abes.fr/cbs//DB=2.1/SET=31/TTL=1/CMD?ACT=SRCHM&amp;MATCFILTER=Y&amp;MATCSET=Y&amp;NOSCAN=Y&amp;PARSE_MNEMONICS=N&amp;PARSE_OPWORDS=N&amp;PARSE_OLDSETS=N&amp;IMPLAND=Y&amp;ACT0=SRCHA&amp;screen_mode=Recherche&amp;IKT0=63&amp;TRM0=droit&amp;ACT1=*&amp;IKT1=4&amp;TRM1=econo*&amp;ACT2=%2B&amp;IKT2=63&amp;TRM2=&amp;ACT3=%2B&amp;IKT3=1016&amp;TRM3=&amp;SRT=YOP&amp;ADI_TAA=&amp;ADI_LND=fr&amp;ADI_JVU=1900-1968&amp;ADI_MAT=Y&amp;ILN_DEP_BIB=DEP&amp;NOT_USED_ADI_BIB=+">Here is the query</a>, allowing to retrieve thesis records.</p></li>
+</ul>
+<p>The <a href="../scripts/scraping_scripts/FR/scraping_SUDoc _id.R">scraping_sudoc_id.R</a> collects the thesis records URLs. Then, the <a href="../scripts/scraping_scripts/FR/scraping_SUDoc _api.R">scraping_sudoc_api.R</a> allows to query the <a href="https://api.gouv.fr/documentation/api-SUDoc">SUDoc API</a> to retrieve structured metadata for each thesis, including information such as title, author, defence date, abstract, supervisor and other relevant details. These metadata are stored in an <code>.xml</code> file, which we then parse to extract the relevant information. The <code>.xml</code> is structured according to “tags” and “codes” that are explained <a href="https://documentation.abes.fr/SUDoc%20/manuels/administration/aidewebservices/index.html#SUDoc%20MarcXML">here</a>.</p>
+</section>
+<section id="idref" class="level2">
+<h2 class="anchored" data-anchor-id="idref">IdRef</h2>
+<p>The <a href="https://www.idref.fr/">IdRef</a> platform serves as a rich repository of structured metadata for individuals and institutions linked to academic records in France, particularly those cataloged in SUDoc and Thèses.fr. By leveraging unique IdRef identifiers, we can extract detailed information about individuals (e.g., date of birth, nationality, gender, last known institutions) and institutions (e.g., institutions preferred and alternate names, years of existence) involved in the Ph.D.&nbsp;graduating process. This helps to standardize individuals and institutions names and to ensure consistency and complete missing information for certain theses records.</p>
+</section>
+<section id="data-cleaning" class="level2">
+<h2 class="anchored" data-anchor-id="data-cleaning">Data cleaning</h2>
+<p>Our data-cleaning approach focuses on ensuring consistency and quality while preserving the integrity of the original data. Key information, such as the institution of the thesis, is standardized to facilitate analysis. However, we keep this standardized data separate from the raw data, ensuring transparency in our modifications and avoiding any loss of original information.</p>
+<p>The first step of the cleaning process involves merging data extracted from <a href="https://theses.fr/">Theses.fr</a> and <a href="https://www.SUDoc%20.fr/">SUDoc</a>. We ensure compatibility in the metadata format and structure, allowing for a seamless integration of the two datasets. After merging, the dataset is organized into three main components:</p>
+<ul>
+<li>Thesis Metadata: This component contains core details about each thesis. Each line represents a thesis record, including information such as the title, defense date, abstract, and other relevant details.</li>
+<li>Individual Data: Each line represents an individual involved in the thesis, such as authors, supervisors, or jury members.</li>
+<li>Institutions Data: This includes all mentioned universities, laboratories, doctoral schools, and other institutions associated with the theses.</li>
+</ul>
+<p>This relational database connecting different data frames facilitates well-structured, accurate analysis across different dimensions of the dataset (see the <a href="#description">Description of the database</a> section for details on the final content of the database).</p>
+<section id="cleaning-sudoc-data" class="level3">
+<h3 class="anchored" data-anchor-id="cleaning-sudoc-data">Cleaning SUDoc data</h3>
+<p>The cleaning process for SUDPC data in <a href="../..\scripts/cleaning_scripts/FR/1_FR_SUDoc _cleaning.R">1_FR_sudoc_cleaning.R</a> is designed to address inconsistencies, remove duplicates, and standardize information across the dataset. This step aims to correct errors and inconsistencies linked to the SUDoc extraction, as well as to allows the consistency and merging with theses.fr data. Further cleaning steps are necessary and implemented after this merging.</p>
+<section id="duplicate-management" class="level4">
+<h4 class="anchored" data-anchor-id="duplicate-management">Duplicate Management</h4>
+<p>The cleaning process first identifies and resolves duplicate records, which fall into two categories:</p>
+<ul>
+<li>True duplicates: These occur when the same thesis is listed multiple times with identical identifiers and authors but differing defence dates. The process retains the most recent record as it is more likely to reflect the correct metadata.</li>
+<li>False duplicates: These occur when the same identifier is shared by different authors, often due to data entry errors. To resolve these, unique identifiers are created by appending a counter to the nnt, ensuring data integrity without introducing ambiguity.</li>
+</ul>
+</section>
+<section id="date-standardization" class="level4">
+<h4 class="anchored" data-anchor-id="date-standardization">Date Standardization</h4>
+<p>Defence dates (<code>year_defence</code>) are cleaned and standardized by: - Choosing the oldest date for theses with multiple dates, as the earliest date is more likely to reflect the actual defence event. - Flagging and logging anomalous dates outside the query range (1899–1985) or those with large gaps between associated dates for manual inspection.</p>
+<p>This approach minimizes errors stemming from incomplete or conflicting date records and ensures chronological accuracy.</p>
+</section>
+<section id="standardization-of-thesis-types-and-languages" class="level4">
+<h4 class="anchored" data-anchor-id="standardization-of-thesis-types-and-languages">Standardization of thesis types and Languages</h4>
+<p>Thesis types are deduplicated and recoded into consistent categories (e.g., “Thèse d’État”, “Thèse de 3e cycle”). Records that are not doctoral theses (e.g., master’s dissertations) are filtered out to focus exclusively on relevant entries. Similarly, language codes are standardized to align with ISO conventions and ensure compatibility with related datasets.</p>
+</section>
+<section id="output-preparation" class="level4">
+<h4 class="anchored" data-anchor-id="output-preparation">Output Preparation</h4>
+<p>The final dataset is split into four distinct outputs:</p>
+<ul>
+<li>Metadata Table: Core information about theses, such as titles, abstracts, dates, and types.</li>
+<li>Edge Table: Links between theses and associated entities (individuals and institutions).</li>
+<li>Person Table: A unique list of individuals involved in theses (authors, jury members, etc.).</li>
+<li>Institution Table: A unique list of institutions linked to theses (universities, laboratories, etc.).</li>
+</ul>
+<p>By structuring the cleaned data in this way, the workflow facilitates downstream analysis, such as network modeling and bibliometric studies, while maintaining transparency in data transformations. This cleaning pipeline ensures the dataset’s reliability and usability for academic and research purposes.</p>
+</section>
+</section>
+<section id="cleaning-theses.fr-data" class="level3">
+<h3 class="anchored" data-anchor-id="cleaning-theses.fr-data">Cleaning Theses.fr data</h3>
+<p>The <a href="../..\scripts/cleaning_scripts/FR/2_FR_thesesfr_cleaning.R">2_FR_thesesfr_cleaning.R</a> is dedicated to cleaning and structuring metadata for theses related to economics extracted from the Theses.fr database. The primary goal is to prepare the dataset for integration with SUDoc data.</p>
+<p>The cleaning process begins with filtering the dataset to retain only theses categorized under economics disciplines. A simple keyword search (e.g., “econom” or “économ”) identifies potential entries, followed by the exclusion of specific fields unrelated to economics (e.g., legal or geographic disciplines, like “Droit économique”). Additionally, basic data quality checks ensure that all entries have valid and unique identifiers (nnt) to prevent issues during downstream processing.</p>
+<p>The cleaned dataset is then divided into structured components for better usability. The metadata table (thesesfr_metadata) includes core thesis attributes such as titles, abstracts, defense dates, and disciplines. The edge table (thesesfr_edge) captures relationships between theses and associated entities, including authors, jury members, and affiliated institutions. Separate tables for individuals (thesesfr_person) and institutions (thesesfr_institution) are derived from the edge table. Temporary IDs are generated for entities without official identifiers to facilitate later identification and disambiguation.</p>
+</section>
+<section id="merging-theses.fr-and-sudoc-data" class="level3">
+<h3 class="anchored" data-anchor-id="merging-theses.fr-and-sudoc-data">Merging theses.fr and SUDoc data</h3>
+<p>The <a href="../..\scripts/cleaning_scripts/FR/3_FR_merging_database.R">3_FR_merging_database.R</a> script consolidates data from the two primary sources, SUDoc and Theses.fr, to create unified datasets. The process involves merging metadata, relationships (edges), individuals, and institutions while resolving duplicate entries across sources. Metadata is harmonized by removing redundancies and retaining unique thesis identifiers. Edge tables are cleaned to link theses with associated individuals and institutions, ensuring consistent identifiers for entities that appear in both databases. Separate tables for individuals and institutions are deduplicated and aligned for further cleaning and standardization.</p>
+</section>
+<section id="sec-cleaning-metadata" class="level3">
+<h3 class="anchored" data-anchor-id="sec-cleaning-metadata">Cleaning thesis metadata</h3>
+<p>The <a href="../..\scripts/cleaning_scripts/FR/4_FR_cleaning_thesis_metadata.R">4_FR_cleaning_thesis_metadata.R</a> is designed to clean and standardize metadata for theses, with a primary focus on managing titles and abstracts. The modification implemented in this script directly transformed the original columns, but all transformations are checked by eye and does not change the informational content of the columns. More directly: it mainly corrects errors in the original recording of information in SUDOC and Theses.fr.</p>
+<p>The script addresses several key challenges: - the normalization of formatting the titles and abstracts - the detection and imputation of missing values - the verification of language consistency and the reallocation of misplaced titles and abstracts - the identification of duplicate thesis records</p>
+<p>A central component of the script is the cleaning of titles and abstracts. Titles and abstracts written in full uppercase are transformed into sentence case to enhance readability. Placeholder text and irrelevant symbols are also removed, with problematic entries replaced by missing values (NA).</p>
+<p>For cases where either French or English titles and abstracts are missing, the script employs auxiliary columns originally scraped (<code>title_other</code> and <code>abstract_other</code>) to fill gaps when relevant. Indeed, language detection is used to validate these imputed values, leveraging both the <a href="https://docs.ropensci.org/cld3/reference/cld3.html">cld3</a> <span class="citation" data-cites="R-cld3">[@R-cld3]</span> and <a href="https://mlampros.github.io/fastText/articles/language_identification.html">fastText</a> <span class="citation" data-cites="fastText2016b">[@fastText2016b]</span> models for robust identification.</p>
+<p>Language consistency is verified across the metadata. Titles and abstracts are checked to ensure that French and English columns contain text matching their intended language. Discrepancies are resolved by reassigning text to the correct fields.</p>
+</section>
+<section id="sec-cleaning-institutions" class="level3">
+<h3 class="anchored" data-anchor-id="sec-cleaning-institutions">Cleaning institutions</h3>
+<p>The <a href="../..\scripts/cleaning_scripts/FR/4_FR_cleaning_institution.R">5_FR_cleaning_institution.R</a> script aims to standardize and improve the quality of institution data. So far, any institution names mentioned in the metadata have been extracted and stored in a separate table. This script focuses on cleaning and standardizing these names to ensure consistency and accuracy in the dataset. Our goal is to replace temporary institution identifiers (id_temp) we have created in <a href="../..\scripts/cleaning_scripts/FR/3_FR_merging_database.R">3_FR_merging_database.R</a> with the official IdRef identifiers (id_ref) to ensure consistency and accuracy in the dataset.</p>
+<p>This replacement relies on matching the institution names and thesis defense dates. The process accounts for historical changes in institutional structures (e.g., the splitting of the University of Paris after 1968), ensuring that ambiguous cases are handled carefully. The core of the script is a manually defined table that associates regular expressions (regex) for institution names with their corresponding idref identifiers. This table also includes the dates of creation (date_of_birth) and dissolution (date_of_death) of institutions to set clear boundaries for replacement. For instance, if an institution’s name matches “University of Paris” and the thesis was defended before 1970, the identifier is replaced with that of the historic University of Paris, as it was the only university in Paris at the time.</p>
+<p>This approach ensures that institution identifiers are accurate and consistent across the dataset, enabling robust analysis and interpretation of the data. We kept the temporary identifier and did not assign an idref institution names when we were enable to resolve the ambiguity. For instance, if the institution is the “University of Paris” for a thesis defended after 1968 (and that could be Paris 1, Paris 2, Paris 3, etc.) we kept the temporary identifier. Each ambigous entity name kept its temporary identifier even when the name is the same.</p>
+</section>
+<section id="sec-cleaning-persons" class="level3">
+<h3 class="anchored" data-anchor-id="sec-cleaning-persons">Cleaning individuals</h3>
+<p>The <a href="../..\scripts/cleaning_scripts/FR/5_FR_cleaning_persons.R">6_FR_cleaning_persons.R</a> script focuses on standardizing and improving the quality of individual data.</p>
+<p>First, this script processes and cleans data for individuals associated with theses by merging and normalizing information of persons (e.g., authors, supervisors, etc.) from the idref_person_table. When a name entity is associated to an idref identifier, the script adds supplementary information on the person provided by the IdRef database (organization, birth date, relevant links such as wikipedia pages, etc.).</p>
+<p>Second, we try to clean and unify person identifiers. We know that the same person can have slightly different names (e.g., “Jean A. Dupont” and “Jean Dupont”) or that the same person can have the same names but different identifiers. It is particularly the case for person present in both SUDoc and Theses.fr databases. For instance, the same person can be the author of a thesis in SUDoc and a member of the jury of another thesis. Contrary to institution tables, however, we are enable to replace temporary identifiers by idref identifiers for individuals because of the risk of homonyms. If two persons have the same name, we cannot be sure that they are the same person. Two authors of two different theses could have the same name or it could be the same person doing two theses.</p>
+<p>To address this issue, we create a new column <code>homonym_of</code> that group potential homonyms. For each person, the variable <code>homonym_of</code> give the list of person identifiers that are her homonyms. a new column <code>homonym_of</code> that group potential homonyms. For each person, the variable <code>homonym_of</code> give the list of person identifiers that are her homonyms.</p>
+</section>
+</section>
+</section>
+<section id="usage-and-access" class="level1">
+<h1>Usage and Access</h1>
+<section id="application-to-other-disciplines" class="level2">
+<h2 class="anchored" data-anchor-id="application-to-other-disciplines">Application to other disciplines</h2>
+<p>Note that we focus on Ph.D.&nbsp;in economics but the project has been run with a relatively general perspective in mind, meaning that our codes could be transferred easily to other projects focusing on other disciplines in France. Indeed, a few changes in a couple of scripts would allow easily to scrape and clean the data for other disciplines or subjects. It would just involve:</p>
+<ul>
+<li>changing the SUDoc queries in <a href="../scripts/scraping_scripts/FR/scraping_SUDoc _id.R">scraping_scrpits/scraping_SUDoc _id.R</a>.</li>
+<li>changing the theses.fr queries in <a href="../scripts/cleaning_scripts/FR/2_FR_thesefr_cleaning.R">cleaning_scripts/2_FR_thesefr_cleaning.R</a>.</li>
+</ul>
+<p>Since the rest of the code aimed at standardizing, cleaning and merging data, it can be applied to any queries. Don’t hesitate to ask us for guidance if you are using our code to extract similar data.</p>
+</section>
+</section>
+<section id="future-work-and-improvements" class="level1">
+<h1>Future work and improvements</h1>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>See the English description of the licence <a href="https://www.etalab.gouv.fr/wp-content/uploads/2018/11/open-licence.pdf">here</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>This corresponds to the reform of French PhD and the implementation of the “new regime”.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ © Thomas Delcey, Aurélien Goutsmedt
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
