@@ -1,5 +1,5 @@
 ---
-title: "A topic model of French Ph.D. in economics (because Thomas insisted)"
+title: "A topic model of French Ph.D. in economics"
 author: 
   - name: "Thomas Delcey"
     affiliation: "Université de Bourgogne"
@@ -7,34 +7,33 @@ author:
   - name: "Aurelien Goutsmedt"
     affiliation: "UC Louvain; ICHEC"
     email: "" 
-page-layout: full
-toc: true
-toc_float: true
-date: "2024"
-date-format: "YYYY"
-execute:
- echo: false
- warning: false
- message: false
+format: 
+  html: 
+    page-layout: full
+    toc: true
+    toc_float: true
+    date: "2024"
+    date-format: "YYYY"
+    code-fold: true 
+    code-summary: "Show the code"
+    warning: false
+    message: false
+bibliography: references.bib
 ---
 
 
 ```{r}
-library(stm)
-
 #| echo: FALSE 
-#| results: "hide"
 #| warning: FALSE
 #| message: FALSE
-#| error: FALSE
 
 pacman::p_load(
-  here,
-  tidyverse,
-  stm,
-  tidytext,
-  tidystm,
-)
+  "here",
+  "tidyverse",
+  "tidytext",
+  "stm",
+  "tidystm",
+  "glue")
 
 
 #### PATH ####
@@ -71,208 +70,775 @@ FR_sudoc_intermediate_data_path <- here(FR_intermediate_data_path, "sudoc")
 FR_cleaned_data_path <- here(data_path, "cleaned_data/FR")
 
 website_data_path <- here("assets/data")
-
+website_plots_path <- here("assets/plots")
 ```
+
+# The topic model
+
+In this blog article, we explore together the French data. We exploit a textual variable, `title_fr` as the input of a classification model and we try to identify what can be viewed as trendy topics in French economics over the 20th century. 
+
+
+We use a probabilistic topic model from the `stm` R package. A probabilistic topic model is class of machine learning model that aimed at classifying (by topics) textual datasets. In a probabilistic topic model, the documents are represented as a mixture of $K$ topics: for each documents, the model gives the probability that the document contained the topic $k \in 1:K$. This is called the topic prevalence or topic proportion, noted $\theta_{1:D}$ where $\theta_{d}$ is the probability distribution over topics for the document $d \in 1:D$. In a topic model, topics are themselves a mixture of words from the corpus vocabulary---the list of unique words used in the entire corpus. For each topics, the model gives the probability that the topic contained this word. This is called the topic content $\beta_{1:K}$ where $\beta_{k}$ is the probability distribution over the vocabulary for the topics $k$. 
+
+
+These probabilities are estimated from a generative process. Intuitively, the topic model initializes a topic prevalence and a topic content, used them to generate a corpus of documents and confront it to the observed one to adjust the topic prevalence and topic content. The input to a topic model is the document frequency matrix (DFM), also called the document-term matrix, where rows represent documents, columns represent unique words in the vocabulary, and cell values indicate the frequency of each word in a given document. The model evaluates how well the current $\theta_{1:D}$ and $\beta_{1:K}$ predict word frequencies in the DFM and updates them.^[@blei2012probabilistic give a comprehensive presentation of the generative and training process.]
+
+One of the main strength of this family of classification model is that the classification is unsupervised and do not depends of an *a priori* classification from the modelers. This feature is particularly useful for historical analysis. In classification tasks, there is always a risk of presentism, that is applying a anachronistic classification to the past. In a probabilistic topic model, you are not defining *a priori* a set of topics that you cannot know. You are rather generating topics using a set of *priors* on what is a topic (a distribution of words) and what is a document (a distribution of topics).
+
+The `stm` package [@roberts2013structural] implemented a topic model whose main feature is to offer a framework to explore the relationship between the metadata of the document and the prevalence of topics. This feature is implemented in two central functions:
+
+-   the function `stm::stm()` generates a topic model in which the prevalence can depend of a selected set of document metadata ;
+-   the function `stm::estimateEffect()` estimates a regression of the estimated topic prevalence using a selected set of documents metadata.^[A linear regression could be run using the standard statistics packages from R such as `stats::lm()`. However, contrary to a simple `lm(theta ~ covariates)`, `estimateEffect` manages uncertainty measurement of the topic prevalence resulting from `stm() `. In a nutshell, instead of predicting the estimated prevalence $\theta_d$, it is predicting a set of _simulated_ possible prevalences. The core of the methodology is contained in the `stm::thetaPosterior()` function available [here](https://rdrr.io/cran/stm/man/thetaPosterior.html).] 
+
+Both function are complementary. The metadata helps in training a topic model and in estimating the topic prevalence over documents whilst the regression analysis allows to measure precisely the controled effect of each metadata on topics prevalence. 
+
+In this blog, we will run a topic model and analyze the effect of two variables of the table metadata `year_defence`---how topics evolve over time---and `gender`---how topics are affected by the gender of Ph.D students.
+
+# Preparing the data
+
+The french PhD data offers several textual variables such as the title and the abstracts, both in French and English. In this blog post, we want to explore the evolution of french PhD data over a long period and we will use the french title, `title_fr` that is available for the entire 20th century. 
+
+In order to train our topic model, we need to prepare the data and join each `title_fr` from `thesis_metadata` to the `gender` of the authors from `thesis_person`. We identify authors in the table `thesis_edge` and compute a double join to associate each thesis to its author and the author's gender.
+
+::: {.callout-warning}
+Note that the french sources we used to create our dataset contained duplicated theses. You can easily identify those duplicate with `thesis_metadata`'s column `duplicates`. In the script below, we identify them and keep the line with the more recent `year_defence`---assuming that the most recent version of the thesis is the relevant one.
+:::
 
 
 ```{r}
-#| echo: FALSE
+#| echo: TRUE
 #| eval: FALSE
 
-# load data
 
+# load data using your own local paths 
 thesis_metadata <- readRDS(here(FR_cleaned_data_path, "thesis_metadata.rds"))
 thesis_edge <- readRDS(here(FR_cleaned_data_path, "thesis_edge.rds"))
 thesis_person <- readRDS(here(FR_cleaned_data_path, "thesis_person.rds")) 
 
+authors_doc_id <- thesis_edge %>% filter(entity_role == "author") %>% select(entity_id, thesis_id) %>% unique
+authors_gender <- thesis_person %>% select(entity_id, entity_name, entity_firstname, gender_expanded)
 
-# extract relevant data 
+# PRE-CLEANING 
 
-data <- thesis_metadata %>% 
-  select(these_id, title_fr, year_defence) %>% 
-  filter(!is.na(title_fr)) %>% 
-  left_join(thesis_edge %>% filter(entity_role == "author") %>% select(entity_id, these_id), by = "these_id") %>%
-  left_join(thesis_person %>% select(entity_id, entity_name, entity_firstname, gender_expended), by = "entity_id") %>% 
-  filter(!is.na(gender_expended),
-         !is.na(year_defence)) %>% 
-  as_tibble
+# manage duplicate
 
+duplicates <- thesis_metadata %>%
+   filter(!is.na(duplicates)) %>%
+   group_by(duplicates) %>% 
+   # when the line has a duplicate, group and keep the older value
+   slice_max(year_defence, n = 1, with_ties = FALSE)
 
-# prepare data for stm
-
-prep <- stm::textProcessor(data$title_fr, metadata = data, stem = FALSE, language = "fr")
-
-out <- stm::prepDocuments(prep$documents, prep$vocab, prep$meta)
-
-# runnning a topic model
-
-k <- 50 
-
-stm <- stm::stm(out$documents, 
-                out$vocab, 
-                K = k, 
-                data = out$meta, 
-                prevalence = ~ gender_expended + s(year_defence),
-                init.type = "Spectral", 
-                verbose = TRUE, 
-                seed = 123)
-
-
-# save the model
-saveRDS(stm, here(FR_intermediate_data_path, "stm.rds"))
-
-topic_effects <- estimateEffect(stmobj = stm, 
-                             metadata = out$meta,
-                             formula = ~ gender_expended + s(year_defence))
-
-# save regression
-
-saveRDS(topic_effects, here(website_data_path, "topic_effects.rds"))
-
+thesis_metadata_no_duplicate <- thesis_metadata %>% 
+  filter(is.na(duplicates)) %>% 
+  bind_rows(duplicates)
+  
+# We can now select the relevant variables for stm
+data <- thesis_metadata_no_duplicate %>% 
+  # keep relevant columns
+  select(thesis_id, title_fr, year_defence) %>% 
+  # keep only documents with a title 
+  filter(!is.na(title_fr)) %>%
+  # double join to add a gender to each document
+  left_join(authors_doc_id, by = "thesis_id") %>%
+  left_join(authors_gender, by = "entity_id") %>% 
+  # filter NA in metadata 
+  filter(!is.na(gender_expanded), !is.na(year_defence)) 
 ```
+
+The next step is to construct the DFM, which serves as the primary input for the `stm` package. This process begins with tokenization—identifying individual words in the textual variables title_fr. Tokenization typically involves transforming the data to remove irrelevant words, such as stopwords, to enhance the analysis.
+
+The stm package provides generic functions, namely `stm::textProcessor()` and `stm::prepDocuments()`, to facilitate these transformations. We recommend that beginners use these functions as they are both straightforward and computationally efficient. However, for this analysis, we rely on a custom script to preprocess the data. This approach offers greater flexibility for cleaning and filtering words.
+
+One key feature of our preprocessing script is the inclusion of bigrams, where pairs of words that frequently co-occur are combined and treated as a single term. For example, "interest" and "rates" might be linked to form "interest_rates."
 
 ```{r}
-#| echo: FALSE
-#| label: fig-summary
-#| fig-cap: "Model summary"
-#| fig-width: 10
-#| fig-height: 15
+#| echo: TRUE
+#| eval: FALSE
+
+# this script is a personal stm::textProcessor()
+
+# TOKENIZATION
+library(spacyr)
+
+#' install spacy if necessary
+#' `spacy_install(force = TRUE)`
+#' `spacy_download_langmodel("fr_core_news_lg", force = TRUE)`
+
+spacy_initialize("fr_core_news_lg") 
+
+parsed <- data %>%
+  # some pre-cleaning of title_fr
+  mutate(title_fr = str_to_lower(title_fr),
+         title_fr = str_replace_all(title_fr, "", " ") %>% str_replace_all(., "", " "),
+         title_fr = str_replace_all(title_fr, "-", " "),
+         title_fr = str_remove_all(title_fr, "thèse soutenue le .*"),
+         title_fr = str_remove_all(title_fr, "thèse pour le doctorat"),
+         title_fr = str_squish(title_fr)) %>% 
+  pull(title_fr) %>%
+  # identify words 
+  spacyr::spacy_parse(multithread = TRUE)
+
+id <- data %>% 
+  distinct(thesis_id) %>% 
+  ungroup %>% 
+  mutate(doc_id = paste0("text", 1:n()))
+
+parsed <- parsed %>% 
+  left_join(id, join_by(doc_id)) %>% 
+  select(-doc_id)
 
 
-# plot the model
+saveRDS(parsed, here(website_data_path, "parsed.rds"), compress = TRUE)
 
-stm <- readRDS(here(FR_intermediate_data_path, "stm.rds"))
+# FILTER TOKENS 
 
-plot(stm, type = "summary")
+parsed <- readRDS(here(website_data_path, "parsed.rds"))
 
+# prepare stop_words
+stop_words <- bind_rows(get_stopwords(language = "fr", source = "stopwords-iso"),
+                        get_stopwords(language = "fr", source = "snowball"),
+                        # some titles have english expression 
+                        get_stopwords(language = "en", source = "snowball")) %>% 
+  distinct(word) %>% 
+  pull(word)
+
+parsed_filtered <- parsed %>%
+  # filter empty tokens 
+  filter(!pos %in% c("PUNCT", "SYM", "SPACE"),
+         !token %in% c("-", "δ", "α", "σ", "γ", "東一"),
+         !str_detect(token, "^\\d+$")) %>%
+  # remove pronoms 
+  mutate(token = str_remove_all(token, "^[ld]'"),
+         token = str_remove_all(token, "[[:punct:]]")) %>%
+  # remove single letter 
+  filter(str_detect(token, "[[:letter:]]")) %>%
+  # create bigram 
+  group_by(thesis_id, sentence_id) %>%
+  mutate(bigram = ifelse(token_id < lead(token_id), str_c(token, lead(token), sep = "_"), NA)) %>% 
+  ungroup() %>%
+  # remove stopwords 
+  filter(!token %in% stop_words)
+
+parsed_filtered <- parsed %>%
+  # Count original ids
+  mutate(original_count = n_distinct(thesis_id)) %>% 
+  # Filter empty tokens and track removed ids
+  filter(!pos %in% c("PUNCT", "SYM", "SPACE")) %>% 
+  mutate(after_filter1 = n_distinct(thesis_id)) %>%
+  { message("Doc removed after first filter: ", unique(.$original_count) - unique(.$after_filter1)); . } %>% 
+  filter(!token %in% c("-", "δ", "α", "σ", "γ", "東一")) %>% 
+  mutate(after_filter2 = n_distinct(thesis_id)) %>%
+  { message("Doc removed after second filter: ", unique(.$after_filter2) - unique(.$after_filter1)); . } %>%
+  # remove any digit token (including those with letters after digits such as 12eme)
+  filter(!str_detect(token, "^\\d+.*$")) %>%
+  mutate(after_filter3 = n_distinct(thesis_id)) %>%
+  { message("Doc removed after second filter: ", unique(.$after_filter3) - unique(.$after_filter2)); . } %>%
+  # Remove pronouns and special characters
+  mutate(token = str_remove_all(token, "^[ld]'"),
+         token = str_remove_all(token, "[[:punct:]]")) %>%
+  # Filter single letters and stopwords
+  filter(str_detect(token, "[[:letter:]]{2}")) %>%
+  mutate(after_filter4 = n_distinct(thesis_id)) %>%
+  { message("Doc removed after second filter: ", unique(.$after_filter3) - unique(.$after_filter4)); . } %>%
+  filter(!token %in% stop_words) %>%
+  mutate(after_filter5 = n_distinct(thesis_id)) %>%
+  { message("Doc removed after second filter: ", unique(.$after_filter5) - unique(.$after_filter4)); . } %>%
+  # Create bigrams
+  group_by(thesis_id, sentence_id) %>%
+  mutate(bigram = ifelse(token_id < lead(token_id), str_c(token, lead(token), sep = "_"), NA)) %>%
+  ungroup()
+
+# CREATE BIGRAMS 
+
+bigrams <- parsed_filtered %>%
+  select(thesis_id, sentence_id, token_id, bigram) %>%
+  filter(!is.na(bigram)) %>%
+  mutate(window_id = 1:n()) %>%
+  add_count(bigram) %>%
+  filter(n > 10) %>%
+  separate(bigram, c("word_1", "word_2"), sep = "_") %>%
+  filter(if_all(starts_with("word"), ~ ! . %in% stop_words))
+
+bigram_pmi_values <- bigrams %>%
+  pivot_longer(cols = starts_with("word"), names_to = "rank", values_to = "word") %>%
+  mutate(word = paste0(rank, "_", word)) %>%
+  select(window_id, word, rank) %>%
+  widyr::pairwise_pmi(word, window_id) %>%
+  arrange(item1, pmi) %>%
+  filter(str_detect(item1, "word_1")) %>%
+  mutate(across(starts_with("item"), ~str_remove(., "word_(1|2)_"))) %>%
+  rename(word_1 = item1,
+         word_2 = item2,
+         pmi_bigram = pmi) %>%
+  group_by(word_1) %>%
+  mutate(rank_pmi_bigram = 1:n())
+
+bigrams_to_keep <- bigrams %>%
+  left_join(bigram_pmi_values) %>%
+  filter(pmi_bigram > 3) %>%
+  mutate(bigram = paste0(word_1, "_", word_2)) %>%
+  distinct(bigram) %>%
+  mutate(keep_bigram = TRUE)
+
+parsed_final <- parsed_filtered %>%
+  left_join(bigrams_to_keep) %>%
+  mutate(token = if_else(keep_bigram, bigram, token, missing = token),
+         token = if_else(lag(keep_bigram), lag(bigram), token, missing = token),
+         token_id = if_else(lag(keep_bigram), token_id - 1, token_id, missing = token_id)) %>%
+  distinct(thesis_id, sentence_id, token_id, token)
+
+term_list <- parsed_final %>% 
+  rename(term = token)
+
+saveRDS(term_list, here(website_data_path, "term_list.rds"))
+
+
+# PREPARE STM INPUT 
+
+term_list <- readRDS(here(website_data_path, "term_list.rds"))
+
+# stm object with covariate 
+metadata <- term_list %>%
+  distinct(thesis_id) %>% 
+  left_join(data, by = "thesis_id") %>% 
+  mutate(year_defence = as.numeric(year_defence)) %>% 
+  distinct(thesis_id, title_fr, year_defence, gender_expanded) %>%
+  # filter lines with na covariates 
+  filter(!is.na(title_fr),
+         !is.na(gender_expanded), 
+         !is.na(year_defence))
+
+#transform list of terms into stm object 
+corpus_in_dfm <- term_list %>%
+  # remove observations deleted by the metadata filter 
+  filter(thesis_id %in% metadata$thesis_id) %>% 
+  add_count(term, thesis_id) %>%
+  cast_dfm(thesis_id, term, n)
+
+corpus_in_stm <- quanteda::convert(corpus_in_dfm, to = "stm",  docvars = metadata)
+
+saveRDS(corpus_in_stm, here(website_data_path, "corpus_in_stm.rds"))
 
 ```
-# Trends in topic 
+
+# Results 
+
+We can finally run the topic model using `gender_expanded` and `year_defence` as covariates predicting the prevalence.
 
 ```{r}
-#| echo: FALSE
-#| label: fig-trends
-#| fig-cap: "Trends in topics"
+#| echo: TRUE
+#| eval: FALSE
+# run the stm 
+
+corpus_in_stm <- readRDS(here(website_data_path, "corpus_in_stm.rds"))
+
+formula_str <- paste("~", "gender_expanded + s(year_defence)")
+formula_obj <- as.formula(formula_str)
+
+stm <-
+  stm(
+    documents = corpus_in_stm$documents,
+    vocab = corpus_in_stm$vocab,
+    prevalence = formula_obj,
+    data = corpus_in_stm$meta,
+    K = 0,
+    init.type = "Spectral",
+    verbose = FALSE,
+    seed = 123
+  )
+
+saveRDS(stm, here(website_data_path, "stm.rds"))
+``` 
 
 
-# plot top 5 topics with the larger positive and negative slop in the time series
-
-topic_effects <- readRDS(here(FR_intermediate_data_path, "topic_effects.rds"))
-
-
-tidy_effects <- tidytext::tidy(topic_effects)
-
-
-linear_slopes <- tidy_effects %>%
-  filter(str_detect(term, "s\\(year_defence\\)")) %>%
-  select(topic, estimate) %>%
-  # average 
-  group_by(topic) %>%
-  summarise(mean = mean(estimate)) %>%
-  arrange(desc(mean))
-
-# Get the top 5 topics with the largest positive slopes
-top_5_topics <- linear_slopes %>%
-  slice_max(order_by = mean, n = 5)
-
-# Get the top 5 topics with the largest negative slopes
-
-bottom_5_topics <- linear_slopes %>%
-  slice_min(order_by = mean, n = 5)
-
-
-
-# Plot trends for these topics
-plot_effects <- plot.estimateEffect(topic_effects, 
-                                    covariate = "year_defence", 
-                                    topics = top_5_topics$topic, 
-                                    model = stm, 
-                                    method = "continuous",
-                                    xlab = "Year of Defence",
-                                    main = "Top 5 Topics with Increasing Prevalence",
-                                    labeltype = "frex",
-                                    n = 3)
-
-
-# Plot trends for these topics
-
-plot_effects <- plot.estimateEffect(topic_effects, 
-                                    covariate = "year_defence", 
-                                    topics = bottom_5_topics$topic, 
-                                    model = stm, 
-                                    method = "continuous",
-                                    xlab = "Year of Defence",
-                                    main = "Top 5 Topics with Decreasing Prevalence",
-                                    labeltype = "frex",
-                                    n = 3)
-
-```
-
-
-# Topic by gender
+## Summary
 
 ```{r}
-#| echo: FALSE
-#| label: fig-gender
-#| fig-cap: "Top 5 topics with the largest positive and negative (Male as reference)" 
+#| echo: TRUE 
+#| eval: TRUE
+#| label: fig-theta_summary
+#| fig-cap: "Top 10 topics by prevalence" 
 
-tidy_effects <- tidytext::tidy(topic_effects)
+stm <- readRDS(here(website_data_path, "stm.rds"))
 
-# Get the top 5 topics with the largest positive slopes and the top 5 topics with the largest negative slopes
+label_topic <- labelTopics(stm, n = 5) 
 
-linear_slopes <- tidy_effects %>%
-  filter(str_detect(term, "gender")) %>% 
-  select(topic, estimate)
+top_terms_prob <- label_topic %>% .[[1]] %>% 
+  as_tibble() %>% 
+  reframe(topic_label_prob = pmap_chr(., ~ paste(c(...), collapse = ", "))) %>% 
+  mutate(topic = row_number()) 
 
-positive <- linear_slopes %>%
-  slice_max(order_by = estimate, n = 5)
+# tidy call gamma the prevalence matrix, stm calls it theta  
+theta <- broom::tidy(stm, matrix = "gamma") %>% 
+  # broom called stm theta matrix gamma 
+  left_join(top_terms_prob, by = "topic") 
 
-negative <- linear_slopes %>%
-  slice_min(order_by = estimate, n = 5)
+#### plot summary of topics ####
 
-# Plot trends for these topics
+theta_mean <- theta %>%
+  group_by(topic, topic_label_prob) %>%
+  # broom called stm theta matrix gamma 
+  summarise(theta = mean(gamma)) %>%
+  ungroup %>% 
+  mutate(topic = reorder(topic, theta)) %>% 
+  slice_max(theta, n = 10)
 
-plot.estimateEffect(
-  topic_effects,
-  covariate = "gender_expended",
-  topics = positive$topic,
-  model = stm,
-  method = "difference",
-  cov.value1 = "male",
-  cov.value2 = "female",
-  labeltype = "frex",
-  n = 3,
-  verbose.labels = FALSE,
-  xlim = c(-0.01, 0.02)
-) 
+theta_mean %>%
+  ggplot() +
+  geom_segment(
+    aes(x = 0, xend = theta, y = topic, yend = topic
+  ),
+  color = "black",
+  size = 0.5) +
+  geom_text(
+    aes(x = theta, y = topic, label = topic_label_prob),
+    hjust = -.01,
+    nudge_y = 0.0005,
+    size = 4
+  ) + 
+  scale_x_continuous(
+    expand = c(0, 0),
+    limits = c(0, max(theta_mean$theta) + 0.1),
+    labels = scales::percent_format()
+  ) +
+  ggthemes::theme_hc() +
+  theme(plot.title = element_text(size = 8)) +
+  labs(
+    y = expression(theta),
+    x = NULL,
+    caption =  "Words are most probable words"
+  )
+
+```
+
+## Corrélation entre thématiques
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE 
 
 
-plot.estimateEffect(
-  topic_effects,
-  covariate = "gender_expended",
-  topics = negative$topic,
-  model = stm,
-  method = "difference",
-  cov.value1 = "male",
-  cov.value2 = "female",
-  labeltype = "frex",
-  n = 3,
-  verbose.labels = FALSE, 
-  xlim = c(-0.02, 0)
-) 
+stm <- readRDS(here(website_data_path, "stm.rds"))
 
+corr <- stm::topicCorr(stm)
+
+# matric to table
+corr_table <- reshape2::melt(corr$cor) 
+
+
+label_topic <- labelTopics(stm, n = 10)
+
+nodes <- label_topic %>% .[[1]] %>%
+  as_tibble() %>%
+  reframe(topic_label_prob = pmap_chr(., ~ paste(c(...), collapse = ", "))) %>%
+  mutate(source_id = row_number()) 
+
+edges <- corr_table %>% 
+  dplyr::filter(Var1 != Var2) %>% 
+  rename(source_id = Var1,
+         target_id = Var2,
+         weight = value) 
+
+graph <- tidygraph::tbl_graph(nodes = nodes, edges = edges, directed = FALSE)
+
+# if you want to normalize weigth to handle negative value 
+
+# graph_normalize <- graph %>% 
+#   activate(edges) %>% 
+#   mutate(weight = rescale(weight, to = c(0.01, 1)))
+
+
+# fa 2
+graph_layout <- vite::complete_forceatlas2(graph, first.iter = 50000, kgrav = 1)
+     
+
+#add leiden clusters 
+# graph_cluster <- networkflow::add_clusters(graph_layout,
+#                                            clustering_method = "leiden",
+#                                            objective_function = "modularity",
+#                                            resolution = 1)
+saveRDS(corr_table, here(website_data_path, "corr_table.rds"))
+
+saveRDS(graph_layout, here(website_data_path, "graph_layout.rds"))
+```
+
+
+::: panel-tabset
+
+### Réseau de corrélation
+
+```{r}
+#| echo: TRUE 
+#| label: fig-corr_network
+#| fig-cap: "Réseaux des thématiques (spacialisation par Force Atlas 2)"
+
+library(ggraph)
+library(ggiraph)
+
+graph_layout <- readRDS(here(website_data_path, "graph_layout.rds"))
+
+gg <- ggraph(graph_layout, 
+             "manual", 
+             x = x, 
+             y = y) +
+  geom_edge_arc0(aes(
+          # color = cluster_leiden,
+          width = weight), 
+          alpha = 0.1, strength = 0.2, show.legend = FALSE) +
+  scale_edge_width_continuous(range = c(0.1,0.3)) +
+  # scale_edge_colour_identity() +
+  geom_point(aes(x = x, y = y)) +
+  geom_label_repel_interactive(aes(x = x, 
+                                   y = y, 
+                                   # color = cluster_leiden,
+                                   label = source_id,
+                                   tooltip = topic_label_prob,
+                                   data_id = source_id)) +
+  scale_size_continuous(range = c(0.5,3)) +
+  # scale_fill_identity() +
+  labs(title = "Les noeuds sont les thématiques, les liens sont les coefficients de corrélation.") +
+  theme_void()
+
+girafe(ggobj = gg,
+       width_svg  = 8,
+       height_svg = 4.5)
+```
+
+### Données
+
+```{r}
+#| echo: TRUE
+#| tbl-cap: tbl-corr_table
+#| label: "Table de corrélation"
+
+corr_table <- readRDS(here(website_data_path, "corr_table.rds"))
+
+
+corr_table %>% 
+  DT::datatable(
+  extensions = 'Buttons',
+  options = list(
+    dom = 'Blfrtip',
+    buttons = c('excel', 'csv'),
+    pageLength = 5
+  )
+)
+
+```
+:::
+
+# Regressions
+
+$$ \theta_{d,k} = \beta_0 + \beta_1 * gender_d + \beta_2 * year_d + \epsilon_{d,k} $$
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+
+# create covariates and check level 
+
+metadata <- corpus_in_stm$meta %>% as_tibble %>% 
+  mutate(year_defence = as.numeric(year_defence),
+         gender_expanded = as.factor(gender_expanded),
+         gender_expanded = relevel(gender_expanded, ref = "male")
+  )
+
+
+# check level factor variable
+levels(metadata$gender_expanded)
+
+# create regression formula 
+
+formula_str <- paste("~", "gender_expanded + s(year_defence)")
+
+formula_obj <- as.formula(formula_str)
+
+estimate_effect <- estimateEffect(formula_obj,
+                                    stm,
+                                    metadata = metadata,
+                                    uncertainty = "Global",
+                                    nsims = 25)
+
+saveRDS(estimate_effect, here(website_data_path, "estimate_effect.rds"))
+```
+
+## Regression table
+
+```{r}
+#| echo: TRUE 
+#| warning: FALSE
+#| label: tbl-regression
+#| fig.cap: "Régression de la prévalence avec interaction"
+
+estimate_effect <- readRDS(here(website_data_path, "estimate_effect.rds"))
+
+summary <- summary(estimate_effect)
+
+summary_tibble <- summary$tables %>% 
+  purrr::imap_dfr(~ {
+    tibble(
+      topic = .y,  # Extract topic number
+      term = rownames(.x),  # Covariate names
+      estimate = .x[, 1],  # Coefficients
+      std_error = .x[, 2],  # Standard errors
+      t_value = .x[, 3],  # Confidence interval lower bound 95
+      p_value = .x[, 4]   # Confidence interval upper bound 95
+    )
+  })
+
+summary_tibble %>% 
+  DT::datatable(
+  extensions = 'Buttons',
+  options = list(
+    dom = 'Blfrtip',
+    buttons = c('excel', 'csv'),
+    pageLength = 12
+  )
+)
+
+```
+
+## Effect of years
+
+:::: panel-tabset
+
+```{r}
+#| echo: TRUE 
+
+# simulate 25 theta using eta and predict expected prevalence for 100 year_defence values in the range 1900:2024
+# see details in tidystm and stm::plotContinuous 
+
+ee_date <- tidystm::extract.estimateEffect(
+  estimate_effect,
+  "year_defence",
+  stm,
+  method = "continuous",
+  # uncomment if you had an interaction effect
+  # moderator = "gender_expanded",
+  # moderator.value = c("male", "female")
+  ) %>%
+  left_join(top_terms_prob, by = "topic")
+
+```
+
+### Top 
+```{r}
+#| echo: TRUE 
+#| label: fig-top_max
+#| fig.cap: "Prediction of the expected topic proportion according to the year of defence"
+#| fig-subcap: 
+#|   - "Top 5 negative variation between 1900 and today"
+#|   - "Top 5 positive variation between 1900 and today"
+
+# function to estimate variation of theta between 1900 and 
+
+delta_theta <- ee_date %>%
+  group_by(topic) %>% # Group by topic
+  reframe(delta = estimate[n()] - estimate[1]) # Difference between the last and first estimate)
+
+max_delta <- delta_theta %>% slice_max(delta, n = 5)
+
+gg_max <- ee_date %>% 
+  filter(topic %in% max_delta$topic) %>%
+  ggplot(aes(
+      x = covariate.value,
+      color = paste0(topic, " : ", topic_label_prob),
+    )) +
+    geom_line(aes(y = estimate)) +
+    geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
+    labs(x = "covariate.value",
+         y = "Expected topic prevalence",
+         color = "") +
+    theme_minimal() +
+    theme(
+        strip.text = element_text(size = 3),
+        legend.position = "bottom",       # Positionne la légende en bas du graphique
+        legend.text = element_text(size = 8), # Ajuste la taille du texte dans la légende
+        legend.title = element_text(size = 9) # Ajuste la taille du titre de la légende
+    ) +
+    guides(color = guide_legend(nrow = 10)) # Place la légende sur une seule ligne
+
+min_delta <- delta_theta %>% slice_min(delta, n = 5)
+
+gg_min <- ee_date %>% 
+  filter(topic %in% min_delta$topic) %>%
+  ggplot(aes(
+      x = covariate.value,
+      color = paste0(topic, " : ", topic_label_prob),
+    )) +
+    geom_line(aes(y = estimate)) +
+    geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
+    labs(x = "covariate.value",
+         y = "Expected topic prevalence",
+         color = "") +
+    theme_minimal() 
+    # theme(
+    #     strip.text = element_text(size = 3),
+    #     legend.position = "bottom",       # Positionne la légende en bas du graphique
+    #     legend.text = element_text(size = 8), # Ajuste la taille du texte dans la légende
+    #     legend.title = element_text(size = 9) # Ajuste la taille du titre de la légende
+    # ) +
+    # guides(color = guide_legend(nrow = 10)) # Place la légende sur une seule ligne
+
+plotly::ggplotly(gg_min) %>%
+  plotly::config(displayModeBar = FALSE)
+plotly::ggplotly(gg_max) %>%
+  plotly::config(displayModeBar = FALSE)
+```
+
+### Total (individual plot)
+
+::: panel-tabset
+```{r}
+#| results: 'asis'
+
+for (selected_topic in unique(ee_date$topic)) {
+  # Filter data for the topic
+  topic_per_year <- ee_date %>%
+    filter(topic == selected_topic)
+  
+  # Generate the plot
+  gg <- topic_per_year %>%
+    ggplot(aes(
+      x = covariate.value,
+      # uncomment if you had an interaction effect
+      # color = moderator.value,
+      # fill = moderator.value
+    )) +
+    geom_line(aes(y = estimate), color = "red") +
+    geom_line(aes(y = ci.lower), linetype = "dashed", color = "red") +
+    geom_line(aes(y = ci.upper), linetype = "dashed", color = "red") +
+    geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
+    labs(
+         title = paste("Words:", unique(topic_per_year$topic_label)), 
+         subtitle = "Intervalle à 95%",
+         x = "covariate.value",
+         y = "Expected topic prevalence") +
+    theme_minimal() +
+    theme(strip.text = element_text(size = 3))
+  
+  # Print the graph and a section title
+  cat(glue::glue("\n\n### Topic {selected_topic}\n\n"))
+  print(gg)
+  cat("\n\n")
+}
+
+```
+
+:::
+
+::::
+
+## Effect of gender
+
+::: panel-tabset
+
+### Gender distribution 
+
+```{r}
+#| echo: TRUE 
+#| fig.cap: "Distribution of authors by gender"
+#| label: fig-gender_distribution
+
+corpus_in_stm <- readRDS(here(website_data_path, "corpus_in_stm.rds"))
+
+gg <- corpus_in_stm$meta  %>% 
+  group_by(gender_expanded, year_defence) %>%
+  summarise(n = n()) %>%
+  ungroup %>%
+  mutate(tooltip = paste("Année:", year_defence, "<br>Nombre d'auteurs:", n, "<br>Genre:", gender_expanded)) %>%
+  ggplot(aes(
+    x = as.integer(year_defence),
+    y = n,
+    fill = gender_expanded,
+    text = tooltip
+  )) +
+  geom_col() +
+  theme_light() +
+  labs(x = "", y = "Nombre d'auteurs", fill = "Genre") +
+  scale_fill_brewer(palette = "Set3") +
+  theme_light()
+
+plotly::ggplotly(gg, tooltip = "text") %>%
+  plotly::config(displayModeBar = FALSE)
+
+```
+
+### Data 
+
+```{r}
+#| echo: TRUE 
+#| warning: FALSE
+#| label: tbl-gender_distribution
+#| fig.cap: "Distribution du genre par année"
+
+data <- corpus_in_stm$meta  %>% 
+  group_by(gender_expanded, year_defence) %>%
+  summarise(n = n()) %>%
+  ungroup 
+
+data %>% 
+  DT::datatable(
+  extensions = 'Buttons',
+  options = list(
+    dom = 'Blfrtip',
+    buttons = c('excel', 'csv'),
+    pageLength = 12
+  )
+)
+
+```
+
+::: 
+
+```{r}
+#| echo: TRUE 
+#| warning: FALSE
+#| fig.cap: "Estimate effect of being a female author on topic prevalence"
+#| label: fig-gender_effect
+#| fig.width: 10
+#| fig.height: 10
+
+
+gender_estimate <- summary_tibble %>% 
+  filter(term == "gender_expandedfemale") 
+
+gg <- gender_estimate %>%
+    mutate(tooltip = paste("Estimate:", estimate)) %>%
+  left_join(top_terms_prob, by = "topic") %>%
+  mutate(
+    topic = reorder(topic, estimate),
+    effect = ifelse(estimate > 0, "Positive", "Negative"),
+    effect = ifelse(p_value >= .1, "Not significant (90%)", effect)
+  ) %>% 
+  filter(p_value <= 0.1) %>% 
+  ggplot(aes(
+    x = topic,
+    y = estimate,
+    label = paste(topic, "-", topic_label_prob),
+    fill = effect,
+    text = tooltip
+  )) +
+  geom_col() +
+  geom_text(size = 2.5, position = position_stack(vjust = .5)) +
+  scale_fill_manual(
+    name = "Effect",
+    values = c(
+      "Negative" = "#FFFFB3",
+      "Positive" = "#8DD3C7",
+      "Not significant (90%)" = "lightgrey"
+    )
+  ) +
+  coord_flip() +
+  ggthemes::theme_hc() +
+  theme(plot.title = element_text(size = 15)) +
+  labs(x = NULL, y = "Estimate")
+
+
+plotly::ggplotly(gg, tooltip = "text") %>%
+  plotly::config(displayModeBar = FALSE)
 
 
 ```
 
-
-
-
-
-
-
-
-
-
-
-
+:::

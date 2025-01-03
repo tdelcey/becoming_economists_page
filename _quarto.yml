@@ -49,11 +49,11 @@ website:
       
 format:
   html:
-    # grid:
-    #   sidebar-width: 200px
-    #   body-width: 900px
-    #   margin-width: 300px
-    #   gutter-width: 1.5rem
+    grid:
+      sidebar-width: 200px
+      body-width: 1500px
+      margin-width: 300px
+      gutter-width: 1.5rem
     theme: litera
     css: styles.css
 

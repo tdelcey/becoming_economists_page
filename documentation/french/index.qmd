@@ -436,14 +436,14 @@ thesis_person %>%
 
 
 p <- thesis_person %>%
-  mutate(gender_expended = ifelse(is.na(gender_expended), "Unknown", gender_expended)) %>% 
+  mutate(gender_expanded = ifelse(is.na(gender_expanded), "Unknown", gender_expanded)) %>% 
   mutate(total = n()) %>% 
-  add_count(gender_expended) %>% 
+  add_count(gender_expanded) %>% 
   reframe(percentage = n/total*100,
-          tooltip = glue::glue("Gender: {gender_expended} <br> Number of theses: {n} <br> % : {round(percentage, 2)}"),
-          gender_expended) %>%
+          tooltip = glue::glue("Gender: {gender_expanded} <br> Number of theses: {n} <br> % : {round(percentage, 2)}"),
+          gender_expanded) %>%
   unique %>% 
-  ggplot(aes(x = gender_expended, y = percentage, text = tooltip)) +
+  ggplot(aes(x = gender_expanded, y = percentage, text = tooltip)) +
   geom_col(fill = "skyblue") +
   labs(y = "") + 
   theme_minimal() 
