@@ -8,8 +8,7 @@
   {
     "listing": "/index.html",
     "items": [
-      "/news/french/index.html",
-      "/application/french/index.html"
+      "/news/french/index.html"
     ]
   },
   {
@@ -17,10 +16,6 @@
     "items": [
       "/application/french/index.html"
     ]
-  },
-  {
-    "listing": "/data.html",
-    "items": []
   },
   {
     "listing": "/documentation.html",

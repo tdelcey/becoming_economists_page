@@ -22,10 +22,14 @@ website:
   #     - file: news.qmd
   page-footer:
    right: 
-    - text: "© Thomas Delcey, Aurélien Goutsmedt"
+    - text: "© Thomas Delcey"
+      href: https://thomasdelcey.com/
+    - text: "Aurelien Goutsmedt"
+      href: https://aurelien-goutsmedt.com
+      
       
   sidebar:
-      logo: "assets/image/logo.webp"
+      logo: "assets/website_logo.png"
       pinned: true
       align: center
       tools: 
@@ -42,10 +46,9 @@ website:
         - file: index.qmd
         - file: documentation.qmd
         - file: data.qmd
-        - file: application.qmd
+        # - file: application.qmd
         - file: news.qmd
-        - file: about.qmd
-      
+
       
 format:
   html:
@@ -55,5 +58,4 @@ format:
       margin-width: 300px
       gutter-width: 1.5rem
     theme: litera
-    css: styles.css
 

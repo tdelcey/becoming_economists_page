@@ -14,7 +14,7 @@
     "href": "index.html",
     "title": "Home",
     "section": "",
-    "text": "Welcome in the website of the project “Becoming an economist”. This project is dedicated to the collection and analysis of bibliometric data on theses in economics in the 20th and 21st centuries across different countries. The team is actually working on three countries: France, the United States and the United Kingdom.\n\nLatest news\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRelease of the french Ph.D. database (version 1.0)\n\n\n\n\n\n\n\n\n\n\n\nJan 1, 2024\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n\n\n\n\n\n\n\n\n\n\nA topic model of French Ph.D. in economics\n\n\n\n\n\n\n\n\n\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n\n\n\n\nNo matching items",
+    "text": "Welcome in the website of the project “Becoming an economist”. This project is dedicated to the collection and analysis of bibliometric data on theses in economics in the 20th and 21st centuries across different countries. The team is actually working on three countries: France, the United States and the United Kingdom.\n\nLatest news\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRelease of the french Ph.D. database (version 1.0)\n\n\n\n\n\n\n\n\n\n\n\nJan 1, 2024\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n\n\n\n\nNo matching items",
     "crumbs": [
       "Home"
     ]
@@ -22,7 +22,7 @@
   {
     "objectID": "documentation/US/index.html",
     "href": "documentation/US/index.html",
-    "title": "Documentation: the US database",
+    "title": "Documentation: the US database (work in progress)",
     "section": "",
     "text": "Work in progress"
   },
@@ -31,7 +31,7 @@
     "href": "documentation/french/index.html#thesis-metadata",
     "title": "Documentation: the French database",
     "section": "Thesis Metadata",
-    "text": "Thesis Metadata\nThe thesis metadata table contains 15 variables:\n\nthesis_id: the unique identifier of the thesis. If it exists, it is the officiel “national number of the thesis” created by the Agence Bibliographique de l’Enseignement Supérieur (ABES) and the theses.fr website. If not, it is a temporary identifier we have created.\nyear_defence: the date of the defence of the thesis. It covers the period between 1899 and 2023.\nlanguage_1 and language_2 are the languages of the thesis. It is a harmonized variables of the respective language variables found in SUDoc and These.fr.\ntitle_fr: the title of the thesis in French.\ntitle_en: the title of the thesis in English.\ntitle_other: the title of the thesis in another language.\nabstract_fr: the abstract of the thesis in French.\nabstract_en: the abstract of the thesis in English.\nabstract_other: the abstract of the thesis in another language.\nfield: the field of the thesis. It is a harmonized variable of the respective field variables found in SUDoc and These.fr.\naccessible: a binary variable indicating whether the fulltext is accessible or not.\ntype: the type of the thesis. Type can take 6 values: Thèse, Thèse de 3e cycle, Thèse de docteur-ingénieur, Thèse d’État, Thèse complémentaire, Thèse sur travaux. All categories are categories found in SUDoc (see Tip 1).\ncountry: the country where the thesis was defended (à supprimer ?)\nurl: the url of the thesis, linking to the theses.fr website or the sudoc.fr website.\n\n\n\n\n\n\n\nWarning\n\n\n\nRaw source data had an important rate of error in the title and abstract language: title in french were in the english column and vice versa. We have corrected this issue by using a language prediction model. The model is based on a combination of language predictive models to predict the language of abstracts and relocate abstracts in proper columns. See Section 4.7.4 for details.\n\n\nTable 1 shows a sample of the thesis metadata table. The thesis metadata table contains 21025 theses. Figure 1 shows the distribution of theses over time.\n\n\n\n\nTable 1: Sample of the metadata table\n\n\n\n\n\n\n\n\n\n\n\nDistributionDistribution by type of thesis\n\n\n\n\n\n\n\n\n\n\nFigure 1: Distribution of theses by defense date\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 2: Distribution of theses by defense date and type of thesis\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote 1: Type of theses in the French system\n\n\n\nNote that the French education system did not have a harmonized Ph.D. system between the early 1960s and 1984, date of the Sauvy reform that harmonized the Ph.D. system. During this period, various types of theses existed before. It was usual in the mid 1970s to start with a “Doctorat de 3e cycle” before making a “Doctorat d’Etat”. Thus, one author can have several types of theses. Figure 2 shows the distribution of theses over time by the type of thesis."
+    "text": "Thesis Metadata\nThe thesis metadata table contains 15 variables:\n\nthesis_id: the unique identifier of the thesis. If it exists, it is the officiel “national number of the thesis” created by the Agence Bibliographique de l’Enseignement Supérieur (ABES) and the theses.fr website. If not, it is a temporary identifier we have created.\nyear_defence: the date of the defence of the thesis. It covers the period between 1899 and 2023.\nlanguage_1 and language_2 are the languages of the thesis. It is a harmonized variables of the respective language variables found in SUDoc and These.fr.\ntitle_fr: the title of the thesis in French.\ntitle_en: the title of the thesis in English.\ntitle_other: the title of the thesis in another language.\nabstract_fr: the abstract of the thesis in French.\nabstract_en: the abstract of the thesis in English.\nabstract_other: the abstract of the thesis in another language.\nfield: the field of the thesis. It is a harmonized variable of the respective field variables found in SUDoc and These.fr.\naccessible: a binary variable indicating whether the fulltext is accessible or not.\ntype: the type of the thesis. Type can take 6 values: Thèse, Thèse de 3e cycle, Thèse de docteur-ingénieur, Thèse d’État, Thèse complémentaire, Thèse sur travaux. All categories are categories found in SUDoc (see Tip 1).\ncountry: the country where the thesis was defended (à supprimer ?)\nurl: the url of the thesis, linking to the theses.fr website or the sudoc.fr website.\n\n\n\n\n\n\n\nWarning\n\n\n\nRaw source data had an important rate of error in the title and abstract language: title in french were in the english column and vice versa. We have corrected this issue by using a language prediction model. The model is based on a combination of language predictive models to predict the language of abstracts and relocate abstracts in proper columns. See Section 4.7.4 for details.\n\n\nTable 1 shows a sample of the thesis metadata table. The thesis metadata table contains 21025 theses. Figure 1 shows the distribution of theses over time.\n\n\n\n\nTable 1: Sample of the metadata table\n\n\n\n\n\n\n\n\n\n\n\nDistributionDistribution by type of thesis\n\n\n\n\n\n\n\n\n\n\nFigure 1: Distribution of theses by defense date\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 2: Distribution of theses by defense date and type of thesis\n\n\n\n\n\n\n\n\n\n\n\n\n\nTip 1: Type of theses in the French system\n\n\n\nNote that the French education system did not have a harmonized Ph.D. system between the early 1960s and 1984, date of the Sauvy reform that harmonized the Ph.D. system. During this period, various types of theses existed before. It was usual in the mid 1970s to start with a “Doctorat de 3e cycle” before making a “Doctorat d’Etat”. Thus, one author can have several types of theses. Figure 2 shows the distribution of theses over time by the type of thesis."
   },
   {
     "objectID": "documentation/french/index.html#edges",
@@ -122,20 +122,7 @@
     "href": "application.html",
     "title": "Application",
     "section": "",
-    "text": "A topic model of French Ph.D. in economics\n\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n\n\n\n\n\n\nNo matching items",
-    "crumbs": [
-      "Application"
-    ]
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "blablabla",
-    "crumbs": [
-      "About"
-    ]
+    "text": "A topic model of French Ph.D. in economics\n\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "application/french/index.html",
@@ -191,7 +178,17 @@
     "href": "data.html",
     "title": "Data",
     "section": "",
-    "text": "No matching items",
+    "text": "Latested update: 09/01/2025\nVersion: 1.0\nZenodo repository\n\nIf you use our data, please cite the following reference:\nDelcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. https://doi.org/10.5281/zenodo.14541427.\n\n@article{\n  title={Becoming an Economist: A Database of French Economics PhDs},\n  author={Delcey, Thomas and Goutsmedt, Aurélien},\n  journal={Zenodo},\n  year={2024},\n  doi={https://doi.org/10.5281/zenodo.14541427}\n}",
+    "crumbs": [
+      "Data"
+    ]
+  },
+  {
+    "objectID": "data.html#french-data",
+    "href": "data.html#french-data",
+    "title": "Data",
+    "section": "",
+    "text": "Latested update: 09/01/2025\nVersion: 1.0\nZenodo repository\n\nIf you use our data, please cite the following reference:\nDelcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. https://doi.org/10.5281/zenodo.14541427.\n\n@article{\n  title={Becoming an Economist: A Database of French Economics PhDs},\n  author={Delcey, Thomas and Goutsmedt, Aurélien},\n  journal={Zenodo},\n  year={2024},\n  doi={https://doi.org/10.5281/zenodo.14541427}\n}",
     "crumbs": [
       "Data"
     ]
@@ -199,7 +196,7 @@
   {
     "objectID": "documentation/UK/index.html",
     "href": "documentation/UK/index.html",
-    "title": "Documentation: the UK database",
+    "title": "Documentation: the UK database (work in progress)",
     "section": "",
     "text": "Work in progress"
   },
@@ -208,7 +205,7 @@
     "href": "documentation.html",
     "title": "Documentation",
     "section": "",
-    "text": "Documentation: the UK database\n\n\n\n\n\n\n\n\n2024\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\n\nDocumentation: the US database\n\n\n\n\n\n\n\n\n2024\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\n\nDocumentation: the French database\n\n\n\n\n\n\n\n\n2024\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n28 min\n\n\n\n\n\n\nNo matching items",
+    "text": "Documentation: the UK database (work in progress)\n\n\n\n\n\n\n\n\n2024\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\n\nDocumentation: the US database (work in progress)\n\n\n\n\n\n\n\n\n2024\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\n\nDocumentation: the French database\n\n\n\n\n\n\n\n\n2024\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n28 min\n\n\n\n\n\n\nNo matching items",
     "crumbs": [
       "Documentation"
     ]

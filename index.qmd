@@ -7,7 +7,7 @@ listing:
   sort: "date"
   contents: 
     - "news/french/index.qmd"
-    - "application/french/index.qmd"
+    # - "application/french/index.qmd"
 
 ---
 

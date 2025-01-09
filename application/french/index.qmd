@@ -135,7 +135,7 @@ thesis_metadata_no_duplicate <- thesis_metadata %>%
 # We can now select the relevant variables for stm
 data <- thesis_metadata_no_duplicate %>% 
   # keep relevant columns
-  select(thesis_id, title_fr, year_defence) %>% 
+  select(thesis_id, title_fr, abstract_fr, year_defence) %>% 
   # keep only documents with a title 
   filter(!is.na(title_fr)) %>%
   # double join to add a gender to each document
@@ -150,6 +150,38 @@ The next step is to construct the DFM, which serves as the primary input for the
 The stm package provides generic functions, namely `stm::textProcessor()` and `stm::prepDocuments()`, to facilitate these transformations. We recommend that beginners use these functions as they are both straightforward and computationally efficient. However, for this analysis, we rely on a custom script to preprocess the data. This approach offers greater flexibility for cleaning and filtering words.
 
 One key feature of our preprocessing script is the inclusion of bigrams, where pairs of words that frequently co-occur are combined and treated as a single term. For example, "interest" and "rates" might be linked to form "interest_rates."
+
+```{r}
+#| echo: false
+#| eval: false
+
+stop_words <- bind_rows(get_stopwords(language = "fr", source = "stopwords-iso"),
+                        get_stopwords(language = "fr", source = "snowball"),
+                        # some titles have english expression 
+                        get_stopwords(language = "en", source = "snowball")) %>% 
+  distinct(word) %>% 
+  pull(word)
+
+textprocessed <-  stm::textProcessor(
+  documents = data$title_fr,
+  metadata = data %>% data.table::as.data.table(),
+  lowercase = TRUE,
+  removestopwords = FALSE,
+  removenumbers = TRUE,
+  removepunctuation = TRUE,
+  ucp = TRUE,
+  stem = FALSE,
+  wordLengths = c(3, Inf),
+  sparselevel = 1,
+  language = "fr",
+  verbose = TRUE,
+  customstopwords = stop_words,
+  custompunctuation = NULL)
+
+saveRDS(textprocessed, here(intermediate_data_path, "textprocessed.rds"))
+
+```
+
 
 ```{r}
 #| echo: TRUE

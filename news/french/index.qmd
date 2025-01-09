@@ -19,6 +19,8 @@ execute:
  message: false
 ---
 
+::: {.column-margin}
 ![](picture.png)
+::: 
 
 We are pleased to announce the release of the French database. This database contains information on all Ph.D. students who have defended their thesis in France since 1900. The database is available in CSV format and can be downloaded [here](../../../../data/french/). The documentation is available [here](../../../../documentation/french/).
