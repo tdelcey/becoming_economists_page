@@ -79,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
     const options = {
       valueNames: ['listing-image','listing-date','listing-title','listing-author','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-title","listing-author","listing-image","listing-description"],
+      searchColumns: ["listing-title","listing-author","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -127,10 +127,9 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating fullcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -139,7 +138,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./application.html">Application</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Application</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -154,7 +153,7 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./assets/image/logo.webp" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="./assets/website_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
       <div class="sidebar-tools-main">
     <div class="dropdown">
@@ -201,20 +200,8 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./application.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Application</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./news.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">News</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./about.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">About</span></a>
   </div>
 </li>
     </ul>
@@ -222,7 +209,9 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(2)</span></div><div class="category" data-category="RnJlbmNoIGRhdGE=">French data <span class="quarto-category-count">(2)</span></div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -251,14 +240,41 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-file-modified-sort="1735919168363" data-listing-reading-time-sort="24" data-listing-word-count-sort="4742">
-<a href="./application/french/index.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="0" data-categories="RnJlbmNoIGRhdGE=" data-listing-file-modified-sort="1737045563704" data-listing-reading-time-sort="22" data-listing-word-count-sort="4205">
+<a href="./application/stm_abstract/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="application\french\index_files\figure-html\fig-theta_summary-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="application\stm_abstract\index_files\figure-html\fig-theta_summary-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-A topic model of French Ph.D.&nbsp;in economics
+Exploring gender preferences in French Ph.D.
 </h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('RnJlbmNoIGRhdGE='); return false;">
+French data
+</div>
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Thomas Delcey, Aurelien Goutsmedt
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="RnJlbmNoIGRhdGE=" data-listing-file-modified-sort="1737023588000" data-listing-reading-time-sort="28" data-listing-word-count-sort="5503">
+<a href="./application/stm_title/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="application\stm_title\index_files\figure-html\fig-main_language-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Exploring trendy topics in French Ph.D.&nbsp;(1900-2024)
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('RnJlbmNoIGRhdGE='); return false;">
+French data
+</div>
+</div>
 <div class="card-attribution card-text-small start">
 <div class="listing-author">
 Thomas Delcey, Aurelien Goutsmedt
@@ -701,11 +717,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    </div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/tdelcey/becoming_economists/blob/main/application.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/tdelcey/becoming_economists/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
- © Thomas Delcey, Aurélien Goutsmedt
+    <a class="nav-link" href="https://thomasdelcey.com/">
+<p>© Thomas Delcey</p>
+</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="https://aurelien-goutsmedt.com">
+<p>Aurelien Goutsmedt</p>
+</a>
   </li>  
 </ul>
     </div>

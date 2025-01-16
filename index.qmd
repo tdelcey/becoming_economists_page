@@ -5,9 +5,10 @@ sidebar: true
 listing: 
   type: default
   sort: "date"
+  image-height: 200px
   contents: 
     - "news/french/index.qmd"
-    - "application/french/index.qmd"
+    # - "application/french/index.qmd"
 
 ---
 

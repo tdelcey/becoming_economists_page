@@ -5,6 +5,7 @@ listing:
   contents: 
     - "news/*/index.qmd"
   fields: [image, date, title, author]  
+  image-height: 150px
   sort: "date desc"
   date-format: "YYYY"
 ---

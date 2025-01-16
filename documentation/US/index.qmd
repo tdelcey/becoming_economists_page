@@ -1,5 +1,5 @@
 ---
-title: "Documentation: the US database"
+title: "Documentation: the US database (work in progress)"
 author: 
   - name: "Thomas Delcey"
     affiliation: "Université de Bourgogne"

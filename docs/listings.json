@@ -8,19 +8,15 @@
   {
     "listing": "/index.html",
     "items": [
-      "/news/french/index.html",
-      "/application/french/index.html"
+      "/news/french/index.html"
     ]
   },
   {
     "listing": "/application.html",
     "items": [
-      "/application/french/index.html"
+      "/application/stm_abstract/index.html",
+      "/application/stm_title/index.html"
     ]
-  },
-  {
-    "listing": "/data.html",
-    "items": []
   },
   {
     "listing": "/documentation.html",

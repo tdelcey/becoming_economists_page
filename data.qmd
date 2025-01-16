@@ -1,10 +1,29 @@
 ---
 title: "Data"
-listing: 
-  type: default
-  contents: 
-    - "data"
-  fields: [image, date, title, author, categories]  
-  sort: "date desc"
-  date-format: "YYYY"
+sidebar: true
 ---
+
+All data of this project are released under the  [CC-BY-4.0 licence](https://creativecommons.org/licenses/by/4.0/). allowing free access and use by anyone. They are hosted in a [zenodo repository](https://zenodo.org/) with a permanent doi. 
+
+
+## French data 
+
+- Latested update: 09/01/2025
+- [Access to the zenodo repository](https://zenodo.org/uploads/14541427?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjBhZDgwYzg4LTU1MjMtNDJlZS1iZGU0LTQ1OTQ3ZjkxNzdmMCIsImRhdGEiOnt9LCJyYW5kb20iOiJmNDY5MzljN2EyMTEzMDk3MTVlMjcyNjhkYWFkMjRlOCJ9.ThmPUIeFv1inLonoyE5ZmgGAAXRL0K1h-joFKqwXbdm88Fy7CCzuoOKrIkjlWJyhIQAe6YOVzwog34MXy8a_5A)
+
+If you use our data, please cite the following reference:
+
+Delcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. [https://doi.org/10.5281/zenodo.14541427](https://doi.org/10.5281/zenodo.14541427). 
+
+```{}
+@article{
+  title={Becoming an Economist: A Database of French Economics PhDs},
+  author={Delcey, Thomas and Goutsmedt, Aurélien},
+  journal={Zenodo},
+  year={2024},
+  doi={https://doi.org/10.5281/zenodo.14541427}
+}
+
+```
+
+
