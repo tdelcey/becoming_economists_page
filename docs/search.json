@@ -1,5 +1,73 @@
 [
   {
+    "objectID": "news/french_release/index.html",
+    "href": "news/french_release/index.html",
+    "title": "Release of the French Ph.D. database (version 1.0)",
+    "section": "",
+    "text": "We are pleased to announce the release of the French PhD Thesis Database in Economics! This database offers extensive information on the majority of doctoral theses defended in France in the field of economics since 1900.\nThe database is available in .csv format and can be downloaded from its Zenodo Repository. Comprehensive documentation can be accessed here.\nThe French database is implemented as a relational database, integrating multiple interconnected data frames. It is structured around four main components:\n\nThesis Metadata: This table contains the core information for each dissertation. Each entry corresponds to a single thesis and includes details such as the title, defense date, abstract, and other relevant metadata.\nEdges Data: This table captures the connections between the other three tables, linking individuals, institutions, and theses. It associates each thesis with the individuals and institutions involved in its production, thereby enabling a synthetized view of these relationships. The edges data are provided in two formats: (1) a ready-to-use format with cleaned and standardized information; and (2) a more extensive format that allows for comparison between the original collected data and the results of the cleaning process.\nInstitutions Data: This table includes information on universities, laboratories, doctoral schools, and other institutions associated with the dissertations. Each entry corresponds to a single institution.\nIndividual Data: This table contains information on the individuals involved in the dissertations, including authors, supervisors, and jury members. Each entry corresponds to a single individual.\n\nThe data used in this project comes from three mains sources:\n\nTheses.fr: https://theses.fr/\nSudoc: https://www.sudoc.fr/\nIdRef: https://www.idref.fr/\n\nIf you use our data or scripts, please cite the following reference: Delcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. https://doi.org/10.5281/zenodo.14541427"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Home",
+    "section": "",
+    "text": "Welcome in the website of the project “Becoming Economists”. This project is dedicated to the collection and analysis of bibliometric data on theses in economics in the 20th and 21st centuries across different countries. It is led by Thomas Delcey and Aurélien Goutsmedt. At this point, the project focuses on three countries:\n\nFrance, collecting data from the Sudoc and Theses.fr databases;\nThe United States, collecting data from the list of PhD granted in US universities, published each year by the American Economic Review and then the Journal of Economic Literature;\nThe United Kingdom, collecting data from the EThOS catalogue.\n\n\nLatest news\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRelease of the French Ph.D. database (version 1.0)\n\n\n\n\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\nJan 21, 2025\n\n\n\n\n\n\n\n\nNo matching items",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "documentation/US/index.html",
+    "href": "documentation/US/index.html",
+    "title": "Documentation: the US database (work in progress)",
+    "section": "",
+    "text": "Work in progress\nThe US database is a collection of theses on economics, built from the AER and JEL annual listings of PhD granted. This is a work in progress and we hope to publish a first version in 2025.”"
+  },
+  {
+    "objectID": "documentation.html",
+    "href": "documentation.html",
+    "title": "Documentation",
+    "section": "",
+    "text": "Documentation: the UK database (work in progress)\n\n\n\n\n\n\n\n\n\n\n\nJanuary 21, 2025\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n\n\n\n\n\n\n\n\n\n\nDocumentation: the US database (work in progress)\n\n\n\n\n\n\n\n\n\n\n\nJanuary 21, 2025\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n\n\n\n\n\n\n\n\n\n\nDocumentation: the French database\n\n\n\n\n\n\n\n\n\n\n\nJanuary 21, 2025\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n\n\n\n\nNo matching items",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "application.html",
+    "href": "application.html",
+    "title": "Application",
+    "section": "",
+    "text": "No matching items"
+  },
+  {
+    "objectID": "data.html",
+    "href": "data.html",
+    "title": "Data",
+    "section": "",
+    "text": "Latest update: 21/01/2025\nVersion: 1.0\n\nIf you use our data, please cite the following reference:\n“Delcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. https://doi.org/10.5281/zenodo.14541427”\n\n@article{\n  title={Becoming an Economist: A Database of French Economics PhDs},\n  author={Delcey, Thomas and Goutsmedt, Aurélien},\n  journal={Zenodo},\n  year={2024},\n  doi={https://doi.org/10.5281/zenodo.14541427}\n}",
+    "crumbs": [
+      "Data"
+    ]
+  },
+  {
+    "objectID": "data.html#french-data",
+    "href": "data.html#french-data",
+    "title": "Data",
+    "section": "",
+    "text": "Latest update: 21/01/2025\nVersion: 1.0\n\nIf you use our data, please cite the following reference:\n“Delcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. https://doi.org/10.5281/zenodo.14541427”\n\n@article{\n  title={Becoming an Economist: A Database of French Economics PhDs},\n  author={Delcey, Thomas and Goutsmedt, Aurélien},\n  journal={Zenodo},\n  year={2024},\n  doi={https://doi.org/10.5281/zenodo.14541427}\n}",
+    "crumbs": [
+      "Data"
+    ]
+  },
+  {
+    "objectID": "documentation/UK/index.html",
+    "href": "documentation/UK/index.html",
+    "title": "Documentation: the UK database (work in progress)",
+    "section": "",
+    "text": "Work in progress\nThe UK database is a collection of theses in economics, built from the EThOS database. This is a work in progress and we hope to publish a first version in 2025."
+  },
+  {
     "objectID": "documentation/french/index.html#sources",
     "href": "documentation/french/index.html#sources",
     "title": "Documentation: the French database",
@@ -71,73 +139,5 @@
     "crumbs": [
       "News"
     ]
-  },
-  {
-    "objectID": "documentation/US/index.html",
-    "href": "documentation/US/index.html",
-    "title": "Documentation: the US database (work in progress)",
-    "section": "",
-    "text": "Work in progress\nThe US database is a collection of theses on economics, built from the AER and JEL annual listings of PhD granted. This is a work in progress and we hope to publish a first version in 2025.”"
-  },
-  {
-    "objectID": "documentation.html",
-    "href": "documentation.html",
-    "title": "Documentation",
-    "section": "",
-    "text": "Documentation: the French database\n\n\n\n\n\n\n\n\n\n\n\nJanuary 21, 2025\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n\n\n\n\n\n\n\n\n\n\nDocumentation: the US database (work in progress)\n\n\n\n\n\n\n\n\n\n\n\nJanuary 21, 2025\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n\n\n\n\n\n\n\n\n\n\nDocumentation: the UK database (work in progress)\n\n\n\n\n\n\n\n\n\n\n\nJanuary 21, 2025\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n\n\n\n\nNo matching items",
-    "crumbs": [
-      "Documentation"
-    ]
-  },
-  {
-    "objectID": "application.html",
-    "href": "application.html",
-    "title": "Application",
-    "section": "",
-    "text": "No matching items"
-  },
-  {
-    "objectID": "data.html",
-    "href": "data.html",
-    "title": "Data",
-    "section": "",
-    "text": "Latest update: 21/01/2025\nVersion: 1.0\n\nIf you use our data, please cite the following reference:\n“Delcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. https://doi.org/10.5281/zenodo.14541427”\n\n@article{\n  title={Becoming an Economist: A Database of French Economics PhDs},\n  author={Delcey, Thomas and Goutsmedt, Aurélien},\n  journal={Zenodo},\n  year={2024},\n  doi={https://doi.org/10.5281/zenodo.14541427}\n}",
-    "crumbs": [
-      "Data"
-    ]
-  },
-  {
-    "objectID": "data.html#french-data",
-    "href": "data.html#french-data",
-    "title": "Data",
-    "section": "",
-    "text": "Latest update: 21/01/2025\nVersion: 1.0\n\nIf you use our data, please cite the following reference:\n“Delcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. https://doi.org/10.5281/zenodo.14541427”\n\n@article{\n  title={Becoming an Economist: A Database of French Economics PhDs},\n  author={Delcey, Thomas and Goutsmedt, Aurélien},\n  journal={Zenodo},\n  year={2024},\n  doi={https://doi.org/10.5281/zenodo.14541427}\n}",
-    "crumbs": [
-      "Data"
-    ]
-  },
-  {
-    "objectID": "documentation/UK/index.html",
-    "href": "documentation/UK/index.html",
-    "title": "Documentation: the UK database (work in progress)",
-    "section": "",
-    "text": "Work in progress\nThe UK database is a collection of theses in economics, built from the EThOS database. This is a work in progress and we hope to publish a first version in 2025."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Home",
-    "section": "",
-    "text": "Welcome in the website of the project “Becoming Economists”. This project is dedicated to the collection and analysis of bibliometric data on theses in economics in the 20th and 21st centuries across different countries. It is led by Thomas Delcey and Aurélien Goutsmedt. At this point, the project focuses on three countries:\n\nFrance, collecting data from the Sudoc and Theses.fr databases;\nThe United States, collecting data from the list of PhD granted in US universities, published each year by the American Economic Review and then the Journal of Economic Literature;\nThe United Kingdom, collecting data from the EThOS catalogue.\n\n\nLatest news\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRelease of the French Ph.D. database (version 1.0)\n\n\n\n\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\nJan 21, 2025\n\n\n\n\n\n\n\n\nNo matching items",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "news/french_release/index.html",
-    "href": "news/french_release/index.html",
-    "title": "Release of the French Ph.D. database (version 1.0)",
-    "section": "",
-    "text": "We are pleased to announce the release of the French PhD Thesis Database in Economics! This database offers extensive information on the majority of doctoral theses defended in France in the field of economics since 1900.\nThe database is available in .csv format and can be downloaded from its Zenodo Repository. Comprehensive documentation can be accessed here.\nThe French database is implemented as a relational database, integrating multiple interconnected data frames. It is structured around four main components:\n\nThesis Metadata: This table contains the core information for each dissertation. Each entry corresponds to a single thesis and includes details such as the title, defense date, abstract, and other relevant metadata.\nEdges Data: This table captures the connections between the other three tables, linking individuals, institutions, and theses. It associates each thesis with the individuals and institutions involved in its production, thereby enabling a synthetized view of these relationships. The edges data are provided in two formats: (1) a ready-to-use format with cleaned and standardized information; and (2) a more extensive format that allows for comparison between the original collected data and the results of the cleaning process.\nInstitutions Data: This table includes information on universities, laboratories, doctoral schools, and other institutions associated with the dissertations. Each entry corresponds to a single institution.\nIndividual Data: This table contains information on the individuals involved in the dissertations, including authors, supervisors, and jury members. Each entry corresponds to a single individual.\n\nThe data used in this project comes from three mains sources:\n\nTheses.fr: https://theses.fr/\nSudoc: https://www.sudoc.fr/\nIdRef: https://www.idref.fr/\n\nIf you use our data or scripts, please cite the following reference: Delcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. https://doi.org/10.5281/zenodo.14541427"
   }
 ]

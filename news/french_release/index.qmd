@@ -27,7 +27,7 @@ execute:
 
 We are pleased to announce the release of the **French PhD Thesis Database in Economics**! This database offers extensive information on the majority of doctoral theses defended in France in the field of economics since 1900.
 
-The database is available in `.csv` format and can be downloaded from its [Zenodo Repository](https://doi.org/10.5281/zenodo.14541427). Comprehensive documentation can be accessed [here](../../../../documentation/french/).
+The database is available in `.csv` format and can be downloaded from its [Zenodo Repository](https://doi.org/10.5281/zenodo.14541427). Comprehensive documentation can be accessed [here](../../documentation/french/).
 
 The French database is implemented as a relational database, integrating multiple interconnected data frames. It is structured around four main components:
 
