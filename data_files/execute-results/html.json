@@ -1,0 +1,15 @@
+{
+  "hash": "6d96f0af2137341437d93b514ecb95dc",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Data\"\nsidebar: true\nexecute: \n  engine: knitr\n---\n\n\n\n\n- [Zenodo repository](https://zenodo.org/uploads/14541427?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjBhZDgwYzg4LTU1MjMtNDJlZS1iZGU0LTQ1OTQ3ZjkxNzdmMCIsImRhdGEiOnt9LCJyYW5kb20iOiJmNDY5MzljN2EyMTEzMDk3MTVlMjcyNjhkYWFkMjRlOCJ9.ThmPUIeFv1inLonoyE5ZmgGAAXRL0K1h-joFKqwXbdm88Fy7CCzuoOKrIkjlWJyhIQAe6YOVzwog34MXy8a_5A)\n\nIf you use our data, please cite the following reference: \nDelcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. (https://doi.org/10.5281/zenodo.14541427).\n\n\n\n\n::: {.cell}\n\n```{.bibtex .cell-code}\n\n@article{\n  title={Becoming an Economist: A Database of French Economics PhDs},\n  author={Delcey, Thomas and Goutsmedt, Aurélien},\n  journal={Zenodo},\n  year={2024},\n  doi={https://doi.org/10.5281/zenodo.14541427}\n}\n\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

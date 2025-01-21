@@ -1,11 +1,11 @@
 ---
 title: "News"
 listing: 
-  type: default
+  type: grid
   contents: 
     - "news/*/index.qmd"
-  fields: [image, date, title, author]  
-  image-height: 150px
+  fields: [image, date, title, author, reading-time, description]  
+  image-height: 380px
   sort: "date desc"
-  date-format: "YYYY"
+  date-format: long
 ---

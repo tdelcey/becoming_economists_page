@@ -1,8 +1,13 @@
 project:
   type: website
   output-dir: docs
+  render: 
+    - "*.qmd"
+    - "!application/" # To avoid running the topic model that was not working for me
 
 website:
+  repo-url: https://github.com/tdelcey/becoming_economists
+  repo-actions: [source, issue]
   # navbar:
   #   tools:
   #     - icon: github
@@ -49,13 +54,12 @@ website:
         # - file: application.qmd
         - file: news.qmd
 
-      
 format:
   html:
     grid:
-      sidebar-width: 200px
+      sidebar-width: 300px
       body-width: 1500px
-      margin-width: 300px
+      margin-width: 200px
       gutter-width: 1.5rem
     theme: litera
 

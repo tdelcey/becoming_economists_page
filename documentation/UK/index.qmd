@@ -6,13 +6,14 @@ author:
     email: "Thomas.delcey@u-bourgogne.fr"
   - name: "Aurelien Goutsmedt"
     affiliation: "UC Louvain; ICHEC"
-    email: "" 
+    email: "aurelien.goutsmedt[at]uclouvain.be" 
 format: html
 page-layout: full
+image: "../../assets/UK_logo.png"
 toc: true
 toc_float: true
-date: "2024"
-date-format: "YYYY"
+date: last-modified
+date-format: long
 prefer-html: true
 execute:
  echo: false
@@ -20,6 +21,10 @@ execute:
  message: false
 ---
 
-![](picture.png)
+::: {.column-margin}
+![](../../assets/UK_logo.png)
+:::
 
 # Work in progress
+
+The UK database is a collection of theses in economics, built from the EThOS database. This is a work in progress and we hope to publish a first version in 2025.

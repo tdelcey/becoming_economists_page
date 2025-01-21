@@ -77,9 +77,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-image','listing-date','listing-title','listing-author',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-image','listing-date','listing-title','listing-author','listing-reading-time','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -236,32 +236,33 @@ window.Quarto = {
 
 
 
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1704067200000" data-listing-file-modified-sort="1736433815561" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="47">
-<div class="thumbnail">
-<p><a href="./news/french/index.html" class="no-external"></a></p><a href="./news/french/index.html" class="no-external">
-<p class="card-img-top"><img src="news\french\picture.png" style="height: 50px;"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./news/french/index.html" class="no-external"></a></p>
+<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-listing-date-sort="1737475630000" data-listing-file-modified-sort="1737475630255" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="288">
+<a href="./news/french_release/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="assets/french_logo.png" style="height: 380px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Release of the French Ph.D.&nbsp;database (version 1.0)
+</h5>
+<div class="listing-reading-time card-text text-muted">
+2 min
 </div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./news/french/index.html" class="no-external">Release of the french Ph.D.&nbsp;database (version 1.0)</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./news/french/index.html" class="no-external"></a>
+<div class="card-text listing-description">
+We are pleased to announce the release of the <strong>French PhD Thesis Database in Economics</strong>! This database offers extensive information on the majority of doctoral theses defended…
 </div>
-</div>
-<div class="metadata">
-<a href="./news/french/index.html" class="no-external">
-<div class="listing-date">
-2024
-</div>
+<div class="card-attribution card-text-small justify">
 <div class="listing-author">
 Thomas Delcey, Aurelien Goutsmedt
 </div>
-</a>
+<div class="listing-date">
+January 21, 2025
 </div>
+</div>
+</div>
+</div>
+</a>
 </div>
 </div>
 <div class="listing-no-matching d-none">
@@ -696,7 +697,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    </div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/tdelcey/becoming_economists/blob/main/news.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/tdelcey/becoming_economists/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">

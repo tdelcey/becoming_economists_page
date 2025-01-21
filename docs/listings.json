@@ -2,27 +2,25 @@
   {
     "listing": "/news.html",
     "items": [
-      "/news/french/index.html"
-    ]
-  },
-  {
-    "listing": "/index.html",
-    "items": [
-      "/news/french/index.html"
-    ]
-  },
-  {
-    "listing": "/application.html",
-    "items": [
-      "/application/french/index.html"
+      "/news/french_release/index.html"
     ]
   },
   {
     "listing": "/documentation.html",
     "items": [
-      "/documentation/UK/index.html",
+      "/documentation/french/index.html",
       "/documentation/US/index.html",
-      "/documentation/french/index.html"
+      "/documentation/UK/index.html"
+    ]
+  },
+  {
+    "listing": "/application.html",
+    "items": []
+  },
+  {
+    "listing": "/index.html",
+    "items": [
+      "/news/french_release/index.html"
     ]
   }
 ]
