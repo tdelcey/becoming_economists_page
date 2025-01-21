@@ -1,6 +1,9 @@
 project:
   type: website
   output-dir: docs
+  render: 
+    - "*.qmd"
+    - "!application/" # To avoid running the topic model that was not working for me
 
 website:
   # navbar:
@@ -53,9 +56,9 @@ website:
 format:
   html:
     grid:
-      sidebar-width: 200px
+      sidebar-width: 300px
       body-width: 1500px
-      margin-width: 300px
+      margin-width: 200px
       gutter-width: 1.5rem
     theme: litera
 

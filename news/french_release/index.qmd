@@ -1,0 +1,46 @@
+---
+title: "Release of the French Ph.D. database (version 1.0)"
+author: 
+  - name: "Thomas Delcey"
+    affiliation: "Université de Bourgogne"
+    email: "Thomas.delcey@u-bourgogne.fr"
+  - name: "Aurelien Goutsmedt"
+    affiliation: "UC Louvain; ICHEC"
+    email: "aurelien.goutsmedt[at]uclouvain.be" 
+page-layout: full
+toc: true
+toc_float: true
+date: last-modified
+date-format: long
+prefer-html: true
+execute:
+ echo: false
+ warning: false
+ message: false
+---
+
+::: {.column-margin}
+![](../../assets/french_logo.png)
+::: 
+
+[![](https://zenodo.org/badge/DOI/10.5281/zenodo.14541427.svg)](https://doi.org/10.5281/zenodo.14541427){fig-align=center}
+
+We are pleased to announce the release of the **French PhD Thesis Database in Economics**! This database offers extensive information on the majority of doctoral theses defended in France in the field of economics since 1900.
+
+The database is available in `.csv` format and can be downloaded from its [Zenodo Repository](../../../../data/french/). Comprehensive documentation can be accessed [here](../../../../documentation/french/).
+
+The French database is implemented as a relational database, integrating multiple interconnected data frames. It is structured around four main components:
+
+- **Thesis Metadata**: This table contains the core information for each dissertation. Each entry corresponds to a single thesis and includes details such as the title, defense date, abstract, and other relevant metadata.
+- **Edges Data**: This table captures the connections between the other three tables, linking individuals, institutions, and theses. It associates each thesis with the individuals and institutions involved in its production, thereby enabling a synthetized view of these relationships. The edges data are provided in two formats: (1) a ready-to-use format with cleaned and standardized information; and (2) a more   extensive format that allows for comparison between the original  collected data and the results of the cleaning process.
+- **Institutions Data**: This table includes information on universities, laboratories, doctoral schools, and other institutions associated with the dissertations. Each entry corresponds to a single institution.
+- **Individual Data**: This table contains information on the individuals involved in the dissertations, including authors, supervisors, and jury members. Each entry corresponds to a single individual.
+
+The data used in this project comes from three mains sources: 
+
+- Theses.fr: [https://theses.fr/](https://theses.fr/)
+- Sudoc:  [https://www.sudoc.fr/](https://www.sudoc.fr/)
+- IdRef:  [https://www.idref.fr/](https://www.idref.fr/)
+
+If you use our data or scripts, please cite the following reference: **Delcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. https://doi.org/10.5281/zenodo.14541427**
+

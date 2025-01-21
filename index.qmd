@@ -1,19 +1,22 @@
 ---
 title: "Home"
-subtitle: "Becoming an economist: bibliometric data on economic Ph.D."
+subtitle: "Becoming Economists: Bibliometric Data on Economics Ph.D."
 sidebar: true
 listing: 
-  type: default
+  type: grid
   sort: "date"
   contents: 
-    - "news/french/index.qmd"
-    # - "application/french/index.qmd"
+    - "news/*/index.qmd"
+  #  - "application/french/index.qmd"
 
 ---
 
-Welcome in the website of the project "Becoming an economist". This project is dedicated to the collection and analysis of bibliometric data on theses in economics in the 20th and 21st centuries across different countries. The team is actually working on three countries: France, the United States and the United Kingdom. 
+Welcome in the website of the project "Becoming Economists". This project is dedicated to the collection and analysis of bibliometric data on theses in economics in the 20th and 21st centuries across different countries. It is led by [Thomas Delcey](https://thomasdelcey.com/) and [Aurélien Goutsmedt](https://aurelien-goutsmedt.com/). At this point, the project focuses on three countries:
+
+  - [France](./documentation/french/), collecting data from the Sudoc and Theses.fr databases;
+  - The [United States](./documentation/US/), collecting data from the list of PhD granted in US universities, published each year by the American Economic Review and then the Journal of Economic Literature;
+  - The [United Kingdom](./documentation/UK), collecting data from the EThOS catalogue.
 
 # Latest news
-
 
 ---

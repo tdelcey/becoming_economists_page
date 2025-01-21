@@ -6,21 +6,24 @@ author:
     email: "Thomas.delcey@u-bourgogne.fr"
   - name: "Aurelien Goutsmedt"
     affiliation: "UC Louvain; ICHEC"
-    email: "" 
+    email: "aurelien.goutsmedt[at]uclouvain.be" 
 format: html
 page-layout: full
 toc: true
 toc_float: true
-date: "2024"
-date-format: "YYYY"
+date: last-modified
+date-format: long
+image: "/assets/french_logo.png"
+image-width: "10%"
 execute:
  echo: false
  warning: false
  message: false
 ---
 
-![](picture.png)
-
+::: {.column-margin}
+![](../../assets/french_logo.png)
+::: 
 
 ```{r}
 #| echo: FALSE 
@@ -53,16 +56,19 @@ for (p in package_list) {
 
 #original text path stored in google drive 
 if(str_detect(getwd(), "tunex")){
-  data_path <- "G:/Mon Drive/Phd_Project/data"
+  data_path <- file.path(path.expand("~"), "google_drive/Mon Drive/Phd_Project/data")
 } else {
   if(str_detect(getwd(), "Admin")) {
     data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
   } else {
-  if(str_detect(getwd(), "thomd")) {
-    data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
-    } else {
+    if(str_detect(getwd(), "thomd")) {
       data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
-    }}
+    } else {
+      if(str_detect(getwd(), "agoutsmedt")) {
+        data_path <- "/home/agoutsmedt/google_drive/Phd_Project/data"
+      } else {
+        data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
+      }}}
     print(paste("The path for data is", data_path))
   }
 
@@ -71,92 +77,129 @@ raw_data_path <- here(data_path, "raw_data")
 intermediate_data_path <- here(data_path, "intermediate_data")
 
 # country
-US_raw_data_path <- here(raw_data_path, "US")
-US_intermediate_data_path <- here(intermediate_data_path, "US")
-
-UK_raw_data_path <- here(raw_data_path, "UK")
-UK_intermediate_data_path <- here(intermediate_data_path, "UK")
-
 FR_raw_data_path <- here(raw_data_path, "FR")
 FR_intermediate_data_path <- here(intermediate_data_path, "FR")
 
 # database
-US_txt_raw_data_path <- here(US_raw_data_path, "AEA_JEL", "txt")
-US_txt_intermediate_data_path <- here(US_intermediate_data_path, "txt")
-
-US_pq_raw_data_path <- here(US_raw_data_path, "proquest")
-
-UK_ethos_raw_data_path <- here(UK_raw_data_path, "ethos")
-UK_ethos_intermediate_data_path <- here(UK_intermediate_data_path, "ethos")
-
 FR_thesefr_raw_data_path <- here(FR_raw_data_path, "these_fr")
 FR_thesefr_intermediate_data_path <- here(FR_intermediate_data_path, "these_fr")
-
 FR_sudoc_raw_data_path <- here(FR_raw_data_path, "sudoc")
 FR_sudoc_intermediate_data_path <- here(FR_intermediate_data_path, "sudoc")
-
 FR_cleaned_data_path <- here(data_path, "cleaned_data/FR")
-
-# Why saving this in the data file?? It should be in the project repo no?
-# figures_path <- here(data_path, "figures")
-
-
 
 ```
 
+[![](https://zenodo.org/badge/DOI/10.5281/zenodo.14541427.svg)](https://doi.org/10.5281/zenodo.14541427){fig-align=center}
+
 # Introduction
 
-This database gathers information on Ph.D. in economics defended in France since 1900. The project is part of a broader initiative entitled *Becoming an economists* that aim at building a comprehensive database of Ph.D. in economics across the world. The project is developed by Thomas Delcey and Aurélien Goutsmedt.
+This database compiles information on Ph.D. dissertations in economics defended in France since 1900.^[While the focus is on France, both the database and its accompanying documentation are presented in English. This decision reflects its integration into a larger initiative, which seeks to establish a comprehensive global repository of Ph.D. dissertations in economics.] The French database is implemented as a relational database that integrates multiple interconnected data frames. It is organized around four main components:
 
-The output of the french database is a relational database that connects different data frames. The database is structured in four main components:
+- **Thesis Metadata:** This table contains the core information for each dissertation. Each entry corresponds to a single thesis and includes details such as the title, defense date, abstract, and other relevant metadata.
+- **Edges Data:** This table captures the connections between the other three tables, linking individuals, institutions, and theses. It associates each thesis with the individuals and institutions involved in its production, thereby enabling a synthetized view of these relationships.^[The edges data are provided in two formats: (1) a ready-to-use format with cleaned and standardized information; and (2) a more extensive format that allows for comparison between the original collected data and the results of the cleaning process.] 
+- **Institutions Data:** This table includes information on universities, laboratories, doctoral schools, and other institutions associated with the dissertations. Each entry corresponds to a single institution.
+- **Individual Data:** This table contains information on the individuals involved in the dissertations, including authors, supervisors, and jury members. Each entry corresponds to a single individual.
 
--   **Thesis Metadata:** This component contains core details about each thesis. Each line represents a thesis record, including information such as the title, defense date, abstract, and other relevant details.
--   **Edges:** This table links the three previous tables, allowing to connect individuals to institutions and to theses.
--   **Institutions Data:** This includes all mentioned universities, laboratories, doctoral schools, and other institutions associated with the theses.
--   **Individual Data:** Each line represents an individual involved in the thesis, such as authors, supervisors, or jury members.
 
-WHY IN ENGLISH
+## Sources 
 
-# Method
+The data used in this project comes from three mains sources: 
 
-We relies on two principles to build this database:
+- **Theses.fr:** [https://theses.fr/](https://theses.fr/)
+- **Sudoc:** [https://www.sudoc.fr/](https://www.sudoc.fr/)
+- **IdRef:** [https://www.idref.fr/](https://www.idref.fr/)
 
--   **no data transformation**: our work is mainly a data collection, categorization, and cleaning work. We tried as less as possible to transform the data or limit the transformation to minimal and impactless transformation. To put it differently, we did not touch the cell values of the original data, mainly the encoded variables.
+These sources are the result of the work of the [ABES](https://abes.fr/l-abes/presentation/) (l'Agence bibliographique de l'enseignement supérieur) who produced metadata and APIs regarding research and superior education. The data of the three sources mentionned above are under the [Etabab "Open Licence"](https://www.etalab.gouv.fr/licence-ouverte-open-licence/).^[See the English description of the licence [here](https://www.etalab.gouv.fr/wp-content/uploads/2018/11/open-licence.pdf).]
 
--   **disambiguation**: we tried to disambiguate the entities (thesis, authors, etc.) as much as possible. Disambiguation refers to the process of identifying and distinguishing between different entities that may have the same name. We tried to provide a unique identifier for each entity. The identifiers of the Agence Bibliographique de l’Enseignement Supérieur (ABSES) was the main source of unique identifiers (idref, nnt, etc.). When their identifiers were not available or disambiguaion was not possible, we created our own temporary unique identifiers.
+- [Theses.fr](https://theses.fr/) is a comprehensive repository for PhD dissertations defended in French institutions since 1985.^[This corresponds to the reform of French PhD and the implementation of the "new regime".] It includes metadata such as the title of the dissertation, author, date of defense, institution, supervisor, abstract, etc. The database covers a wide range of disciplines, providing access, in some cases, to digital theses. 
+
+- [Sudoc](https://www.Sudoc .fr/) stands for "_Système Universitaire de Documentation_". It is a union catalog that includes references to various documents held in French academic and research libraries. It covers books, journal articles, dissertations, and other academic works. The Sudoc database includes metadata like title, author, publication date, and library locations where the documents can be found. It is a key resource for academic research in France, providing a broad overview of available scholarly materials. Regarding PhD, it allows to find dissertations defended before 1985, and to recover relevant metadata.
+
+- [IdRef](https://www.idref.fr/) stands for "_Identifiants et Référentiels pour l'Enseignement supérieur et la Recherche_". It is a database focused on managing and standardizing the names and identifiers of authors and other contributors to academic and research works. It provides authority control for names used in academic cataloging, ensuring consistency and aiding in accurate attribution of works. IdRef is used in conjunction with Sudoc and other databases to support the management of bibliographic data in the French higher education and research sectors. In our project, it allows us to find additional data on individuals and institutions.
+
+Our data-building approach focuses on ensuring consistency and quality while preserving the integrity of the original information. We relies on two principles to build this database: 
+
+- **No Data transformation**: Our work primarily involves data collection, categorization, and cleaning. We intentionally minimized transformations, restricting them to only minor and non-impactful adjustments. Specifically, we avoided altering the cell values of the original data, instead encoding any modifications in new columns.^[Exceptions were made for minimal transformations, such as replacing fully uppercase titles and abstracts with standardized capitalization, or correcting errors, such as changing the language of a title or abstract when it was mistakenly assigned.] The complete edges data frame keeps a track of our transformations.
+
+- **Disambiguation**: We aimed to disambiguate theses and associated entities (individuals and institutions) as thoroughly as possible. Disambiguation involves identifying and distinguishing between entries with similar descriptions. This process is essential to avoid duplicated data or to merge distinct entries. To address this, we assigned a unique identifier to each entity. The identifiers provided by the Agence Bibliographique de l’Enseignement Supérieur (ABES) through IdRef served as our primary source for unique identifiers. In cases where ABES identifiers were unavailable, we generated our own unique identifiers to maintain consistency and accuracy.
+
+## Usage and Access
+
+Our database is released under the  [CC-BY-4.0 licence](https://creativecommons.org/licenses/by/4.0/). allowing free access and use by anyone. The data is hosted in a [Zenodo repository](https://doi.org/10.5281/zenodo.14541427). While the database focuses on Ph.D. dissertations in economics and queries sources based on the field of the thesis, the scripts have been designed with flexibility. They can be adapted for other queries involving notably different disciplines.
+
+If you use our data or scripts, please cite the following reference:  "Delcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. https://doi.org/10.5281/zenodo.14541427"
+
+```{bibtex}
+#| echo: true
+
+@article{
+  title={Becoming an Economist: A Database of French Economics PhDs},
+  author={Delcey, Thomas and Goutsmedt, Aurélien},
+  journal={Zenodo},
+  year={2024},
+  doi={https://doi.org/10.5281/zenodo.14541427}
+}
+```
+
+::: {.callout-warning}
+
+### Code usages
+
+Note that some of our data cleaning steps are tailored to the specific characteristics of the datasets we extracted. We systematically identified issues in our data and applied manual cleaning processes, such as removing problematic titles, identifying duplicates, and standardizing institutional names.
+
+If you use our code to extract data, it is essential to carefully assess the quality of your extracted data and adapt the cleaning steps accordingly. Feel free to reach out to us for guidance if you plan to use our code for similar data extraction tasks.
+::: 
 
 # Presentation of the tables
 
 ## Thesis Metadata
 
+
 ```{r}
 #| echo: FALSE
 
-thesis_metadata <- readRDS(here(FR_intermediate_data_path, "thesis_metadata.RDS")) %>% ungroup
+thesis_metadata <- readRDS(here(FR_cleaned_data_path, "thesis_metadata.rds"))
+
+p_load(DT, 
+       plotly)
 ```
 
-The thesis metadata table contains `r ncol(thesis_metadata)` variables:
 
--   `thesis_id`: the unique identifier of the thesis. If it exists, it is the officiel "national number of the thesis" created by the Agence Bibliographique de l'Enseignement Supérieur (ABES) and the theses.fr website. If not, it is a temporary identifier we have created.
--   `year_defence`: the date of the defence of the thesis. It covers the period between `r min(thesis_metadata$year_defence, na.rm = TRUE)` and `r max(thesis_metadata$year_defence, na.rm = TRUE)`.
--   `language_1` and `language_2` are the languages of the thesis. It is a harmonized variables of the respective language variables found in SUDoc and These.fr.
--   `title_fr`: the title of the thesis in French.
--   `title_en`: the title of the thesis in English.
--   `title_other`: the title of the thesis in another language.
--   `abstract_fr`: the abstract of the thesis in French.
--   `abstract_en`: the abstract of the thesis in English.
--   `abstract_other`: the abstract of the thesis in another language.
--   `field`: the field of the thesis. It is a harmonized variable of the respective field variables found in SUDoc and These.fr.
--   `accessible`: a binary variable indicating whether the fulltext is accessible or not.
--   `type`: the type of the thesis. Type can take `r n_distinct(thesis_metadata$type)` values: `r unique(thesis_metadata$type)`. All categories are categories found in SUDoc (see @tip-type).
--   `country`: the country where the thesis was defended (à supprimer ?)
--   `url`: the url of the thesis, linking to the theses.fr website or the sudoc.fr website.
+The `thesis_metadata` table contains `r ncol(thesis_metadata)` variables: 
 
-::: {#warning-language .callout-warning}
-Raw source data had an important rate of error in the title and abstract language: title in french were in the english column and vice versa. We have corrected this issue by using a language prediction model. The model is based on a combination of language predictive models to predict the language of abstracts and relocate abstracts in proper columns. See @sec-cleaning-metadata for details.
+- `thesis_id`: the unique identifier of the thesis. If it exists, it is the official "national number of the thesis" created by the ABES and the theses.fr website. If not, it is a temporary identifier we have created.
+- `year_defence`: the year of the thesis defense. Our database covers the period `r min(thesis_metadata$year_defence, na.rm = TRUE)`-`r max(thesis_metadata$year_defence, na.rm = TRUE)`. 
+- `language` and `language_2` are the languages of the thesis. The variable is harmonized to make the information on language found in Sudoc and These.fr compatible.
+- `title_fr`: the title of the thesis in French.
+- `title_en`: the title of the thesis in English.
+- `title_other`: the title of the thesis in another language.
+- `abstract_fr`: the abstract of the thesis in French. 
+- `abstract_en`: the abstract of the thesis in English.
+- `abstract_other`: the abstract of the thesis in another language.
+- `field`: the field of the thesis (such as "Sciences économiques"). The field remains unaltered by our work and can take on a wide range of values, as indicated by the number of distinct entries  (`r n_distinct(thesis_metadata$field)`).
+- `accessible`: a binary variable indicating whether the fulltext is accessible or not (data coming only from theses.fr). 
+- `type`: the type of the thesis. Type can take `r n_distinct(thesis_metadata$type)` values: `r unique(thesis_metadata$type)`. All categories are derived from categories found in Sudoc.
+- `country`: the country where the thesis was defended, i.e. France.  <!-- Cela va servir quand on va merger avec les autres bases de données, donc faut le garder pour la cohérence -->
+- `url`: the url of the thesis on [theses.fr](https://theses.fr/) or [Sudoc](https://www.sudoc.fr/) websites
+- `duplicate_of`: a list of `thesis_id` that indicate duplicated thesis. We identified duplicates but did not remove them to preserve the maximum information from the raw sources. This variable allows users to handle duplicates using their preferred strategy.
+
+
+::: {.callout-note #note-identifiers}
+
+### Temporary identifiers {#sec-temp-identifiers}
+
+When we were unable to provide an ABES identifiers for a thesis or entity, we created our own unique "temporary identifiers" coded as follows `temp_X_Y`, X representing the source of the original information (either "sudoc" or "thesesfr") and Y being a randomly generated unique number. We refer to these identifiers as temporary because they may be replaced in future updates by ABES identifiers, either as ABES updates its sources or as we improve our cleaning process.
+::: 
+
+::: {.callout-warning #warning-language}
+
+### `Language`
+
+The `language` variables may be important for exploring issues related to the internationalization of economics. However, the raw source data exhibited a notable error rate in the classification of title and abstract languages: French titles were frequently mislabeled as English, and vice versa. To address this issue, we employed language prediction models to correct the misclassified information when possible. For a detailed explanation of the cleaning process, refer to @sec-cleaning-metadata.
 :::
 
-@tbl-metadata shows a sample of the thesis metadata table. The thesis metadata table contains `r nrow(thesis_metadata)` theses. @fig-metadata_distribution shows the distribution of theses over time.
+@tbl-metadata shows a sample of the thesis metadata table. The thesis metadata table contains `r nrow(thesis_metadata)` theses. @fig-metadata_distribution shows the distribution of theses over time. 
+
 
 ```{r}
 #| echo: FALSE
@@ -182,8 +225,10 @@ thesis_metadata %>%
 
 ```
 
-::: panel-tabset
-### Distribution
+
+::: {.panel-tabset}
+
+### Distribution of theses 
 
 ```{r}
 #| echo: FALSE
@@ -194,9 +239,8 @@ p <- thesis_metadata %>%
   count(year_defence) %>%
   mutate(tooltip = glue::glue("Defense date: {year_defence} <br> Number of theses: {n}")) %>% 
   ggplot(aes(x = year_defence, y = n, text = tooltip)) +
-  geom_col(fill = "skyblue", position = "stack") +
-  labs(title = "Distribution of theses by defense date",
-       x = "Defense date",
+  geom_col(fill = "#F8766D", position = "stack") +
+  labs(x = "",
        y = "Number of theses") +
   theme_minimal() 
 
@@ -205,12 +249,12 @@ p %>%
 
 ```
 
-### Distribution by type of thesis
+### Distribution of theses by type 
 
 ```{r}
 #| echo: FALSE
 #| label: fig-metadata_distribution_type
-#| fig.cap: "Distribution of theses by defense date and type of thesis"
+#| fig.cap: "Distribution of theses by defence date and type of thesis"
 
 
 p <- thesis_metadata %>% 
@@ -218,8 +262,7 @@ p <- thesis_metadata %>%
   mutate(tooltip = glue::glue("Defense date: {year_defence} <br> Type: {type} <br> Number of theses: {n}")) %>%
   ggplot(aes(x = year_defence, y = n, fill = type, text = tooltip)) +
   geom_col(position = "stack") +
-  labs(title = "Distribution of theses by defense date and type of thesis",
-       x = "Defense date",
+  labs(x = "",
        y = "Number of theses",
        fill = "Type of thesis") +
   theme_minimal() 
@@ -228,12 +271,46 @@ p <- thesis_metadata %>%
 p %>% 
   plotly::ggplotly(tooltip = "text")
 ```
+
+
+### Availability of abstracts
+
+```{r}
+#| echo: FALSE
+#| label: fig-metadata_accessible
+#| fig.cap: "Distribution of theses by the availability of abstracts"
+
+p <- thesis_metadata %>% 
+  # is na yes, if full na in abstract fr, abstract end and other 
+  mutate(accessible = ifelse(is.na(abstract_fr) & is.na(abstract_en) & is.na(abstract_other), "No", "Yes")) %>%
+  count(accessible, year_defence) %>%
+  mutate(tooltip = glue::glue("Accessible: {accessible} <br> Date of defence: {year_defence} <br> Number of theses: {n}")) %>% 
+  ggplot(aes(x = year_defence, y = n, fill = factor(accessible), text = tooltip)) +
+  geom_col(position = "stack") +
+  labs(x = "",
+       y = "Number of theses",
+       fill = "Accessible") +
+  theme_minimal()
+
+p %>%
+  plotly::ggplotly(tooltip = "text")
+
+
+```
 :::
 
-::: {#tip-type .callout-note}
-### Type of theses in the French system
+::: {.callout-note #note-type}
 
-Note that the French education system did not have a harmonized Ph.D. system between the early 1960s and 1984, date of the Sauvy reform that harmonized the Ph.D. system. During this period, various types of theses existed before. It was usual in the mid 1970s to start with a "Doctorat de 3e cycle" before making a "Doctorat d'Etat". Thus, one author can have several types of theses. @fig-metadata_distribution_type shows the distribution of theses over time by the type of thesis.
+### The variable `type`
+
+The French education system lacked a standardized Ph.D. system between the early 1960s and 1984, the year of the Savary reform, which harmonized the Ph.D. system. During this period, various types of theses coexisted. For instance, in the mid-1970s, it was common for scholars to first complete a “Doctorat de 3e cycle” before pursuing a “Doctorat d’État.” As a result, a single author may have produced multiple types of theses. @fig-metadata_distribution_type illustrates the distribution of theses over time, categorized by type. It should also be noted that the inclusion of thesis type in the metadata is not systematically ensured. This variability depends on the quality of metadata provided by individual institutions, which may affect the reliability of classification.
+:::
+
+::: {.callout-warning}
+
+### Availability of `abstracts`
+
+The practice of providing abstracts started in the 1980s. Prior to this period, abstracts were missing (see @fig-metadata_accessible).
 :::
 
 ## Edges
@@ -241,35 +318,43 @@ Note that the French education system did not have a harmonized Ph.D. system bet
 ```{r}
 #| echo: FALSE
 
-thesis_edge <- readRDS(here(FR_intermediate_data_path, "thesis_edge.rds")) %>% ungroup
+thesis_edge <- readRDS(here(FR_cleaned_data_path, "thesis_edge.rds")) %>% ungroup
 ```
 
-Each line in the edge table is a unique edge between a thesis and an entity. We define entity as any individual or institution involved in the thesis. The edge table has `r ncol(thesis_edge)`:
 
--   `thesis_id`: the identifiers of a thesis (the same than in `thesis_medata`). In the edge table, a `thesis_id` can have several edges. A `thesis_id` has at least two edges: the author and the institution in which the thesis was defended.
--   `entity_id`: the identifiers of an entity.
--   `entity_role`: the role of the entity. A person can be either an author, a supervisor, a referee, a president or a member of jury. In addition to the main institution in which the Ph.D. was defended, the `entity_role` can contain additional information we were able to collect such as the other institutions, laboratories, doctoral schools (the institution organizing the doctorate in french university). Note that it concerns only theses collected in these.fr after 1985. For SUDoc, the value `etablissements_soutenance_from_info` may provide additional information on the institution.
--   `entity_firstname`: The name of the entity. Each entity has a `entity_name`. Note that the entity identifiers is unique but the entity name is not unique. For instance, two different persons can have the same name. When available, an individual can have a `entity_firstname`.
+Each line in the `thesis_edge` table represents a unique edge between a thesis and an entity. We define an _entity_ as any individual or institution involved in the thesis. The edge table has five `r ncol(thesis_edge)` columns:  
 
-::: {#warning-edges .callout-warning}
-Most of our effort in building the database was to delete duplicates in entities so that users can easily estimate the involvement of an entity in theses. It is the case for most institutions which are well identified by an unique idref. Unfortunately, it was impossible to disambiguous all entities for individuals. To illustrate this point, it is very easy to spot that the string "Paris I" and "Paris I Panthéon-Sorbonne" are the same entity but we cannot be sure that "Thomas Delcey" authoring a Ph.D in 2021 is the same person than "Thomas Delcey" supervising a Ph.D. in 2022. The variable `homonym_of` allows the user to spot potential duplicates. See details in @sec-cleaning-persons.
+- `thesis_id`: the identifier of a thesis (the same as in thesis_metadata). In the edge table, a `thesis_id` can have several edges. A `thesis_id` has _at least_ two edges: the author and the institution where the thesis was defended.   
+- `entity_id`: the identifier of an entity. If it exists, it is the official "idref", an unique identifiers created by the ABES (see [https://www.idref.fr/](https://www.idref.fr/)). If not, it is a temporary identifier we have created following the strategy we used for `thesis_id`.
+- `entity_role`: the role of the entity. A person, for example, may serve as an author, supervisor, referee, president, or jury member. In addition to identifying the primary institution where the Ph.D. was defended, the `entity_role` variable may include supplementary information we collected, such as affiliations with other institutions, laboratories, or doctoral schools (the organizations responsible for overseeing doctoral programs in French universities). This detailed information primarily applies to theses recorded in theses.fr after 1985. For data sourced from Sudoc, the value "etablissements_soutenance_from_info" of `entity_role` may provide additional information regarding the institutions associated with the thesis.
+- `entity_name`: The name of the entity. It is derived from the preferred name in the official IdRef notice, or from raw information when the entity has no IdRef. See @sec-cleaning-institutions and  @sec-cleaning-persons for more information about names standardization.  
+- `entity_firstname`, the first name of the individual. Coded as missing value when the entity is an institution. 
+
+::: {#notes-edges .callout-note}
+
+### Entity identifiers 
+
+Through the [https://www.idref.fr/](https://www.idref.fr/) platform, the ABES assigns unique identifiers to institutions and individuals involved in research in France. This system provides valuable information about entities, such as their dates of existence and the various names used to refer to entities. For example, see the entry for the former [University of Paris](https://www.idref.fr/034526110) that split after 1968. We scrapped those information to enrich our institution and individual tables (see @sec-idref).
 :::
 
 @tbl-edges shows a sample of the thesis edge table. We identify `r nrow(thesis_edge)` edges in total. @fig-person-role shows the distribution of individuals by role. @fig-person-institution shows the distribution of individuals for the top institutions.
+
 
 ```{r}
 #| echo: false
 #| label: tbl-edges
 #| tbl-cap: "Sample of the edges table"
 
+set.seed(12345)
+ids_random <- sample(thesis_edge$thesis_id %>% unique(), 10)
 
 thesis_edge %>% 
- # sample random line 
-  slice_sample(n = 50) %>% 
+  filter(thesis_id %in% ids_random) %>% 
+  arrange(thesis_id) %>% 
   DT::datatable(
     rownames = FALSE,
     options = list(
-      pageLength = 5,
+      pageLength = 10,
       scrollX = TRUE
     )
   ) %>% 
@@ -277,8 +362,9 @@ thesis_edge %>%
 
 ```
 
-::: panel-tabset
-### Top roles
+::: {.panel-tabset}
+
+### Top roles 
 
 ```{r}
 #| echo: FALSE
@@ -286,7 +372,7 @@ thesis_edge %>%
 #| fig.cap: "Top role"
 
 p <- thesis_edge %>% 
-  filter(str_detect(entity_role, "auteur|directeurs|jury|rapporteurs")) %>% 
+  filter(str_detect(entity_role, "author|supervisor|member|reviewer|president")) %>% 
   count(entity_role) %>% 
   mutate(entity_role = reorder(entity_role, n)) %>%
   mutate(tooltip = glue::glue("Role: {entity_role} <br> Number of individuals: {n}")) %>% 
@@ -304,70 +390,120 @@ p %>%
 
 ### Top institutions
 
+
 ```{r}
 #| echo: FALSE
 #| label: fig-person-institution
 #| fig.cap: "Top role"
 
-thesis_edge %>% 
+p <- thesis_edge %>% 
   filter(!str_detect(entity_role, "auteur|directeurs|jury|rapporteurs")) %>% 
   count(entity_id, entity_name) %>% 
-  slice_max(n, n = 10) %>% 
-  mutate(entity_name = reorder(entity_name, n)) %>%
-  ggplot(aes(x = entity_name, y = n)) +
+  slice_max(n, n = 10) %>%   
+  mutate(tooltip = glue::glue("Role: {entity_name} <br> Number of edges: {n}"),
+         entity_name = reorder(entity_name, n)) %>%
+  ggplot(aes(x = entity_name, y = n, text = tooltip)) +
   geom_col(fill = "skyblue") +
   coord_flip() +
   labs(x = "",
-       y = "Number of individuals") +
+       y = "Number of edges") +
   theme_minimal()
+
+p %>% 
+  plotly::ggplotly(tooltip = "text")
+
 ```
 :::
 
-## Institutions
+Note that the two figures represent the raw count of observations in the edge table and do not account for thesis duplicates. For example, to determine the exact number of theses published by the Université Paris I Panthéon-Sorbonne, it is necessary to first address duplicates in the metadata tables. This can be achieved by merging entries identified as duplicates using the `duplicates` column.
+
+### Complete Edges Data
+
+```{r}
+#| echo: FALSE
+thesis_edge_complete <- readRDS(here(FR_cleaned_data_path, "thesis_edge_complete_data.rds")) %>% ungroup
+```
+
+The `thesis_edge_complete_data` allows the comparison between original data as collected on theses.fr and sudoc with the results of our cleaning process. In addition to the columns of `thesis_edge`, we have `r ncol(thesis_edge_complete) - ncol(thesis_edge)` additional columns:
+
+- `original_id`: the original identifier of the entity in the raw data. This allows to see how temporary identifiers for institutions have been cleaned to find the official idref.
+- `original_entity_name`: the name of the entity as in the original raw data.
+- `original_entity_firstname`: the first name of the individual as in the original data source.
+- `source`: the source of the data. It can be "thesesfr" or "sudoc".
+
+@tbl-edges-complete shows a sample of the additional information contained in the `thesis_edge_complete` table.
+
+```{r}
+#| echo: FALSE
+#| label: tbl-edges-complete
+#| tbl-cap: "Sample of the thesis institution table"
+set.seed(123)
+ids_random <- sample(thesis_edge_complete$thesis_id %>% unique(), 3)
+
+thesis_edge_complete %>% 
+  filter(thesis_id %in% ids_random) %>% 
+  arrange(thesis_id) %>% 
+  DT::datatable(
+    rownames = FALSE,
+    options = list(
+      pageLength = 10,
+      scrollX = TRUE
+    )
+  ) %>% 
+  DT::formatStyle(columns = colnames(.), fontSize = '50%')
+```
+
+## Institutions 
 
 ```{r}
 #| echo: FALSE
 thesis_institution <- readRDS(here(FR_cleaned_data_path, "thesis_institution.rds")) %>% ungroup
 ```
 
-The thesis institution table contains `r nrow(thesis_institution)` institutions. Institutions are the universities, laboratories, doctoral schools, and other institutions associated with the theses.
+In the `thesis_institution` table, each line represents a unique institution. Institutions are the universities, laboratories, doctoral schools, and other institutions associated with the theses. The table contains `r nrow(thesis_institution)` institutions and `r ncol(thesis_institution)` variables. It consists of two core variables: 
 
-The thesis institution table contains `r ncol(thesis_institution)` variables. It consists of two core variables:
+- `entity_id`: the unique identifier of the entity (here the institution).
+- `entity_name`: the name of the entity. When an IdRef exists, the `entity_name` comes from the `pref_name` variable of the IdRef database.
+- `old_id` : the list of the temporary identifiers of the entity that has been merged with the `entity_id` (see @sec-cleaning-institutions for details on the cleaning process).
 
--   `entity_id`: the unique identifier of the entity (here the institution).
--   `entity_name`: the name of the entity.
+The other variables are additional information on the institutions scrapped on [IdRef](https://www.idref.fr/):
 
-The other variables are additional information on the institution provided by the IdRef database:
+- `url`: the IdRef url of the entity.
+- `other_labels`: other labels of the entity.
+- `date_of_birth`: the date of creation of the entity.
+- `date_of_death`: the date of disappearance of the entity.
+- `information`: additional information on the entity.
+- `replaced_idref`: the identifier of the entity that replaced the entity.
+- `predecessor`: the predecessor of the entity.
+- `predecessor_idref`: the identifier of the predecessor of the entity.
+- `successor`: the successor of the entity.
+- `successor_idref`: the identifier of the successor of the entity.
+- `subordinated`: list of the entities subordinated to the entity.
+- `subordinated_idref`: list of the identifiers of the entities subordinated to the entity.
+- `unit_of`: the entities to which the entity in question is a unit of.
+- `unit_of_idref`: the identifier of the entities to which the entity in question is unit of.
+- `other_link`: other links of the entity.
+- `country_name`: the country of the entity.
 
--   `url`: the url of the entity.
--   `scraped_id`: the identifier of the entity in the scraped data.
--   `pref_name`: the preferred name of the entity.
--   `other_labels`: other labels of the entity.
--   `country`: the country of the entity.
--   `date_of_birth`: the date of birth of the entity.
--   `date_of_death`: the date of death of the entity.
--   `information`: additional information on the entity.
--   `replaced_idref`: the identifier of the entity that replaced the entity.
--   `predecessor`: the predecessor of the entity.
--   `predecessor_idref`: the identifier of the predecessor of the entity.
--   `successor`: the successor of the entity.
--   `successor_idref`: the identifier of the successor of the entity.
--   `subordinated`: the subordinated entity.
--   `subordinated_idref`: the identifier of the subordinated entity.
--   `unit_of`: the unit of the entity.
--   `unit_of_idref`: the identifier of the unit of the entity.
--   `other_link`: other links of the entity.
--   `info`: additional information on the entity.
--   `country_name`: the country name of the entity.
+::: {#warning-homonyms .callout-warning}
 
-@tbl-institution shows a sample of the thesis institution table.
+### Handling institutions without identifier
+
+An essential aspect of our work involved associating institutions without an IdRef identifier to an existing IdRef. This step was crucial for standardizing information, particularly regarding the names of entities, and for enabling users to accurately assess the involvement of a given entity in theses. The process was relatively straightforward for the institution table, as it contains only a few hundred unique institutions. Consequently, the main institutions---universities---are well identified by a unique IdRef in most cases.
+::: 
+
+@tbl-institution shows a sample of the `thesis_institution` table.
 
 ```{r}
 #| echo: FALSE
 #| label: tbl-institution
 #| tbl-cap: "Sample of the thesis institution table"
 
+set.seed(198909)
+
 thesis_institution %>% 
+  mutate(information = str_trunc(information, 80),
+         other_labels = str_trunc(other_labels, 80)) %>% 
   slice_sample(n = 5) %>% 
   DT::datatable(
     rownames = FALSE,
@@ -379,6 +515,7 @@ thesis_institution %>%
 
 ```
 
+
 ## Individuals
 
 ```{r}
@@ -386,26 +523,33 @@ thesis_institution %>%
 thesis_person <- readRDS(here(FR_cleaned_data_path, "thesis_person.rds"))
 ```
 
-The thesis person table contains `r ncol(thesis_person)` variables. The four core variables are:
 
--   `entity_id`: the unique identifier of the individual.
--   `entity_name`: the name of the individual.
--   `entity_firstname`: the first name of the individual.
--   `gender`: the gender of the individual according to the IdRef database.
--   `gender_expanded`: the gender of the individual according to the IdRef database augmented for missing values with the French census data (see details in @sec-cleaning-institutions).
+In the individuals table, each line represents a unique individual. Individual are the authors, supervisors and other jury members associated with the theses. The table contains `r nrow(thesis_person)` individuals and `r ncol(thesis_person)` variables: 
+
+- `entity_id`: the unique identifier of the individual.
+- `entity_name`: the family name of the individual.
+- `entity_firstname`: the first name of the individual.
+- `gender`: the gender of the individual according to the IdRef database.
+- `gender_expanded`: the gender of the individual according to the IdRef database augmented for missing values with the French census data (see details in @sec-cleaning-persons).
 
 The other variables are additional information on the individual provided by the IdRef database:
 
--   `birth`: the birth date of the individual.
--   `country`: the country of the individual.
--   `info`: additional information on the individual.
--   `organization`: the organization of the individual.
--   `last_date_org`: the last date of the organization.
--   `start_date_org`: the start date of the organization.
--   `end_date_org`: the end date of the organization.
--   `other_link`: other links of the individual.
--   `country_name`: the country name of the individual.
--   `homonym_of`: the identifier of the homonyms in the database.
+- `birth`: the birth date of the individual.
+- `country_name`: the country name of the individual.
+- `information`: additional information on the individual.
+- `organization`: a list of organizations in which the individual worked.
+- `last_date_org`: the last dates recorded for which the individual was still a member of these organizations
+- `start_date_org`: the starting dates for each organization in which the individual worked.
+- `end_date_org`: the ending dates for each organization in which the individual worked.
+- `other_link`: a list of link to relevant online repository pages of the individual.
+- `homonym_of`: a list of the `entity_id` of the individual's homonyms (see @sec-cleaning-persons for details). 
+
+::: {#warning-homonyms .callout-warning}
+
+### Handling missing identifiers for individuals with `homonym_of` 
+
+Disambiguating individual entities, when IdRef identifiers were missing, proved more challenging than disambiguating institutions. For example, it is relatively straightforward to determine that the strings "Université Paris I" and "Université Paris I Panthéon-Sorbonne" refer to the same institution. In contrast, identifying whether "Robert Martin," who authored a Ph.D. in 1985, is the same individual as "Robert Martin," who supervised a Ph.D. in 2022, is far less certain. To assist users in identifying potential matches between individuals, the variable `homonym_of` highlights cases where two records may represent the same person. For further details on the methodology, refer to @sec-cleaning-persons. 
+::: 
 
 @tbl-person shows a sample of the thesis metadata table.
 
@@ -415,6 +559,7 @@ The other variables are additional information on the individual provided by the
 #| tbl-cap: "Sample of the thesis person table"
 
 thesis_person %>% 
+  mutate(information = str_trunc(information, 70)) %>% 
   slice_sample(n = 5) %>% 
   DT::datatable(
     rownames = FALSE,
@@ -426,8 +571,10 @@ thesis_person %>%
 
 ```
 
-::: panel-tabset
-### Gender
+
+::: {.panel-tabset}
+
+### Gender 
 
 ```{r}
 #| echo: FALSE
@@ -440,12 +587,13 @@ p <- thesis_person %>%
   mutate(total = n()) %>% 
   add_count(gender_expanded) %>% 
   reframe(percentage = n/total*100,
-          tooltip = glue::glue("Gender: {gender_expanded} <br> Number of theses: {n} <br> % : {round(percentage, 2)}"),
+          tooltip = glue::glue("Gender: {gender_expanded} <br> Number of theses: {n} <br> {round(percentage, 2)}%"),
           gender_expanded) %>%
   unique %>% 
   ggplot(aes(x = gender_expanded, y = percentage, text = tooltip)) +
   geom_col(fill = "skyblue") +
-  labs(y = "") + 
+  labs(y = "",
+       x = "Gender Expanded") + 
   theme_minimal() 
 
 p %>% 
@@ -478,11 +626,18 @@ thesis_person %>%
   theme_minimal()
 
 ```
-:::
+
+::: 
+
 
 # Data collection and cleaning process
 
-## General presentation
+This section outlines our strategy for constructing the database, which is divided into two main steps:
+
+- **Scraping:** The first step consists of scraping data from the three main sources: Theses.fr, Sudoc, and IdRef. 
+- **Cleaning:** The second step entails processing and cleaning the raw data files to generate five relational tables.
+
+The `R` code is available in the following [GitHub repository](https://github.com/tdelcey/becoming_economists/tree/main/FR/R). The following diagram illustrates the relationships between each script. If you encounter any errors or have questions regarding the data or the codes, please submit an [issue](https://github.com/tdelcey/becoming_economists/issues). 
 
 ```{r}
 # Load the DiagrammeR package
@@ -494,24 +649,24 @@ digraph project_dag {
  graph [layout = dot, rankdir = TB]
  
  # Define nodes
- scraping_sudocc_id [label = 'scraping_sudoc_id.R', shape = box, style = filled, fillcolor = lightblue]
- scraping_sudoc_api [label = 'scraping_sudoc_api.R', shape = box, style = filled, fillcolor = lightblue]
- cleaning_SUDoc[label = '1_FR_sudoc_cleaning.R', shape = box, style = filled, fillcolor = lightyellow]
- downloading_theses_fr [label = 'downloading_theses_fr.R', shape = box, style = filled, fillcolor = lightblue]
- cleaning_thesesfr [label = '2_FR_thesesfr_cleaning.R', shape = box, style = filled, fillcolor = lightyellow]
- merging_database [label = '3_FR_merging_database.R', shape = box, style = filled, fillcolor = lightyellow]
- idref_institutions [label = 'scraping_idref_institution.R', shape = box, style = filled, fillcolor = lightblue]
- idref_persons [label = 'scraping_idref_person.R', shape = box, style = filled, fillcolor = lightblue]
- cleaning_metadata [label = '4_FR_cleaning_thesis_metada.R', shape = box, style = filled, fillcolor = lightyellow]
- cleaning_institutions [label = '5_FR_cleaning_institutions.R', shape = box, style = filled, fillcolor = lightyellow]
- cleaning_persons [label = '6_FR_cleaning_persons.R', shape = box, style = filled, fillcolor = lightyellow]
- cleaning_edges [label = '7_FR_cleaning_edges.R', shape = box, style = filled, fillcolor = lightyellow]
+ scraping_sudoc_id [label = 'scraping_sudoc_id.R', shape = box, style = filled, fillcolor = lightblue, URL = 'https://github.com/tdelcey/becoming_economists/blob/main/FR/R/scraping_sudoc_id.R']
+ scraping_sudoc_api [label = 'scraping_sudoc_api.R', shape = box, style = filled, fillcolor = lightblue, URL = 'https://github.com/tdelcey/becoming_economists/blob/main/FR/R/scraping_sudoc_api.R']
+ cleaning_sudoc [label = 'cleaning_sudoc.R', shape = box, style = filled, fillcolor = lightyellow, URL = 'https://github.com/tdelcey/becoming_economists/blob/main/FR/R/cleaning_sudoc.R']
+ downloading_theses_fr [label = 'downloading_theses_fr.R', shape = box, style = filled, fillcolor = lightblue, URL = 'https://github.com/tdelcey/becoming_economists/blob/main/FR/R/downloading_theses_fr.R']
+ cleaning_thesesfr [label = 'cleaning_thesesfr.R', shape = box, style = filled, fillcolor = lightyellow, URL = 'https://github.com/tdelcey/becoming_economists/blob/main/FR/R/cleaning_thesesfr.R']
+ merging_database [label = 'merging_sudoc_thesesfr.R', shape = box, style = filled, fillcolor = lightyellow, URL = 'https://github.com/tdelcey/becoming_economists/blob/main/FR/R/merging_sudoc_thesesfr.R']
+ idref_institutions [label = 'scraping_idref_institution.R', shape = box, style = filled, fillcolor = lightblue, URL = 'https://github.com/tdelcey/becoming_economists/blob/main/FR/R/scraping_idref_institution.R']
+ idref_persons [label = 'scraping_idref_person.R', shape = box, style = filled, fillcolor = lightblue, URL = 'https://github.com/tdelcey/becoming_economists/blob/main/FR/R/scraping_idref_person.R']
+ cleaning_metadata [label = 'cleaning_metadata.R', shape = box, style = filled, fillcolor = lightyellow, URL = 'https://github.com/tdelcey/becoming_economists/blob/main/FR/R/cleaning_metadata.R']
+ cleaning_institutions [label = 'cleaning_institutions.R', shape = box, style = filled, fillcolor = lightyellow, URL = 'https://github.com/tdelcey/becoming_economists/blob/main/FR/R/cleaning_institutions.R']
+ cleaning_persons [label = 'cleaning_persons.R', shape = box, style = filled, fillcolor = lightyellow, URL = 'https://github.com/tdelcey/becoming_economists/blob/main/FR/R/cleaning_persons.R']
+ cleaning_edges [label = 'cleaning_edges.R', shape = box, style = filled, fillcolor = lightyellow, URL = 'https://github.com/tdelcey/becoming_economists/blob/main/FR/R/cleaning_edges.R']
  
  # Define edges
  scraping_sudoc_id -> scraping_sudoc_api
  scraping_sudoc_api -> cleaning_sudoc 
  downloading_theses_fr -> cleaning_thesesfr
- cleaning_sudoc-> merging_database
+ cleaning_sudoc -> merging_database
  cleaning_thesesfr -> merging_database
  merging_database -> idref_institutions
  merging_database -> idref_persons
@@ -526,152 +681,157 @@ digraph project_dag {
 
 ```
 
-## Data sources
+## Scraping 
 
-The data used in this project comes from three mains sources:
+### theses.fr
 
--   **Theses.fr:** <https://theses.fr/>
--   **SUDoc:** <https://www.sudoc.fr/>
--   **IdRef:** <https://www.idref.fr/>
+Theses records are registered in [theses.fr](https://theses.fr/) since 1985. Theses.fr data are also stored on [data.gouv.fr](https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/#/resources) website. They can be downloaded directly at this [URL](https://www.data.gouv.fr/fr/datasets/r/eb06a4f5-a9f1-4775-8226-33425c933272). The set of data we downloaded dated back from January 2024. The [downloading_theses_fr.R](https://github.com/tdelcey/becoming_economists/blob/main/FR/R/downloading_theses_fr.R) script allows to download the `.csv` on data.gouv and to compress and store it in `.rds` format. 
 
-These sources are the result of the work of the [ABES](https://abes.fr/l-abes/presentation/) (l'Agence bibliographique de l'enseignement supérieur) who produced metadata and APIs regarding research and superior education. The data of the three sources mentionned above are under the [Etabab "Open Licence"](https://www.etalab.gouv.fr/licence-ouverte-open-licence/).[^1]
-
-[^1]: See the English description of the licence [here](https://www.etalab.gouv.fr/wp-content/uploads/2018/11/open-licence.pdf).
-
-### Theses.fr:
-
-[Theses.fr](https://theses.fr/) is a comprehensive repository for PhD dissertations defended in French institutions since 1985.[^2] It includes metadata such as the title of the dissertation, author, date of defense, institution, supervisor, abstract, etc.. The database covers a wide range of disciplines, providing access, in some cases, to digital theses.
-
-[^2]: This corresponds to the reform of French PhD and the implementation of the "new regime".
-
-### SUDoc (Système Universitaire de Documentation):
-
-[SUDoc](https://www.SUDoc%20.fr/) is a union catalog that includes references to various documents held in French academic and research libraries. It covers books, journal articles, dissertations, and other academic works. The SUDoc database includes metadata like title, author, publication date, and library locations where the documents can be found. It's a key resource for academic research in France, providing a broad overview of available scholarly materials. Regarding PhD, it allows to find dissertations defended before 1985, and to recover relevant metadata.
-
-### IdRef (Identifiants et Référentiels pour l'Enseignement supérieur et la Recherche):
-
-[IdRef](https://www.idref.fr/) is a database focused on managing and standardizing the names and identifiers of authors and other contributors to academic and research works. It provides authority control for names used in academic cataloging, ensuring consistency and aiding in accurate attribution of works. IdRef is used in conjunction with SUDoc and other databases to support the management of bibliographic data in the French higher education and research sectors. In our project, it allows us to find additional data on individuals and institutions.
-
-## Data collection
-
-## theses.fr
-
-Theses records are registered in [theses.fr](https://theses.fr/) since 1985. Theses.fr data are also stored on [data.gouv.fr](https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/#/resources) website. They can be downloaded directly at this [URL](https://www.data.gouv.fr/fr/datasets/r/eb06a4f5-a9f1-4775-8226-33425c933272). The [downloading_theses_fr.R](../scripts/scraping_scripts/FR/downloading_theses_fr.R) script allows to download the `.csv` on data.gouv and to compress and store it in `.rds` format.
-
-## SUDoc
+### Sudoc 
 
 ```{r}
 urls_econ <- readRDS(here(FR_sudoc_raw_data_path, glue("sudoc_urls_economics_1900-1985.RDS")))
 urls_law <- readRDS(here(FR_sudoc_raw_data_path, glue("sudoc_urls_law_1900-1968.RDS")))
 ```
 
-We systematically collect metadata on French dissertations archived in the [SUDoc](https://www.SUDoc%20.fr/) database, focusing on theses in economics through two distinct query strategies:
+We systematically collect metadata on French theses archived in the [Sudoc](https://www.sudoc.fr/) database, focusing on theses in economics. To identify theses in economics, we employ a dual-query approach:
 
--   First query: We search for dissertations with a term starting with "econo" in the "Note de Thèse" field, which denotes the thesis discipline. This keyword captures terms like "économie" or "Economique" since SUDoc 's search function is case-insensitive and ignores accents. The time frame is limited to 1900–1985, as dissertations from later years are systematically cataloged in [Theses.fr](https://theses.fr/). [Here is the query](https://www.SUDoc%20.abes.fr/cbs//DB=2.1/SET=28/TTL=10/CMD?ACT=SRCHM&MATCFILTER=Y&MATCSET=Y&NOSCAN=Y&PARSE_MNEMONICS=N&PARSE_OPWORDS=N&PARSE_OLDSETS=N&IMPLAND=Y&ACT0=SRCHA&screen_mode=Recherche&IKT0=63&TRM0=econo*&ACT1=-&IKT1=63&TRM1=&ACT2=%2B&IKT2=63&TRM2=&ACT3=%2B&IKT3=4&TRM3=&SRT=YOP&ADI_TAA=&ADI_LND=fr&ADI_JVU=1900-1985&ADI_MAT=Y&ILN_DEP_BIB=DEP&NOT_USED_ADI_BIB=+), allowing to retrieve `r cat(length(urls_econ))` thesis records.
+- In the main query, we search for theses with a term beginning with "econo" in the "Note de Thèse" field, which specifies the discipline of the thesis.^[This RegEx captures terms such as "économie" and "Economique" because Sudoc's search function is case-insensitive and disregards accents.] The search is restricted to the period from 1900 to 1985, as theses from subsequent years are systematically cataloged in [Theses.fr](https://theses.fr/). [Here is the query](https://www.sudoc.abes.fr/cbs//DB=2.1/SET=28/TTL=10/CMD?ACT=SRCHM&MATCFILTER=Y&MATCSET=Y&NOSCAN=Y&PARSE_MNEMONICS=N&PARSE_OPWORDS=N&PARSE_OLDSETS=N&IMPLAND=Y&ACT0=SRCHA&screen_mode=Recherche&IKT0=63&TRM0=econo*&ACT1=-&IKT1=63&TRM1=&ACT2=%2B&IKT2=63&TRM2=&ACT3=%2B&IKT3=4&TRM3=&SRT=YOP&ADI_TAA=&ADI_LND=fr&ADI_JVU=1900-1985&ADI_MAT=Y&ILN_DEP_BIB=DEP&NOT_USED_ADI_BIB=+) allowing to retrieve `r cat(length(urls_econ))` thesis records.
 
--   Second query: We search for dissertations where "droit" (law) is specified in the "Note de Thèse" field, and where a term starting with "econo" appears in the title. This search is limited to 1900-1968 to capture dissertations classified as law theses before 1968 that likely focus on economics. [Here is the query](https://www.SUDoc%20.abes.fr/cbs//DB=2.1/SET=31/TTL=1/CMD?ACT=SRCHM&MATCFILTER=Y&MATCSET=Y&NOSCAN=Y&PARSE_MNEMONICS=N&PARSE_OPWORDS=N&PARSE_OLDSETS=N&IMPLAND=Y&ACT0=SRCHA&screen_mode=Recherche&IKT0=63&TRM0=droit&ACT1=*&IKT1=4&TRM1=econo*&ACT2=%2B&IKT2=63&TRM2=&ACT3=%2B&IKT3=1016&TRM3=&SRT=YOP&ADI_TAA=&ADI_LND=fr&ADI_JVU=1900-1968&ADI_MAT=Y&ILN_DEP_BIB=DEP&NOT_USED_ADI_BIB=+), allowing to retrieve `r cat(length(urls_law))` thesis records.
+- One issue specific to French history is that economic research was predominantly conducted within law faculties until the 1960s. Consequently, in a second query, we focus on theses where the term "droit" (law) appears in the field "Note de Thèse" and a word beginning with "econo" is present in the title. This search is restricted to the period 1900–1968, aiming to identify theses classified as law theses prior to 1968 that likely pertain to economics. [Here is the query](https://www.sudoc.abes.fr/cbs//DB=2.1/SET=31/TTL=1/CMD?ACT=SRCHM&MATCFILTER=Y&MATCSET=Y&NOSCAN=Y&PARSE_MNEMONICS=N&PARSE_OPWORDS=N&PARSE_OLDSETS=N&IMPLAND=Y&ACT0=SRCHA&screen_mode=Recherche&IKT0=63&TRM0=droit&ACT1=*&IKT1=4&TRM1=econo*&ACT2=%2B&IKT2=63&TRM2=&ACT3=%2B&IKT3=1016&TRM3=&SRT=YOP&ADI_TAA=&ADI_LND=fr&ADI_JVU=1900-1968&ADI_MAT=Y&ILN_DEP_BIB=DEP&NOT_USED_ADI_BIB=+), allowing to retrieve `r cat(length(urls_law))` thesis records.
 
-The [scraping_sudoc_id.R](../scripts/scraping_scripts/FR/scraping_SUDoc%20_id.R) collects the thesis records URLs. Then, the [scraping_sudoc_api.R](../scripts/scraping_scripts/FR/scraping_SUDoc%20_api.R) allows to query the [SUDoc API](https://api.gouv.fr/documentation/api-SUDoc) to retrieve structured metadata for each thesis, including information such as title, author, defence date, abstract, supervisor and other relevant details. These metadata are stored in an `.xml` file, which we then parse to extract the relevant information. The `.xml` is structured according to "tags" and "codes" that are explained [here](https://documentation.abes.fr/SUDoc%20/manuels/administration/aidewebservices/index.html#SUDoc%20MarcXML).
+The [scraping_sudoc_id.R](https://github.com/tdelcey/becoming_economists/blob/main/FR/R/scraping_sudoc_id.R) collects the thesis records URLs. Then, the [scraping_sudoc_api.R](https://github.com/tdelcey/becoming_economists/blob/main/FR/R/scraping_sudoc_api.R) allows to query the [Sudoc API](https://api.gouv.fr/documentation/api-sudoc) to retrieve structured metadata for each thesis, including information such as title, author, defence date, abstract, supervisor and other relevant details. These metadata are stored in an `.xml` file, which we then parse to extract the relevant information.^[The structure of the `.xml` used by the ABES is explained [here](https://documentation.abes.fr/sudoc/manuels/administration/aidewebservices/index.html#Sudoc MarcXML).]
 
-## IdRef
+::: {.callout-note}
+[scraping_sudoc_api.R](https://github.com/tdelcey/becoming_economists/blob/main/FR/R/scraping_sudoc_api.R) utilizes parallel processing to accelerate data collection. It is designed with robust error and exception handling, ensuring efficient and reliable data retrieval. Moreover, the script is highly adaptable and can be easily used for other query types. 
+::: 
 
-The [IdRef](https://www.idref.fr/) platform serves as a rich repository of structured metadata for individuals and institutions linked to academic records in France, particularly those cataloged in SUDoc and Thèses.fr. By leveraging unique IdRef identifiers, we can extract detailed information about individuals (e.g., date of birth, nationality, gender, last known institutions) and institutions (e.g., institutions preferred and alternate names, years of existence) involved in the Ph.D. graduating process. This helps to standardize individuals and institutions names and to ensure consistency and complete missing information for certain theses records.
+### IdRef {#sec-idref}
 
-## Data cleaning
+We utilize the IdRef identifiers collected from Sudoc and These.fr to retrieve additional information about entities, such as date of birth, gender, last known institutions, institutions' preferred and alternate names, and years of existence. The scripts [scraping_idref_person.R](https://github.com/tdelcey/becoming_economists/blob/main/FR/R/scraping_idref_person.R) and [scraping_idref_institution.R](https://github.com/tdelcey/becoming_economists/blob/main/FR/R/scraping_idref_institution.R) use the IdRef identifiers as input to query the [IdRef API](https://www.idref.fr/) and organize the retrieved information into structured tables.
 
-Our data-cleaning approach focuses on ensuring consistency and quality while preserving the integrity of the original data. Key information, such as the institution of the thesis, is standardized to facilitate analysis. However, we keep this standardized data separate from the raw data, ensuring transparency in our modifications and avoiding any loss of original information.
 
-The first step of the cleaning process involves merging data extracted from [Theses.fr](https://theses.fr/) and [SUDoc](https://www.SUDoc%20.fr/). We ensure compatibility in the metadata format and structure, allowing for a seamless integration of the two datasets. After merging, the dataset is organized into three main components:
+## Cleaning
 
--   Thesis Metadata: This component contains core details about each thesis. Each line represents a thesis record, including information such as the title, defense date, abstract, and other relevant details.
--   Individual Data: Each line represents an individual involved in the thesis, such as authors, supervisors, or jury members.
--   Institutions Data: This includes all mentioned universities, laboratories, doctoral schools, and other institutions associated with the theses.
+This section outlines the data cleaning process. Starting with the raw sources, we clean and harmonize the data to enable seamless merging of the two datasets, Sudoc and theses.fr. Following this, we construct our five data tables.
 
-This relational database connecting different data frames facilitates well-structured, accurate analysis across different dimensions of the dataset (see the [Description of the database](#description) section for details on the final content of the database).
 
-### Cleaning SUDoc data
+### Sudoc
 
-The cleaning process for SUDPC data in [1_FR_sudoc_cleaning.R](/scripts/cleaning_scripts/FR/1_FR_SUDoc%20_cleaning.R) is designed to address inconsistencies, remove duplicates, and standardize information across the dataset. This step aims to correct errors and inconsistencies linked to the SUDoc extraction, as well as to allows the consistency and merging with theses.fr data. Further cleaning steps are necessary and implemented after this merging.
+The [cleaning_sudoc.R](https://github.com/tdelcey/becoming_economists/blob/main/FR/R/cleaning_sudoc.R) script cleans the Sudoc data. It has two main objectives: managing duplicated identifiers and transforming the raw Sudoc data into a structured dataset. The process involves evaluating the data quality and restructuring the raw sources to ensure consistency and facilitate future merging with the theses.fr dataset.
 
-#### Duplicate Management
+The script handles duplicate identifiers, which fall into two categories:
 
-The cleaning process first identifies and resolves duplicate records, which fall into two categories:
+- True duplicates: these occur when the same dissertation appears multiple times with identical identifiers and authors but differing defense dates. In such cases, the script retains the most recent record, as it is more likely to contain accurate metadata.
+- False duplicates: these arise when the same identifier is linked to different authors, typically due to data entry errors from ABES. To resolve this, the script generates unique identifiers by appending a counter to the "national number thesis" field.
 
--   True duplicates: These occur when the same thesis is listed multiple times with identical identifiers and authors but differing defence dates. The process retains the most recent record as it is more likely to reflect the correct metadata.
--   False duplicates: These occur when the same identifier is shared by different authors, often due to data entry errors. To resolve these, unique identifiers are created by appending a counter to the nnt, ensuring data integrity without introducing ambiguity.
+Most of the column of the final data are created here from the raw data. Two variables deserves a particular attention:
 
-#### Date Standardization
 
-Defence dates (`year_defence`) are cleaned and standardized by: - Choosing the oldest date for theses with multiple dates, as the earliest date is more likely to reflect the actual defence event. - Flagging and logging anomalous dates outside the query range (1899–1985) or those with large gaps between associated dates for manual inspection.
+1. `year_defence`: 
+    - For some theses, multiple defense dates are retrieved for a single observation (line). In such cases, the earliest date is selected, as it is more likely to correspond to the original, unfinished thesis.
+    - When dates differ significantly, manual checks are performed.
+    - Anomalous dates outside the query range (1899–1985) are cleaned to maintain consistency.
 
-This approach minimizes errors stemming from incomplete or conflicting date records and ensures chronological accuracy.
 
-#### Standardization of thesis types and Languages
+2. `type`:
+    -  The `type` of the thesis is determined from various Sudoc metadata fields, reflecting the diversity of thesis types in the French system before the 1984 reform.
+    - Thesis types are recoded into consistent categories, such as "Thèse d'État" and "Thèse de 3e cycle." Entries that are not doctoral theses (e.g., master's dissertations) are excluded to focus solely on relevant records.
+    - If the thesis type cannot be determined, the variable is assigned the generic value "Thèse."
 
-Thesis types are deduplicated and recoded into consistent categories (e.g., "Thèse d'État", "Thèse de 3e cycle"). Records that are not doctoral theses (e.g., master's dissertations) are filtered out to focus exclusively on relevant entries. Similarly, language codes are standardized to align with ISO conventions and ensure compatibility with related datasets.
+::: {.callout-warning}
+The value "Thèse" of the `Type` variable is default value when we cannot identify a specific type of thesis.
+:::
 
-#### Output Preparation
+Note that the value of `Language` are also standardized to align with ISO conventions, ensuring compatibility with theses.fr data. 
 
-The final dataset is split into four distinct outputs:
+The final dataset is divided into four tables that constitute the relational database: metadata, edge, person, and institution. For entities without official identifiers, temporary IDs are generated to enable future identification and disambiguation. Temporary identifiers are under the format `temp_X_Y`, X representing the source of the original information (either "sudoc" or "thesesfr") and Y being a randomly generated unique number.
 
--   Metadata Table: Core information about theses, such as titles, abstracts, dates, and types.
--   Edge Table: Links between theses and associated entities (individuals and institutions).
--   Person Table: A unique list of individuals involved in theses (authors, jury members, etc.).
--   Institution Table: A unique list of institutions linked to theses (universities, laboratories, etc.).
+### Theses.fr 
 
-By structuring the cleaned data in this way, the workflow facilitates downstream analysis, such as network modeling and bibliometric studies, while maintaining transparency in data transformations. This cleaning pipeline ensures the dataset's reliability and usability for academic and research purposes.
+The [cleaning_thesesfr.R](https://github.com/tdelcey/becoming_economists/blob/main/FR/R/thesesfr_cleaning.R) script focuses on cleaning and structuring metadata for theses related to economics, extracted from the theses.fr database. The methodology closely parallels the approach used for Sudoc: assessing data quality, standardizing raw data, and preparing the dataset for integration with Sudoc data.
 
-### Cleaning Theses.fr data
+A specific challenge addressed in this script involves filtering out theses that were incorrectly classified as economics-related in the query results. After resolving this issue, the script applies the same steps as those used for Sudoc data, including the categorization and harmonization of variables, to ensure consistency and facilitate merging.
 
-The [2_FR_thesesfr_cleaning.R](/scripts/cleaning_scripts/FR/2_FR_thesesfr_cleaning.R) is dedicated to cleaning and structuring metadata for theses related to economics extracted from the Theses.fr database. The primary goal is to prepare the dataset for integration with SUDoc data.
+As with the Sudoc data, temporary IDs are generated for entities lacking official identifiers from IdRef. These temporary IDs support future identification and disambiguation efforts.
 
-The cleaning process begins with filtering the dataset to retain only theses categorized under economics disciplines. A simple keyword search (e.g., "econom" or "économ") identifies potential entries, followed by the exclusion of specific fields unrelated to economics (e.g., legal or geographic disciplines, like "Droit économique"). Additionally, basic data quality checks ensure that all entries have valid and unique identifiers (nnt) to prevent issues during downstream processing.
+### Merging 
 
-The cleaned dataset is then divided into structured components for better usability. The metadata table (thesesfr_metadata) includes core thesis attributes such as titles, abstracts, defense dates, and disciplines. The edge table (thesesfr_edge) captures relationships between theses and associated entities, including authors, jury members, and affiliated institutions. Separate tables for individuals (thesesfr_person) and institutions (thesesfr_institution) are derived from the edge table. Temporary IDs are generated for entities without official identifiers to facilitate later identification and disambiguation.
+The [merging_database.R](https://github.com/tdelcey/becoming_economists/blob/main/FR/R/merging_database.R) script processes four types of tables---theses, edges, persons, and institutions---generated from both the Sudoc and Theses.fr datasets. The script merges these tables in pairs to produce four intermediate merged tables. These intermediate data frames are subsequently cleaned and standardized in the following scripts.
 
-### Merging theses.fr and SUDoc data
+### Metadata {#sec-cleaning-metadata}
 
-The [3_FR_merging_database.R](/scripts/cleaning_scripts/FR/3_FR_merging_database.R) script consolidates data from the two primary sources, SUDoc and Theses.fr, to create unified datasets. The process involves merging metadata, relationships (edges), individuals, and institutions while resolving duplicate entries across sources. Metadata is harmonized by removing redundancies and retaining unique thesis identifiers. Edge tables are cleaned to link theses with associated individuals and institutions, ensuring consistent identifiers for entities that appear in both databases. Separate tables for individuals and institutions are deduplicated and aligned for further cleaning and standardization.
+The script [cleaning_metadata.R](https://github.com/tdelcey/becoming_economists/blob/main/FR/R/cleaning_metadata.R) is designed to clean and harmonize theses metadata. Metadata from Sudoc and theses.fr is derived from a variety of local institutions and individuals, which often results in inconsistencies and errors. This script focuses on addressing two major challenges: **language detection** and **duplicates identification**.
 
-### Cleaning thesis metadata {#sec-cleaning-metadata}
+1. **Language detection:** To ensure consistency across metadata about titles and abstracts, the script employs the [cld3](https://docs.ropensci.org/cld3/reference/cld3.html) [@R-cld3] and [fastText](https://mlampros.github.io/fastText/articles/language_identification.html) [@fastText2016b] models for robust language identification.  Key tasks include:
+    - Verifying that titles and abstracts in French and English fields contain text in the correct languages. Discrepancies are resolved by reassigning text to appropriate fields.
+    - Missing French or English titles and abstracts are supplemented using auxiliary columns from the scraped data  (`title_other` and `abstract_other`) when relevant. 
+    - Titles and abstracts in full uppercase are converted to sentence case to enhance readability.
+    - Placeholder text, irrelevant symbols, and uninformative entries are removed, with such entries replaced by missing values (NA).
 
-The [4_FR_cleaning_thesis_metadata.R](/scripts/cleaning_scripts/FR/4_FR_cleaning_thesis_metadata.R) is designed to clean and standardize metadata for theses, with a primary focus on managing titles and abstracts. The modification implemented in this script directly transformed the original columns, but all transformations are checked by eye and does not change the informational content of the columns. More directly: it mainly corrects errors in the original recording of information in SUDOC and Theses.fr.
+2. **Duplicates:** Duplicated thesis records are a common issue, arising from cross-database redundancy (the same thesis may appear in both Sudoc and theses.fr) and intra-database redundancy (a thesis may be registered multiple times by different institutions within a single database). To address this, we developed a duplicates detection algorithm. The core of the process involves grouping titles by authors and comparing all possible title pairs within each group. We use the [Optimal String Alignment (OSA)](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance#Optimal_string_alignment_distance) distance as the primary metric for these comparisons. OSA estimates the number of operations (insertions, deletions, substitutions, and adjacent character transpositions) needed to align two strings. This method is implemented using the `stringdist` [package](https://CRAN.R-project.org/package=stringdist) [@stringdist2014]. We adjust the distance measure by the number of character in the title. Each potential duplicate is manually reviewed. In alignment with the project's overall approach, we do not remove duplicates but instead flag them in a new column, `duplicates`. @tbl-duplicates provides an example of distinct theses in the sources that we flagged as duplicates.
 
-The script addresses several key challenges: - the normalization of formatting the titles and abstracts - the detection and imputation of missing values - the verification of language consistency and the reallocation of misplaced titles and abstracts - the identification of duplicate thesis records
+```{r}
+#| echo: FALSE
+#| label: tbl-duplicates
+#| tbl-cap: "Example of theses identified as duplicates"
 
-A central component of the script is the cleaning of titles and abstracts. Titles and abstracts written in full uppercase are transformed into sentence case to enhance readability. Placeholder text and irrelevant symbols are also removed, with problematic entries replaced by missing values (NA).
 
-For cases where either French or English titles and abstracts are missing, the script employs auxiliary columns originally scraped (`title_other` and `abstract_other`) to fill gaps when relevant. Indeed, language detection is used to validate these imputed values, leveraging both the [cld3](https://docs.ropensci.org/cld3/reference/cld3.html) [@R-cld3] and [fastText](https://mlampros.github.io/fastText/articles/language_identification.html) [@fastText2016b] models for robust identification.
+thesis_metadata %>% 
+  filter(!is.na(duplicates)) %>% 
+  filter(thesis_id %in% duplicates[[7]]) %>% 
+  DT::datatable(
+    rownames = FALSE,
+    options = list(
+      pageLength = 5,
+      scrollX = TRUE
+    )
+  )
+```
 
-Language consistency is verified across the metadata. Titles and abstracts are checked to ensure that French and English columns contain text matching their intended language. Discrepancies are resolved by reassigning text to the correct fields.
+::: {.callout-note}
+Our script allows also for handling duplicates manually. If you spot an undetected duplicate, please [let us know](https://github.com/tdelcey/becoming_economists/issues).
+::: 
 
-### Cleaning institutions {#sec-cleaning-institutions}
+### Institutions {#sec-cleaning-institutions}
 
-The [5_FR_cleaning_institution.R](/scripts/cleaning_scripts/FR/4_FR_cleaning_institution.R) script aims to standardize and improve the quality of institution data. So far, any institution names mentioned in the metadata have been extracted and stored in a separate table. This script focuses on cleaning and standardizing these names to ensure consistency and accuracy in the dataset. Our goal is to replace temporary institution identifiers (id_temp) we have created in [3_FR_merging_database.R](/scripts/cleaning_scripts/FR/3_FR_merging_database.R) with the official IdRef identifiers (id_ref) to ensure consistency and accuracy in the dataset.
+The script [cleaning_institution.R](https://github.com/tdelcey/becoming_economists/blob/main/FR/R/cleaning_institution.R) is dedicated to standardizing and improving the quality of institution data. 
 
-This replacement relies on matching the institution names and thesis defense dates. The process accounts for historical changes in institutional structures (e.g., the splitting of the University of Paris after 1968), ensuring that ambiguous cases are handled carefully. The core of the script is a manually defined table that associates regular expressions (regex) for institution names with their corresponding idref identifiers. This table also includes the dates of creation (date_of_birth) and dissolution (date_of_death) of institutions to set clear boundaries for replacement. For instance, if an institution's name matches "University of Paris" and the thesis was defended before 1970, the identifier is replaced with that of the historic University of Paris, as it was the only university in Paris at the time.
+Institution names extracted from metadata have been stored in a separate table, `thesis_institution`. This script focuses on cleaning and standardizing these names to ensure consistency and accuracy. A key goal is replacing temporary institution identifiers (`id_sudoc_temp` or `id_thesesfr_temp`) created in [merging_database.R](https://github.com/tdelcey/becoming_economists/blob/main/FR/R/merging_database.R) with the official IdRef identifiers. This process relies on matching institution names and thesis defense dates, accounting for historical changes in institutional structures (e.g., the division of the University of Paris after 1968) and carefully handling ambiguous cases.
 
-This approach ensures that institution identifiers are accurate and consistent across the dataset, enabling robust analysis and interpretation of the data. We kept the temporary identifier and did not assign an idref institution names when we were enable to resolve the ambiguity. For instance, if the institution is the "University of Paris" for a thesis defended after 1968 (and that could be Paris 1, Paris 2, Paris 3, etc.) we kept the temporary identifier. Each ambigous entity name kept its temporary identifier even when the name is the same.
+The script employs a manually curated table that associates regular expressions (RegEx) for institution names with their corresponding IdRef identifiers. The table also includes the institutions' dates of creation (`date_of_birth`) and dissolution (`date_of_death`) to set clear temporal boundaries for identifier replacement. For instance, if the institution name matches "University of Paris" and: 
 
-### Cleaning individuals {#sec-cleaning-persons}
+  - The thesis defense occurred before 1968, the identifier is replaced with [the identifier of the historic University of Paris](https://www.idref.fr/034526110), as it was the only university in Paris at the time. 
+  - If the thesis is defended after 1968, the string "Université de Paris" is ambigous since it describes several distinct institutions. In this case, we kept the temporary identifier because we are not able to resolve the ambiguity. 
 
-The [6_FR_cleaning_persons.R](/scripts/cleaning_scripts/FR/5_FR_cleaning_persons.R) script focuses on standardizing and improving the quality of individual data.
+### Individuals {#sec-cleaning-persons}
 
-First, this script processes and cleans data for individuals associated with theses by merging and normalizing information of persons (e.g., authors, supervisors, etc.) from the idref_person_table. When a name entity is associated to an idref identifier, the script adds supplementary information on the person provided by the IdRef database (organization, birth date, relevant links such as wikipedia pages, etc.).
+The script [cleaning_persons.R](https://github.com/tdelcey/becoming_economists/blob/main/FR/R/cleaning_persons.R) is designed to standardize and enhance the quality of person data.
 
-Second, we try to clean and unify person identifiers. We know that the same person can have slightly different names (e.g., "Jean A. Dupont" and "Jean Dupont") or that the same person can have the same names but different identifiers. It is particularly the case for person present in both SUDoc and Theses.fr databases. For instance, the same person can be the author of a thesis in SUDoc and a member of the jury of another thesis. Contrary to institution tables, however, we are enable to replace temporary identifiers by idref identifiers for individuals because of the risk of homonyms. If two persons have the same name, we cannot be sure that they are the same person. Two authors of two different theses could have the same name or it could be the same person doing two theses.
+The script first enriches individual records by incorporating information from the `idref_person_table`, built from [scraping_idref_person.R](https://github.com/tdelcey/becoming_economists/blob/main/FR/R/scraping_idref_person.R). When a name entity is linked to an IdRef identifier, supplementary details about the individual---such as organization affiliations, birth date, and relevant links (e.g., Wikipedia pages)---are added from the IdRef database. Additionally, raw names extracted from Sudoc or theses.fr are replaced with the standardized names provided by IdRef.
 
-To address this issue, we create a new column `homonym_of` that group potential homonyms. For each person, the variable `homonym_of` give the list of person identifiers that are her homonyms. a new column `homonym_of` that group potential homonyms. For each person, the variable `homonym_of` give the list of person identifiers that are her homonyms.
+A key focus of the script is addressing inconsistencies in person identifiers. Challenges include:
 
-# Usage and Access
+  - Variations in names: The same individual may appear with slight name differences (e.g., "Jean A. Dupont" vs. "Jean Dupont").
+  - Duplicate identifiers: A single individual may be associated with different identifiers across or within datasets (e.g., as an author in Sudoc in 1983 and as a jury member in theses.fr in 1999).
 
-## Application to other disciplines
+While the script strives to identify and group such cases, disambiguating person identifiers is constrained by the risk of homonyms. For example, two individuals with identical names may represent distinct persons. Due to this ambiguity, it is not possible to merge identifiers confidently.
 
-Note that we focus on Ph.D. in economics but the project has been run with a relatively general perspective in mind, meaning that our codes could be transferred easily to other projects focusing on other disciplines in France. Indeed, a few changes in a couple of scripts would allow easily to scrape and clean the data for other disciplines or subjects. It would just involve:
+To address potential ambiguities, the script introduces a new column, `homonym_of`, which groups potential homonyms. For each person, the `homonym_of` field lists the identifiers of individuals with identical or highly similar names. This approach prevents premature merges while flagging possible relationships for users to investigate further.
 
--   changing the SUDoc queries in [scraping_scrpits/scraping_SUDoc \_id.R](../scripts/scraping_scripts/FR/scraping_SUDoc%20_id.R).
--   changing the theses.fr queries in [cleaning_scripts/2_FR_thesefr_cleaning.R](../scripts/cleaning_scripts/FR/2_FR_thesefr_cleaning.R).
+```{r}
+#| echo: FALSE
+#| label: tbl-duplicates_person
+#| tbl-cap: "Example of persons identified as homonym"
 
-Since the rest of the code aimed at standardizing, cleaning and merging data, it can be applied to any queries. Don't hesitate to ask us for guidance if you are using our code to extract similar data.
 
-# Future work and improvements
+thesis_person %>%
+  filter(!is.na(homonym_of)) %>%
+  filter(map_lgl(homonym_of, ~ "057545863" %in% .)) %>%
+  DT::datatable(rownames = FALSE,
+                options = list(pageLength = 5, scrollX = TRUE))
+```
+
+Finally, the script enhances the gender column using data from the IdRef source. For individuals with missing gender values, we leverage French census data to predict gender. If a first name is associated with a single gender in more than 95% of cases, we assign that gender to the individual.
+
+This approach has the advantage of simplicity but presents obvious limitations for handling some important cases (e.g., unisex names or cultural variations). The threshold of 95% is also arbitrary. To clarify the origin of the information, whether from IdRef or census data, we did not modify the `gender` column, and we created a new column, `gender_expanded.`

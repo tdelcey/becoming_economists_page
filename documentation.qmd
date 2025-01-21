@@ -4,7 +4,9 @@ listing:
   type: default
   contents: 
     - "documentation/*/index.qmd"
-  fields: [image, date, title, author, reading-time]  
+  fields: [image, date, title, author, description]  
+  image-height: "360px"
   sort: "date desc"
-  date-format: "YYYY"
+  date-format: long
 ---
+
