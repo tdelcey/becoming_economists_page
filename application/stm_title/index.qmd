@@ -37,21 +37,24 @@ pacman::p_load(
   "tidystm",
   "glue")
 
-
 #### PATH ####
 
 #original text path stored in google drive 
 if(str_detect(getwd(), "tunex")){
-  data_path <- "G:/Mon Drive/Phd_Project/data"
+  data_path <- file.path(path.expand("~"), "google_drive/Mon Drive/Phd_Project/data")
 } else {
   if(str_detect(getwd(), "Admin")) {
     data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
   } else {
-  if(str_detect(getwd(), "thomd")) {
-    data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
-    } else {
+    if(str_detect(getwd(), "thomd")) {
       data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
-    }}
+    } else {
+      if(str_detect(getwd(), "agoutsmedt")) {
+        data_path <- "/home/agoutsmedt/google_drive/Phd_Project/data"
+      } else {
+        data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
+      }}}
+    print(paste("The path for data is", data_path))
   }
 
 # data type
@@ -65,10 +68,8 @@ FR_intermediate_data_path <- here(intermediate_data_path, "FR")
 # database
 FR_thesefr_raw_data_path <- here(FR_raw_data_path, "these_fr")
 FR_thesefr_intermediate_data_path <- here(FR_intermediate_data_path, "these_fr")
-
 FR_sudoc_raw_data_path <- here(FR_raw_data_path, "sudoc")
 FR_sudoc_intermediate_data_path <- here(FR_intermediate_data_path, "sudoc")
-
 FR_cleaned_data_path <- here(data_path, "cleaned_data/FR")
 
 website_data_path <- here("assets/data/")
