@@ -6,6 +6,8 @@ project:
     - "!application/" # To avoid running the topic model that was not working for me
 
 website:
+  repo-url: https://github.com/tdelcey/becoming_economists
+  repo-actions: [source, issue]
   # navbar:
   #   tools:
   #     - icon: github
@@ -52,7 +54,6 @@ website:
         # - file: application.qmd
         - file: news.qmd
 
-      
 format:
   html:
     grid:

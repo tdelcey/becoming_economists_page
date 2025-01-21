@@ -19,6 +19,8 @@
   },
   {
     "listing": "/index.html",
-    "items": []
+    "items": [
+      "/news/french_release/index.html"
+    ]
   }
 ]

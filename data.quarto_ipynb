@@ -1,0 +1,50 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Data\"\n",
+        "sidebar: true\n",
+        "---\n",
+        "\n",
+        "\n",
+        "All data of this project are released under the  [CC-BY-4.0 licence](https://creativecommons.org/licenses/by/4.0/). allowing free access and use by anyone. The data is hosted in a [Zenodo repository](https://zenodo.org/) with a permanent doi. \n",
+        "\n",
+        "\n",
+        "## French data \n",
+        "\n",
+        "- Latested update: 09/01/2025\n",
+        "- [Link to the zenodo repository](https://zenodo.org/uploads/14541427?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjBhZDgwYzg4LTU1MjMtNDJlZS1iZGU0LTQ1OTQ3ZjkxNzdmMCIsImRhdGEiOnt9LCJyYW5kb20iOiJmNDY5MzljN2EyMTEzMDk3MTVlMjcyNjhkYWFkMjRlOCJ9.ThmPUIeFv1inLonoyE5ZmgGAAXRL0K1h-joFKqwXbdm88Fy7CCzuoOKrIkjlWJyhIQAe6YOVzwog34MXy8a_5A)\n",
+        "\n",
+        "If you use our data, please cite the following reference:\n",
+        "\n",
+        "- Delcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. https://doi.org/10.5281/zenodo.14541427. \n",
+        "\n",
+        "\n",
+        "```{bibtex}\n",
+        "\n",
+        "@article{\n",
+        "  title={Becoming an Economist: A Database of French Economics PhDs},\n",
+        "  author={Delcey, Thomas and Goutsmedt, Aurélien},\n",
+        "  journal={Zenodo},\n",
+        "  year={2024},\n",
+        "  doi={https://doi.org/10.5281/zenodo.14541427}\n",
+        "}\n",
+        "\n",
+        "```"
+      ],
+      "id": "ef510a17"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

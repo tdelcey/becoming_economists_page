@@ -12,7 +12,7 @@ sidebar: true
 
 If you use our data, please cite the following reference:
 
-"Delcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. https://doi.org/10.5281/zenodo.14541427" 
+"**Delcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. https://doi.org/10.5281/zenodo.14541427**" 
 
 ```{}
 
@@ -23,4 +23,6 @@ If you use our data, please cite the following reference:
   year={2024},
   doi={https://doi.org/10.5281/zenodo.14541427}
 }
+
 ```
+

@@ -17,6 +17,7 @@ p <- ggdraw() +
     y = 0
   ) 
 
+
 sticker(p, package="Becoming Economists", 
         s_x=1, s_y = 1.4, s_width = 1, s_height = 1,
         p_size=17, p_x=1, p_y = 0.4,
@@ -43,6 +44,7 @@ p <- ggdraw() +
     y = 0
   ) 
 
+
 sticker(p, package="Becoming Economists", 
         s_x=1, s_y = 1.4, s_width = 1, s_height = 1,
         p_size=24, p_x=1, p_y = 0.47,
@@ -52,6 +54,7 @@ sticker(p, package="Becoming Economists",
         dpi = 500
 )
 ggsave("assets/US_logo.png", width = 3, height = 3, dpi = 500)
+
 
 # french logo 
 
