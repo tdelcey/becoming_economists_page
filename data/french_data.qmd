@@ -8,11 +8,15 @@ author:
     affiliation: "UC Louvain; ICHEC"
     email: "aurelien.goutsmedt[at]uclouvain.be" 
 sidebar: true
-date: "2025"
-date-format: "YYYY"
+date: last-modified
+date-format: long
 format: 
   html: 
     self-contained: true
+execute:
+ echo: false
+ warning: false
+ message: false
 ---
 
 ## Repository 
@@ -41,16 +45,17 @@ If you use our data, please cite the following reference:
 
 ## Summary table 
 
-For a quick reference or use, you can find the main information about the thesis in the interactive table below. 
+For a quick reference or use, you can find the main information about the theses in the interactive table below. 
 
 ::: callout-warning
-This is not the complete dataset but rather a summary of the main columns. We strongly encourage you to consult the documentation and download the full data table for a more comprehensive analysis.
+This is not the complete dataset but only the main columns of the `thesis_metadata` data frame. We strongly encourage you to consult the documentation and download the full metadata table and the other tables for a more comprehensive analysis.
 :::
 
 ```{r}
 #| echo: FALSE 
 #| warning: FALSE
 #| message: FALSE
+#| output: FALSE
 
 pacman::p_load(
   "here",
@@ -65,16 +70,20 @@ pacman::p_load(
 
 #original text path stored in google drive 
 if(str_detect(getwd(), "tunex")){
-  data_path <- "G:/Mon Drive/Phd_Project/data"
+  data_path <- file.path(path.expand("~"), "google_drive/Mon Drive/Phd_Project/data")
 } else {
   if(str_detect(getwd(), "Admin")) {
     data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
   } else {
-  if(str_detect(getwd(), "thomd")) {
-    data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
-    } else {
+    if(str_detect(getwd(), "thomd")) {
       data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
-    }}
+    } else {
+      if(str_detect(getwd(), "agoutsmedt")) {
+        data_path <- "/home/agoutsmedt/google_drive/Phd_Project/data"
+      } else {
+        data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
+      }}}
+  #  print(paste("The path for data is", data_path))
   }
 
 # data type
@@ -88,13 +97,9 @@ FR_intermediate_data_path <- here(intermediate_data_path, "FR")
 # database
 FR_thesefr_raw_data_path <- here(FR_raw_data_path, "these_fr")
 FR_thesefr_intermediate_data_path <- here(FR_intermediate_data_path, "these_fr")
-
 FR_sudoc_raw_data_path <- here(FR_raw_data_path, "sudoc")
 FR_sudoc_intermediate_data_path <- here(FR_intermediate_data_path, "sudoc")
-
 FR_cleaned_data_path <- here(data_path, "cleaned_data/FR")
-
-FR_blog_data_path <- here(FR_intermediate_data_path, "blogs", "blog_gender")
 
 ```
 
@@ -104,21 +109,9 @@ FR_blog_data_path <- here(FR_intermediate_data_path, "blogs", "blog_gender")
 #| message: FALSE
 
 thesis_metadata <- readRDS(here(FR_cleaned_data_path, "thesis_metadata.rds"))
-thesis_edge <- readRDS(here(FR_cleaned_data_path, "thesis_edge.rds"))
-
-authors_supervisor <- thesis_edge %>%
-  filter(entity_role %in% c("author", "supervisor")) %>%
-  mutate(entity_fullname = paste(entity_firstname, entity_name)) %>%
-  group_by(thesis_id) %>%
-  summarize(
-    author = paste(unique(entity_fullname[entity_role == "author"]), collapse = "; "),
-    supervisor = paste(unique(entity_fullname[entity_role == "supervisor"]), collapse = "; ")
-  ) %>%
-  ungroup()
 
 thesis_metadata %>%
-  select(-c(language, language_2, field, accessible, country, duplicates)) %>% 
-  left_join(authors_supervisor) %>% 
+  select(-c(title_other, abstract_other, language, language_2, field, accessible, country, duplicates)) %>% 
   DT::datatable(
     extensions = 'Buttons',
     options = list(

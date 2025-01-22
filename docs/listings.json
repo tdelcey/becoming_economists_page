@@ -1,9 +1,22 @@
 [
   {
-    "listing": "/index.html",
+    "listing": "/news.html",
     "items": [
+      "/news/changelog/index.html",
       "/news/french_release/index.html"
     ]
+  },
+  {
+    "listing": "/documentation.html",
+    "items": [
+      "/documentation/french/index.html",
+      "/documentation/US/index.html",
+      "/documentation/UK/index.html"
+    ]
+  },
+  {
+    "listing": "/application.html",
+    "items": []
   },
   {
     "listing": "/data.html",
@@ -12,21 +25,10 @@
     ]
   },
   {
-    "listing": "/application.html",
-    "items": []
-  },
-  {
-    "listing": "/documentation.html",
+    "listing": "/index.html",
     "items": [
-      "/documentation/french/index.html",
-      "/documentation/UK/index.html",
-      "/documentation/US/index.html"
-    ]
-  },
-  {
-    "listing": "/news.html",
-    "items": [
-      "/news/french_release/index.html"
+      "/news/french_release/index.html",
+      "/news/changelog/index.html"
     ]
   }
 ]

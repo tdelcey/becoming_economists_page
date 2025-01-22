@@ -8,6 +8,7 @@ listing:
   image-height: 200px
   contents: 
     - "news/*/index.qmd"
+    - "!news/changelog/index.qmd"
   #  - "application/french/index.qmd"
 ---
 
