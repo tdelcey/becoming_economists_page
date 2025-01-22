@@ -91,7 +91,7 @@
     "href": "data.html",
     "title": "Data",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\n2026\n\n\nFrench data\n\n\n \n\n\n\n\n\nNo matching items",
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\n2025\n\n\nFrench data (version 1.0)\n\n\nThomas Delcey, Aurelien Goutsmedt\n\n\n\n\n\nNo matching items",
     "crumbs": [
       "Data"
     ]
@@ -133,28 +133,28 @@
   {
     "objectID": "data/french_data.html",
     "href": "data/french_data.html",
-    "title": "French data",
+    "title": "French data (version 1.0)",
     "section": "",
     "text": "Latest update: 21/01/2025\nVersion: 1.0"
   },
   {
     "objectID": "data/french_data.html#repository",
     "href": "data/french_data.html#repository",
-    "title": "French data",
+    "title": "French data (version 1.0)",
     "section": "",
     "text": "Latest update: 21/01/2025\nVersion: 1.0"
   },
   {
     "objectID": "data/french_data.html#citation",
     "href": "data/french_data.html#citation",
-    "title": "French data",
+    "title": "French data (version 1.0)",
     "section": "Citation",
     "text": "Citation\nIf you use our data, please cite the following reference:\n“Delcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. https://doi.org/10.5281/zenodo.14541427”\n\n@article{\n  title={Becoming an Economist: A Database of French Economics PhDs},\n  author={Delcey, Thomas and Goutsmedt, Aurélien},\n  journal={Zenodo},\n  year={2024},\n  doi={https://doi.org/10.5281/zenodo.14541427}\n}"
   },
   {
     "objectID": "data/french_data.html#summary-table",
     "href": "data/french_data.html#summary-table",
-    "title": "French data",
+    "title": "French data (version 1.0)",
     "section": "Summary table",
     "text": "Summary table\nFor a quick reference or use, you can find the main information about the thesis in the interactive table below.\n\n\n\n\n\n\nWarning\n\n\n\nThis is not the complete dataset but rather a summary of the main columns. We strongly encourage you to consult the documentation and download the full data table for a more comprehensive analysis."
   }

@@ -1,7 +1,15 @@
 ---
-title: "French data"
-date: 21/01/2025
+title: "French data (version 1.0)"
+author: 
+  - name: "Thomas Delcey"
+    affiliation: "Université de Bourgogne"
+    email: "Thomas.delcey@u-bourgogne.fr"
+  - name: "Aurelien Goutsmedt"
+    affiliation: "UC Louvain; ICHEC"
+    email: "aurelien.goutsmedt[at]uclouvain.be" 
 sidebar: true
+date: "2025"
+date-format: "YYYY"
 format: 
   html: 
     self-contained: true
