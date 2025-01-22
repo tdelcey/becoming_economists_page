@@ -1,16 +1,14 @@
 [
   {
-    "listing": "/news.html",
+    "listing": "/index.html",
     "items": [
       "/news/french_release/index.html"
     ]
   },
   {
-    "listing": "/documentation.html",
+    "listing": "/data.html",
     "items": [
-      "/documentation/french/index.html",
-      "/documentation/US/index.html",
-      "/documentation/UK/index.html"
+      "/data/french_data.html"
     ]
   },
   {
@@ -18,7 +16,15 @@
     "items": []
   },
   {
-    "listing": "/index.html",
+    "listing": "/documentation.html",
+    "items": [
+      "/documentation/french/index.html",
+      "/documentation/UK/index.html",
+      "/documentation/US/index.html"
+    ]
+  },
+  {
+    "listing": "/news.html",
     "items": [
       "/news/french_release/index.html"
     ]

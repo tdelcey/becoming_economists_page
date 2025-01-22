@@ -1,0 +1,126 @@
+---
+title: "French data"
+date: 21/01/2025
+sidebar: true
+format: 
+  html: 
+    self-contained: true
+---
+
+## Repository 
+
+- [![](https://zenodo.org/badge/DOI/10.5281/zenodo.14541427.svg)](https://doi.org/10.5281/zenodo.14541427)
+- Latest update: 21/01/2025
+- Version: 1.0
+
+## Citation 
+
+If you use our data, please cite the following reference:
+
+"**Delcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. https://doi.org/10.5281/zenodo.14541427**" 
+
+```{}
+
+@article{
+  title={Becoming an Economist: A Database of French Economics PhDs},
+  author={Delcey, Thomas and Goutsmedt, Aurélien},
+  journal={Zenodo},
+  year={2024},
+  doi={https://doi.org/10.5281/zenodo.14541427}
+}
+
+```
+
+## Summary table 
+
+For a quick reference or use, you can find the main information about the thesis in the interactive table below. 
+
+::: callout-warning
+This is not the complete dataset but rather a summary of the main columns. We strongly encourage you to consult the documentation and download the full data table for a more comprehensive analysis.
+:::
+
+```{r}
+#| echo: FALSE 
+#| warning: FALSE
+#| message: FALSE
+
+pacman::p_load(
+  "here",
+  "tidyverse",
+  "tidytext",
+  "data.table",
+  "DT",
+  "glue")
+
+
+#### PATH ####
+
+#original text path stored in google drive 
+if(str_detect(getwd(), "tunex")){
+  data_path <- "G:/Mon Drive/Phd_Project/data"
+} else {
+  if(str_detect(getwd(), "Admin")) {
+    data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
+  } else {
+  if(str_detect(getwd(), "thomd")) {
+    data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
+    } else {
+      data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
+    }}
+  }
+
+# data type
+raw_data_path <- here(data_path, "raw_data")
+intermediate_data_path <- here(data_path, "intermediate_data")
+
+# country
+FR_raw_data_path <- here(raw_data_path, "FR")
+FR_intermediate_data_path <- here(intermediate_data_path, "FR")
+
+# database
+FR_thesefr_raw_data_path <- here(FR_raw_data_path, "these_fr")
+FR_thesefr_intermediate_data_path <- here(FR_intermediate_data_path, "these_fr")
+
+FR_sudoc_raw_data_path <- here(FR_raw_data_path, "sudoc")
+FR_sudoc_intermediate_data_path <- here(FR_intermediate_data_path, "sudoc")
+
+FR_cleaned_data_path <- here(data_path, "cleaned_data/FR")
+
+FR_blog_data_path <- here(FR_intermediate_data_path, "blogs", "blog_gender")
+
+```
+
+```{r}
+#| echo: FALSE 
+#| warning: FALSE
+#| message: FALSE
+
+thesis_metadata <- readRDS(here(FR_cleaned_data_path, "thesis_metadata.rds"))
+thesis_edge <- readRDS(here(FR_cleaned_data_path, "thesis_edge.rds"))
+
+authors_supervisor <- thesis_edge %>%
+  filter(entity_role %in% c("author", "supervisor")) %>%
+  mutate(entity_fullname = paste(entity_firstname, entity_name)) %>%
+  group_by(thesis_id) %>%
+  summarize(
+    author = paste(unique(entity_fullname[entity_role == "author"]), collapse = "; "),
+    supervisor = paste(unique(entity_fullname[entity_role == "supervisor"]), collapse = "; ")
+  ) %>%
+  ungroup()
+
+thesis_metadata %>%
+  select(-c(language, language_2, field, accessible, country, duplicates)) %>% 
+  left_join(authors_supervisor) %>% 
+  DT::datatable(
+    extensions = 'Buttons',
+    options = list(
+      dom = 'Blfrtip',
+      buttons = c('excel', 'csv'),
+      pageLength = 12
+    )
+  )
+
+```
+
+
+

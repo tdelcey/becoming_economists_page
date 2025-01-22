@@ -1,28 +1,11 @@
 ---
 title: "Data"
-sidebar: true
+listing: 
+  type: table
+  contents: 
+    - "data"
+  fields: [date, title, author]  
+  sort: "date desc"
+  date-format: "YYYY"
+  categories: true
 ---
-
-## French data 
-
-- [![](https://zenodo.org/badge/DOI/10.5281/zenodo.14541427.svg)](https://doi.org/10.5281/zenodo.14541427)
-- Latest update: 21/01/2025
-- Version: 1.0
-
-
-If you use our data, please cite the following reference:
-
-"**Delcey Thomas, and Aurélien Goutsmedt. (2024). Becoming an Economist: A Database of French Economics PhDs. Zenodo. https://doi.org/10.5281/zenodo.14541427**" 
-
-```{}
-
-@article{
-  title={Becoming an Economist: A Database of French Economics PhDs},
-  author={Delcey, Thomas and Goutsmedt, Aurélien},
-  journal={Zenodo},
-  year={2024},
-  doi={https://doi.org/10.5281/zenodo.14541427}
-}
-
-```
-
