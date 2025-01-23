@@ -21,6 +21,8 @@ format:
     warning: false
     message: false
 bibliography: references.bib
+editor_options: 
+  chunk_output_type: console
 ---
 
 
@@ -35,7 +37,12 @@ pacman::p_load(
   "tidytext",
   "stm",
   "tidystm",
-  "glue")
+  "glue",
+  "spacyr",
+  "patchwork",
+  "tidystm")
+
+#' if necessary: `devtools::install_github("mikajoh/tidystm", dependencies = TRUE)`
 
 #### PATH ####
 
@@ -72,7 +79,7 @@ FR_sudoc_raw_data_path <- here(FR_raw_data_path, "sudoc")
 FR_sudoc_intermediate_data_path <- here(FR_intermediate_data_path, "sudoc")
 FR_cleaned_data_path <- here(data_path, "cleaned_data/FR")
 
-website_data_path <- here("assets/data/")
+website_data_path <- here(data_path, "website_data")
 ```
 
 
@@ -170,9 +177,6 @@ p2 <- data_summary %>%
        y = "theses with a french title") +
   theme_light()
 
-
-library(patchwork)
-
 p2 + p1
 ```
 
@@ -210,11 +214,9 @@ data <- thesis_metadata_no_duplicate %>%
   filter(!is.na(title_fr),
          !is.na(year_defence)) 
 
-
 # the rest of the script is a personal stm::textProcessor()
 
 # TOKENIZATION
-library(spacyr)
 
 #' install spacy if necessary
 #' `spacy_install(force = TRUE)`
@@ -243,11 +245,9 @@ parsed <- parsed %>%
   left_join(id, join_by(doc_id)) %>% 
   select(-doc_id)
 
-
 saveRDS(parsed, here(website_data_path, "parsed.rds"), compress = TRUE)
 
 # FILTER TOKENS 
-
 parsed <- readRDS(here(website_data_path, "parsed.rds"))
 
 # prepare stop_words
@@ -330,8 +330,6 @@ term_list <- parsed_final %>%
   rename(term = token)
 
 saveRDS(term_list, here(website_data_path, "term_list.rds"))
-
-
 # PREPARE STM INPUT 
 
 term_list <- readRDS(here(website_data_path, "term_list.rds"))
@@ -733,7 +731,7 @@ metadata <- corpus_in_stm$meta %>%
   mutate(year_defence = as.numeric(year_defence))
 
 # create regression formula 
-formula_str <- paste("~ s(year_defence")
+formula_str <- paste("~ s(year_defence)")
 formula_obj <- as.formula(formula_str)
 
 # run regression 
