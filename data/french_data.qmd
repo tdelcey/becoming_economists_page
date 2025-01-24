@@ -86,19 +86,7 @@ if(str_detect(getwd(), "tunex")){
   #  print(paste("The path for data is", data_path))
   }
 
-# data type
-raw_data_path <- here(data_path, "raw_data")
-intermediate_data_path <- here(data_path, "intermediate_data")
-
-# country
-FR_raw_data_path <- here(raw_data_path, "FR")
-FR_intermediate_data_path <- here(intermediate_data_path, "FR")
-
 # database
-FR_thesefr_raw_data_path <- here(FR_raw_data_path, "these_fr")
-FR_thesefr_intermediate_data_path <- here(FR_intermediate_data_path, "these_fr")
-FR_sudoc_raw_data_path <- here(FR_raw_data_path, "sudoc")
-FR_sudoc_intermediate_data_path <- here(FR_intermediate_data_path, "sudoc")
 FR_cleaned_data_path <- here(data_path, "cleaned_data/FR")
 
 ```
@@ -112,13 +100,17 @@ thesis_metadata <- readRDS(here(FR_cleaned_data_path, "thesis_metadata.rds"))
 
 thesis_metadata %>%
   select(-c(title_other, abstract_other, language, language_2, field, accessible, country, duplicates)) %>% 
+  mutate(across(starts_with("abstract"), ~str_trunc(., 200))) %>%
   DT::datatable(
-    extensions = 'Buttons',
+    extensions = c('Buttons', "KeyTable"),
     options = list(
       dom = 'Blfrtip',
       buttons = c('excel', 'csv'),
-      pageLength = 12
-    )
+      pageLength = 10,
+      searchHighlight = TRUE,
+      keys = TRUE
+      ),
+    filter = 'top' # Adds a search bar for each column at the top
   )
 
 ```

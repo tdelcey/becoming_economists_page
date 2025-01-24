@@ -22,6 +22,8 @@ format:
     message: false
     lightbox: true
 bibliography: references.bib
+editor_options: 
+  chunk_output_type: console
 ---
 
 
@@ -36,8 +38,11 @@ pacman::p_load(
   "tidytext",
   "stm",
   "tidystm",
-  "glue")
-
+  "glue",
+  "DT",
+  "spacyr",
+  "ggiraph",
+  "ggraph")
 
 #### PATH ####
 
@@ -55,24 +60,27 @@ if(str_detect(getwd(), "tunex")){
     }}
   }
 
-# data type
-raw_data_path <- here(data_path, "raw_data")
-intermediate_data_path <- here(data_path, "intermediate_data")
+#### PATH ####
 
-# country
-FR_raw_data_path <- here(raw_data_path, "FR")
-FR_intermediate_data_path <- here(intermediate_data_path, "FR")
-
-# database
-FR_thesefr_raw_data_path <- here(FR_raw_data_path, "these_fr")
-FR_thesefr_intermediate_data_path <- here(FR_intermediate_data_path, "these_fr")
-
-FR_sudoc_raw_data_path <- here(FR_raw_data_path, "sudoc")
-FR_sudoc_intermediate_data_path <- here(FR_intermediate_data_path, "sudoc")
-
+#original text path stored in google drive 
+if(str_detect(getwd(), "tunex")){
+  data_path <- file.path(path.expand("~"), "google_drive/Mon Drive/Phd_Project/data")
+} else {
+  if(str_detect(getwd(), "Admin")) {
+    data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
+  } else {
+    if(str_detect(getwd(), "thomd")) {
+      data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
+    } else {
+      if(str_detect(getwd(), "agoutsmedt")) {
+        data_path <- "/home/agoutsmedt/google_drive/Phd_Project/data"
+      } else {
+        data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
+      }}}
+    print(paste("The path for data is", data_path))
+  }
 FR_cleaned_data_path <- here(data_path, "cleaned_data/FR")
-
-FR_blog_data_path <- here(FR_intermediate_data_path, "blogs", "blog_gender")
+website_data_path <- here(data_path, "website_data", "stm_abstract")
 ```
 
 In another [blog post](../../../../documentation/french/), we explored some features of a structural topic model to analyze our data. Specifically, we examined how topic prevalences were influenced by the year of defense. However, the `stm` framework also allows for the inclusion of additional variables that could serve as determinants of authors' topic choices. In this blog article, we will ask to what extent gender influenced the topics of French theses. We will train a probabilistic topic model on french abstract `abstract_fr` and try to predict the resulted topics by authors' gender. If you are not familiar with probabilistic topic models, we recommend reviewing the first [blog post](../../../../application/stm_title/) and the related references for background information. 
@@ -85,20 +93,17 @@ First, let us examine the data and analyze the distribution of gender in the Fre
   - `gender` variable contains raw information obtained from the [idref](https://www.idref.fr/) repository. 
   - `gender_expanded` ariable is an enhanced version that imputes missing gender values using French census data.
 
-A detailed explanation of these variables can be found in the [documentation](../../../../documentation/french/) of the French database available on this website. We will use `gender_expanded` in this analysis. The `gender_expanded` variable is derived from the person table, whereas the `abstract_fr` variable is obtained from the metadata table. To link these variables, we must utilize the edge table, which associates each thesis identifier (`thesis_id`) with corresponding entities (`entity_id`). 
+A detailed explanation of these variables can be found in the [documentation](../../../../documentation/french/) of the French database available on this website. We will use `gender_expanded` in this analysis. The `gender_expanded` variable is derived from the individual table, whereas the `abstract_fr` variable is obtained from the metadata table. To link these variables, we must utilize the edge table, which associates each thesis identifier (`thesis_id`) with corresponding entities (`entity_id`). 
 
 
 ```{r}
 #| echo: TRUE
 #| eval: TRUE
 #| label: tbl-data
-#| tbl-cap: Sample of metadata and person tables 
-
-
-library(DT)
+#| tbl-cap: Sample of metadata and individual tables 
 
 thesis_metadata <- readRDS(here(FR_cleaned_data_path, "thesis_metadata.rds"))
-thesis_person <- readRDS(here(FR_cleaned_data_path, "thesis_person.rds")) 
+thesis_individual <- readRDS(here(FR_cleaned_data_path, "thesis_individual.rds")) 
 
 # Show sample of each tables for illustration 
 
@@ -108,8 +113,8 @@ metadata_sample <- thesis_metadata %>%
   mutate(abstract_fr = str_trunc(abstract_fr, 20)) %>% 
   slice_sample(n = 5)
 
-# Sample data from thesis_person
-person_sample <- thesis_person %>% 
+# Sample data from thesis_individual
+individual_sample <- thesis_individual %>% 
   select(entity_id, entity_name, entity_firstname, gender_expanded) %>% 
   slice_sample(n = 5)
 
@@ -117,16 +122,16 @@ person_sample <- thesis_person %>%
 metadata_table <- datatable(metadata_sample, options = list(pageLength = 5,
                                                             searching = FALSE,
                                                             lengthChange = FALSE), caption = " Metadata")
-person_table <- datatable(person_sample, options = list(pageLength = 5,
+individual_table <- datatable(individual_sample, options = list(pageLength = 5,
                                                         searching = FALSE,
-                                                        lengthChange = FALSE), caption = " Persons")
+                                                        lengthChange = FALSE), caption = " Individuals")
 
 # Display tables side by side using HTML
 htmltools::browsable(
   htmltools::tagList(
     htmltools::tags$div(style = "display: flex; gap: 20px;",
       htmltools::tags$div(style = "flex: 1;", metadata_table),
-      htmltools::tags$div(style = "flex: 1;", person_table)
+      htmltools::tags$div(style = "flex: 1;", individual_table)
     )
   )
 )
@@ -140,7 +145,7 @@ authors_doc_id <- thesis_edge %>%
   select(entity_id, thesis_id) %>% 
   unique
 
-authors_gender <- thesis_person %>% 
+authors_gender <- thesis_individual %>% 
   select(entity_id, entity_name, entity_firstname, gender_expanded)
 
 # manage duplicate
@@ -247,7 +252,6 @@ data <- data %>%
 # the rest of the script is a personal stm::textProcessor()
 
 # TOKENIZATION
-library(spacyr)
 
 #' install spacy if necessary
 #' `spacy_install(force = TRUE)`
@@ -276,11 +280,11 @@ parsed <- parsed %>%
   select(-doc_id)
 
 
-saveRDS(parsed, here(FR_blog_data_path, "parsed.rds"), compress = TRUE)
+saveRDS(parsed, here(website_data_path, "parsed.rds"), compress = TRUE)
 
 # FILTER TOKENS 
 
-parsed <- readRDS(here(FR_blog_data_path, "parsed.rds"))
+parsed <- readRDS(here(website_data_path, "parsed.rds"))
 
 # prepare stop_words
 stop_words <- bind_rows(
@@ -379,10 +383,10 @@ parsed_final <- parsed_filtered %>%
 term_list <- parsed_final %>% 
   rename(term = token)
 
-saveRDS(term_list, here(FR_blog_data_path, "term_list.rds"))
+saveRDS(term_list, here(website_data_path, "term_list.rds"))
 
 # PREPARE STM INPUT 
-term_list <- readRDS(here(FR_blog_data_path, "term_list.rds"))
+term_list <- readRDS(here(website_data_path, "term_list.rds"))
 
 # stm object with covariate 
 metadata <- term_list %>%
@@ -404,7 +408,7 @@ corpus_in_dfm <- term_list %>%
 
 corpus_in_stm <- quanteda::convert(corpus_in_dfm, to = "stm",  docvars = metadata)
 
-saveRDS(corpus_in_stm, here(FR_blog_data_path, "corpus_in_stm.rds"))
+saveRDS(corpus_in_stm, here(website_data_path, "corpus_in_stm.rds"))
 ```
 
 We can then run the topic model using `gender_expanded` and `year_defence` as covariates of the prevalences $\theta_{1:K}$. In simple terms, instead of assuming that all topics are equally distributed across documents, the inclusion of covariates ensures that topic prevalence is shaped by the structure of the data reflected in these covariates. The covariates constrain the range of possible topic prevalences ($\theta_d$) for each document, aligning them with patterns in the metadata. 
@@ -417,7 +421,7 @@ For a corpus of 11,000 documents, starting with $K=100$ (the number of topics) p
 #| eval: FALSE
 #| label: "Run stm"
 
-corpus_in_stm <- readRDS(here(FR_blog_data_path, "corpus_in_stm.rds"))
+corpus_in_stm <- readRDS(here(website_data_path, "corpus_in_stm.rds"))
 
 formula_str <- paste("~", "gender_expanded + s(year_defence)")
 formula_obj <- as.formula(formula_str)
@@ -434,7 +438,7 @@ stm <-
     seed = 123
   )
 
-saveRDS(stm, here(FR_blog_data_path, "stm.rds"))
+saveRDS(stm, here(website_data_path, "stm.rds"))
 ```
 
 
@@ -448,7 +452,7 @@ saveRDS(stm, here(FR_blog_data_path, "stm.rds"))
 #| label: fig-theta_summary
 #| fig-cap: "Top 30 topics by prevalence" 
 
-stm <- readRDS(here(FR_blog_data_path, "stm.rds"))
+stm <- readRDS(here(website_data_path, "stm.rds"))
 
 label_topic <- labelTopics(stm, n = 7) 
 
@@ -509,7 +513,7 @@ $$ \theta_{d,k} = \beta_0 + \beta_1 * gender_d + \beta_2 * year_d + \epsilon_{d,
 #| eval: FALSE
 
 # create covariates and check level 
-corpus_in_stm <- readRDS(here(FR_blog_data_path, "corpus_in_stm.rds"))
+corpus_in_stm <- readRDS(here(website_data_path, "corpus_in_stm.rds"))
 
 metadata <- corpus_in_stm$meta %>% 
   as_tibble %>%
@@ -535,7 +539,7 @@ estimate_effect <- estimateEffect(formula_obj,
                                   uncertainty = "Local",
                                   nsims = 25)
 
-saveRDS(estimate_effect, here(FR_blog_data_path, "estimate_effect.rds"))
+saveRDS(estimate_effect, here(website_data_path, "estimate_effect.rds"))
 ```
 
 ::: panel-tabset
@@ -552,7 +556,7 @@ saveRDS(estimate_effect, here(FR_blog_data_path, "estimate_effect.rds"))
 #| fig.width: 10
 #| fig.height: 10
 
-estimate_effect <-readRDS(here(FR_blog_data_path, "estimate_effect.rds"))
+estimate_effect <-readRDS(here(website_data_path, "estimate_effect.rds"))
 
 summary <- summary(estimate_effect)
 
@@ -641,7 +645,7 @@ summary_tibble %>%
 #| layout-ncol: 2
 
 
-corpus_in_stm <- readRDS(here(FR_blog_data_path, "corpus_in_stm.rds"))
+corpus_in_stm <- readRDS(here(website_data_path, "corpus_in_stm.rds"))
 
 metadata <- corpus_in_stm$meta %>%
   as_tibble %>%
@@ -764,7 +768,7 @@ color <- gender_estimate %>%
   select(topic, color)
 
 # load the model 
-stm <- readRDS(here(FR_blog_data_path, "stm.rds"))
+stm <- readRDS(here(website_data_path, "stm.rds"))
 
 corr <- stm::topicCorr(stm)
 
@@ -799,9 +803,9 @@ graph <- tidygraph::tbl_graph(nodes = nodes, edges = edges, directed = FALSE)
 # fa 2
 graph_layout <- vite::complete_forceatlas2(graph, first.iter = 50000, kgrav = 1)
      
-saveRDS(corr_table, here(FR_blog_data_path, "corr_table.rds"))
+saveRDS(corr_table, here(website_data_path, "corr_table.rds"))
 
-saveRDS(graph_layout, here(FR_blog_data_path, "graph_layout.rds"))
+saveRDS(graph_layout, here(website_data_path, "graph_layout.rds"))
 ```
 
 
@@ -814,11 +818,7 @@ saveRDS(graph_layout, here(FR_blog_data_path, "graph_layout.rds"))
 #| fig-cap: "Réseaux des thématiques (spacialisation par Force Atlas 2)"
 #| page-layout: full
 
-
-library(ggraph)
-library(ggiraph)
-
-graph_layout <- readRDS(here(FR_blog_data_path, "graph_layout.rds"))
+graph_layout <- readRDS(here(website_data_path, "graph_layout.rds"))
 
 gg <- ggraph(graph_layout, 
              "manual", 
@@ -855,7 +855,7 @@ girafe(ggobj = gg,
 #| tbl-cap: tbl-corr_table
 #| label: "Table de corrélation"
 
-corr_table <- readRDS(here(FR_blog_data_path, "corr_table.rds"))
+corr_table <- readRDS(here(website_data_path, "corr_table.rds"))
 
 
 corr_table %>% 

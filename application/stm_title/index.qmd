@@ -63,23 +63,8 @@ if(str_detect(getwd(), "tunex")){
       }}}
     print(paste("The path for data is", data_path))
   }
-
-# data type
-raw_data_path <- here(data_path, "raw_data")
-intermediate_data_path <- here(data_path, "intermediate_data")
-
-# country
-FR_raw_data_path <- here(raw_data_path, "FR")
-FR_intermediate_data_path <- here(intermediate_data_path, "FR")
-
-# database
-FR_thesefr_raw_data_path <- here(FR_raw_data_path, "these_fr")
-FR_thesefr_intermediate_data_path <- here(FR_intermediate_data_path, "these_fr")
-FR_sudoc_raw_data_path <- here(FR_raw_data_path, "sudoc")
-FR_sudoc_intermediate_data_path <- here(FR_intermediate_data_path, "sudoc")
 FR_cleaned_data_path <- here(data_path, "cleaned_data/FR")
-
-website_data_path <- here(data_path, "website_data")
+website_data_path <- here(data_path, "website_data", "stm_title")
 ```
 
 
