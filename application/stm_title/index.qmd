@@ -1,5 +1,5 @@
 ---
-title: "Exploring trendy topics in French Ph.D. (1900-2024)"
+title: "Exploring trendy topics in French Ph.D. (1900-2023)"
 author: 
   - name: "Thomas Delcey"
     affiliation: "Université de Bourgogne"
@@ -14,8 +14,8 @@ format:
     page-layout: full
     toc: true
     toc_float: true
-    date: "2024"
-    date-format: "YYYY"
+    date: last-modified
+    date-format: long
     code-fold: true 
     code-summary: "Show the code"
     warning: false
@@ -34,6 +34,8 @@ editor_options:
 pacman::p_load(
   "here",
   "tidyverse",
+  "ggthemes",
+  "scales",
   "tidytext",
   "stm",
   "tidystm",
@@ -61,18 +63,16 @@ if(str_detect(getwd(), "tunex")){
       } else {
         data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
       }}}
-    print(paste("The path for data is", data_path))
   }
 FR_cleaned_data_path <- here(data_path, "cleaned_data/FR")
 website_data_path <- here(data_path, "website_data", "stm_title")
 ```
 
-
-In this first blog article, we explore the evolution of trends in the topics of French theses over the 20th and early 21st centuries.
+In this first blog article, we explore the evolution of topics of French theses over the 20th and early 21st centuries.
 
 ### Exploring data 
 
-Note first that the french sources we used to create our database contained duplicated theses. You need handle them one way to another before any analysis. You can easily identify those duplicate with `thesis_metadata`'s column `duplicates`. In the script below, we identify them and keep the line with the more recent `year_defence`; we assume that the most recent version of the thesis is the relevant one.
+Note that the French sources used to create our database contained duplicate theses. It is necessary to address these duplicates appropriately before conducting any analysis. Duplicates can be easily identified using the `duplicates` column in the `thesis_metadata` table. In the example script below, we identify duplicate entries and retain the record with the most recent `year_defence`, assuming that the most recent version of the thesis is the most relevant.^[Actually some other considerations can lead the choice of the row to keep, such as selecting the row with more extensive information.]
 
 ```{r}
 #| echo: TRUE 
@@ -83,27 +83,25 @@ thesis_metadata <- readRDS(here(FR_cleaned_data_path, "thesis_metadata.rds"))
 # PRE-CLEANING 
 
 # manage duplicate
-
 duplicates <- thesis_metadata %>%
    filter(!is.na(duplicates)) %>%
    group_by(duplicates) %>% 
    # when the line has a duplicate, group and keep the older value
-   slice_max(year_defence, n = 1, with_ties = FALSE)
+   slice_min(year_defence, n = 1, with_ties = FALSE)
 
 thesis_metadata_no_duplicate <- thesis_metadata %>% 
   filter(is.na(duplicates)) %>% 
   bind_rows(duplicates)
-
 ```
 
-The primary textual data providing information on the topics are the titles (`title_fr` and `title_en`) and the abstracts (`abstract_fr` and `abstract_en`). The first question to address is the choice of language. Historically, French theses were predominantly written in French. However, over time, they were increasingly translated into English or even primarily written in English.
+The primary textual data providing information on thesis topics are the titles (`title_fr` and `title_en`) and the abstracts (`abstract_fr` and `abstract_en`). The first question to consider is the choice of language. Historically, French PhD theses were predominantly written in French. Over time, however, they were increasingly translated into English or even primarily written in English.
 
-To determine the main language of a thesis, one can refer to the `language` variable. This variable is sourced directly from Sudoc and Theses.fr and reflects the primary language of the thesis. As illustrated in @fig-main_language, English has become the predominant language for French PhD students but only very recently. Moreover, it is often accompanied with a french translation of the title and the abstract. Therefore, to analyze the evolution of topics over an extended period, the French textual data are more relevant.
+To determine the main language of a thesis, one can refer to the `language` variable. This variable is sourced directly from Sudoc and Theses.fr, and it reflects the primary language of the thesis. As shown in @fig-main_language, English has become the predominant language for French PhD students, but this shift has occurred only recently. Additionally, theses in English are often accompanied by a French translation of the title and abstract. Therefore, to analyze the evolution of topics over an extended period, the French textual data are more relevant.
 
 ```{r}
 #| echo: TRUE 
 #| label: fig-main_language
-#| fig-cap: "The main languages of theses"
+#| fig-cap: "In which language are the theses written?"
 
 data_summary <- thesis_metadata_no_duplicate %>% 
   # if language is not fr or en, becomes "other"
@@ -113,20 +111,26 @@ data_summary <- thesis_metadata_no_duplicate %>%
   add_count(year_defence, name = "freq_thesis") %>%
   count(language, year_defence, freq_thesis, name = "freq_language") %>% 
   mutate(share = freq_language/freq_thesis) %>% 
-  filter(year_defence > 1999) 
+  filter(year_defence > 1994) 
 
 # plot 
 plot <- data_summary %>% 
+  filter(language != "other") %>%
   ggplot(aes(x = year_defence, y = share, color = language)) +
-  geom_smooth(method = "loess", se = FALSE, span = 0.75) +
-  scale_color_manual(values = c("fr" = "blue", "en" = "red", "other" = "grey")) +
-  ggthemes::theme_hc()
+  geom_smooth(method = "loess", se = FALSE, span = 0.5) +
+  scale_color_wsj(labels = c("English", "French")) +
+  scale_y_continuous(labels = percent_format()) +
+  scale_x_continuous(breaks = c(seq(1995, 2020, 5), 2023), expand = c(0,0.5)) +
+  theme_hc() + 
+  labs(x = NULL,
+       y = "Proportion of theses",
+       color = "Thesis language")
+  
 
 print(plot)
 ```
 
-While abstracts are undoubtedly a richer source of textual data, they are less widely available. As shown in @fig-textual_data, writing an abstracts only became common practice starting in the 1970s. In this blog, we will thus exploit the `title_fr` to understand the evolution of topics from 1900.  
-
+While abstracts are undoubtedly a richer source of textual data, they are less rarely available. As shown in @fig-textual_data, writing an abstract only became common practice starting from the 1970s. In this blog article, we will thus exploit only the `title_fr` column to understand the evolution of topics from 1900.  
 
 ```{r}
 #| echo: TRUE
@@ -139,28 +143,30 @@ While abstracts are undoubtedly a richer source of textual data, they are less w
 data_summary <- thesis_metadata_no_duplicate %>% 
   mutate(title_available = ifelse(!is.na(title_fr), 1, 0),
          ab_available = ifelse(!is.na(abstract_fr), 1, 0)) %>% 
-  add_count(title_available, year_defence, name = "n_ab") %>%
-  add_count(ab_available, year_defence, name = "n_title")
-
+  # add_count(title_available, year_defence, name = "n_title") %>%
+  # add_count(ab_available, year_defence, name = "n_ab") %>%
+  mutate(n_ab = sum(ab_available),
+         n_title = sum(title_available),
+         .by = "year_defence")
 
 # distribution 
 
 p1 <- data_summary %>% 
-  filter(ab_available == 1) %>%
+ # filter(ab_available == 1) %>%
   ggplot() +
-  geom_point(aes(x = year_defence, y = n_ab), color = "blue") +
+  geom_point(aes(x = year_defence, y = n_ab), color = ggthemes_data$wsj$palettes$red_green$value[1]) +
   labs(color = "",
        y = "theses with a french abstract") +
-  theme_light()
-
+  theme_hc() +
+  scale_y_continuous(limits = c(0, max(data_summary$n_title)))
 
 p2 <- data_summary %>% 
-  filter(title_available == 1) %>%
+  # filter(title_available == 1) %>%
   ggplot() +
-  geom_point(aes(x = year_defence, y = n_title), color = "red") +
+  geom_point(aes(x = year_defence, y = n_title), color = ggthemes_data$wsj$palettes$red_green$value[2]) +
   labs(color = "",
        y = "theses with a french title") +
-  theme_light()
+  theme_hc()
 
 p2 + p1
 ```
@@ -171,78 +177,82 @@ To identify "trendy topics" in our data, we use the structural topic model, a pr
 
 Probabilistic topic models are a class of machine learning models designed to classify textual data into topics. In such models:
 
-- **Documents as topic mixtures**: Each document is represented as a mixture of $K$ topics. For each document, the model estimates the probability that the document contains a given topic $k \in 1:K$. This is referred to as topic prevalence or topic proportion, denoted as $\theta_{1:D}$ where $\theta_{d}$ represents the probability distribution over topics for document $d$.
-- **Topics as word mixtures**: Each topic is represented as a mixture of words from the corpus vocabulary, which is the list of unique words used in the entire corpus. For each topic, the model estimates the probability that a particular word belongs to that topic. This is referred to as topic content, denoted as $\beta_{1:K}$ where $\beta_{k}$ represents the probability distribution over the vocabulary for topic $k$.
+- **Documents are topic mixtures**: Each document is represented as a mixture of $K$ topics. For each document, the model estimates the probability that the document contains a given topic $k$. This is referred to as topic prevalence, denoted as $\theta_{1:D}$ where $\theta_{d}$ represents the probability distribution over topics for document $d$.
+- **Topics are word mixtures**: Each topic is represented as a mixture of words from the corpus vocabulary, which is the list of unique words used in the entire corpus. For each topic, the model estimates the probability that a particular word belongs to that topic. This is referred to as topic content, denoted as $\beta_{1:K}$ where $\beta_{k}$ represents the probability distribution over the vocabulary for topic $k$.
 
-These probabilities are estimated using a generative process. Intuitively, a topic model initializes the topic prevalence and topic content, uses them to generate a simulated corpus of documents, and then compares this simulated corpus to the observed one to adjust the topic prevalence and content. The input to a topic model is the document frequency matrix (DFM), also referred to as the document-term matrix. In this matrix, rows represent documents, columns represent unique words in the vocabulary, and cell values indicate the frequency of each word in a given document. The model evaluates how well the current $\theta_{1:D}$ and $\beta_{1:K}$ and iteratively updates these parameters to improve the fit. For a comprehensive presentation of the generative and training process, see @blei2012probabilistic.
+These probabilities are estimated using a generative process. Intuitively, a topic model initializes the topic prevalence and topic content, uses them to generate a simulated corpus of documents, and then compares this simulated corpus to the observed one to adjust the topic prevalence and content. The input to a topic model is the document frequency matrix (DFM), also referred to as the document-term matrix. In this matrix, rows represent documents, columns represent unique words in the vocabulary, and cell values indicate the frequency of each word in a given document. The model evaluates how well the current $\theta_{1:D}$ and $\beta_{1:K}$ fit the corpus distribution and iteratively updates these parameters to improve the fit. For a comprehensive presentation of the generative and training process, see @blei2012probabilistic.
 
-The `stm` package [@roberts2013structural] implemented a topic model whose main feature is to offer a framework to explore the relationship between the metadata of the document and the prevalence of topics. This feature is implemented in two central functions:
+The `stm` package [@roberts2013structural] implemented a topic model whose main feature is to offer a framework to explore the relationship between the metadata of the documents and the prevalence of topics. The metadata helps in training a topic model and in estimating the topic prevalence over documents. Regression analysis allows to measure precisely the controlled effect of each metadata on topics prevalence.
 
--   the function `stm::stm()` generates a topic model in which the prevalence can depend of a selected set of document metadata ;
--   the function `stm::estimateEffect()` estimates a regression of the estimated topic prevalence using a selected set of documents metadata.
+To train our topic model, we must first prepare the data by constructing the document frequency matrix (DFM), which serves as the primary input for the `stm` package. This process begins with tokenization---the identification of individual words in `title_fr.` Tokenization typically also includes transforming the data by removing irrelevant words, such as stopwords, to improve the quality of the analysis and computational efficiency.
 
-Both function are complementary. The metadata helps in training a topic model and in estimating the topic prevalence over documents whilst the regression analysis allows to measure precisely the controlled effect of each metadata on topics prevalence.
+In the script below, we include bigrams, which are pairs of words, when they frequently co-occur. For example, in acorpus containing economic documents, the words "interest" and "rates" might be combined into the term "interest_rates" as they often go together. 
 
-To train our topic model, we must first prepare the data by constructing the document frequency matrix (DFM), which serves as the primary input for the `stm` package. This process begins with tokenization—the identification of individual words in `title_fr.` Tokenization typically also includes transforming the data by removing irrelevant words, such as stopwords, to improve the quality of the analysis and computational efficiency.
-
-The stm package provides generic functions, namely `stm::textProcessor()` and `stm::prepDocuments()`, to facilitate these transformations. However, in the script below, we use a custom script to preprocess the data. This approach offers greater flexibility for cleaning and filtering words. A notable feature of our preprocessing script is the inclusion of bigrams, which are pairs of words that frequently co-occur and are combined to form a single term. For example, in acorpus containing economic documents, the words "interest" and "rates" might be combined into the term "interest_rates." We finally run a structural topic model for $K = 100$.^[Of course the choice of $K$ should be determined with greater care; however, starting with $K = 100$ with 20,000 documents provides a reasonable basis for exploration.]
+We finally run a structural topic model for $K = 100$.^[Of course the choice of $K$ should be determined with greater care; however, starting with $K = 100$ with 20,000 documents provides a reasonable basis for exploration.]
 
 ```{r}
 #| echo: TRUE
 #| eval: FALSE
 
-# We can now select the relevant variables for stm
-data <- thesis_metadata_no_duplicate %>% 
-  # keep relevant columns
-  select(thesis_id, title_fr, abstract_fr, year_defence) %>% 
-  # keep only documents with a title 
-  filter(!is.na(title_fr),
-         !is.na(year_defence)) 
+# ----------------------------------
+# STEP 1: DATA PREPARATION
+# ----------------------------------
 
-# the rest of the script is a personal stm::textProcessor()
+# Select relevant variables from the dataset
+# Retain only rows with non-missing titles and defense years.
+data <- thesis_metadata_no_duplicate %>%
+  select(thesis_id, title_fr, abstract_fr, year_defence) %>%
+  filter(!is.na(title_fr), !is.na(year_defence))
 
-# TOKENIZATION
+# ----------------------------------
+# STEP 2: TOKENIZATION AND PARSING
+# ----------------------------------
 
-#' install spacy if necessary
-#' `spacy_install(force = TRUE)`
-#' `spacy_download_langmodel("fr_core_news_lg", force = TRUE)`
+# Initialize the spaCy model for French
+# Ensure spaCy is installed and the French language model is downloaded.
+# spacy_install(force = TRUE)
+# spacy_download_langmodel("fr_core_news_lg", force = TRUE)
+spacy_initialize("fr_core_news_lg")
 
-spacy_initialize("fr_core_news_lg") 
-
+# Parse titles using spaCy
+# Perform pre-cleaning on French titles.
 parsed <- data %>%
-  # some pre-cleaning of title_fr
-  mutate(title_fr = str_to_lower(title_fr),
-         title_fr = str_replace_all(title_fr, "", " ") %>% str_replace_all(., "", " "),
-         title_fr = str_replace_all(title_fr, "-", " "),
-         title_fr = str_remove_all(title_fr, "thèse soutenue le .*"),
-         title_fr = str_remove_all(title_fr, "thèse pour le doctorat"),
-         title_fr = str_squish(title_fr)) %>% 
+  mutate(
+    title_fr = str_to_lower(title_fr),
+    title_fr = str_replace_all(title_fr, "", " ") %>%
+               str_replace_all(., "", " "),
+    title_fr = str_replace_all(title_fr, "-", " "),
+    title_fr = str_remove_all(title_fr, "thèse soutenue le .*"),
+    title_fr = str_remove_all(title_fr, "thèse pour le doctorat"),
+    title_fr = str_squish(title_fr)
+  ) %>%
   pull(title_fr) %>%
-  # identify words 
   spacyr::spacy_parse(multithread = TRUE)
 
-id <- data %>% 
-  distinct(thesis_id) %>% 
-  ungroup %>% 
+# Map thesis IDs to the parsed tokens
+id <- data %>%
+  distinct(thesis_id) %>%
+  ungroup() %>%
   mutate(doc_id = paste0("text", 1:n()))
 
-parsed <- parsed %>% 
-  left_join(id, join_by(doc_id)) %>% 
+parsed <- parsed %>%
+  left_join(id, join_by(doc_id)) %>%
   select(-doc_id)
 
-saveRDS(parsed, here(website_data_path, "parsed.rds"), compress = TRUE)
+# ----------------------------------
+# STEP 3: TOKEN FILTERING AND CLEANING
+# ----------------------------------
 
-# FILTER TOKENS 
-parsed <- readRDS(here(website_data_path, "parsed.rds"))
-
-# prepare stop_words
-stop_words <- bind_rows(get_stopwords(language = "fr", source = "stopwords-iso"),
-                        get_stopwords(language = "fr", source = "snowball"),
-                        # some titles have english expression 
-                        get_stopwords(language = "en", source = "snowball")) %>% 
-  distinct(word) %>% 
+# Load stop words for filtering
+stop_words <- bind_rows(
+  get_stopwords(language = "fr", source = "stopwords-iso"),
+  get_stopwords(language = "fr", source = "snowball"),
+  get_stopwords(language = "en", source = "snowball")
+) %>%
+  distinct(word) %>%
   pull(word)
 
+# Filter and clean tokens, tracking document removals
 parsed_filtered <- parsed %>%
   # Count original ids
   mutate(original_count = n_distinct(thesis_id)) %>% 
@@ -272,8 +282,11 @@ parsed_filtered <- parsed %>%
   mutate(bigram = ifelse(token_id < lead(token_id), str_c(token, lead(token), sep = "_"), NA)) %>%
   ungroup()
 
-# CREATE BIGRAMS 
+# ----------------------------------
+# STEP 4: BIGRAM CREATION AND FILTERING
+# ----------------------------------
 
+# Create and filter bigrams based on frequency and PMI
 bigrams <- parsed_filtered %>%
   select(thesis_id, sentence_id, token_id, bigram) %>%
   filter(!is.na(bigram)) %>%
@@ -314,12 +327,11 @@ parsed_final <- parsed_filtered %>%
 term_list <- parsed_final %>% 
   rename(term = token)
 
-saveRDS(term_list, here(website_data_path, "term_list.rds"))
-# PREPARE STM INPUT 
+# ----------------------------------
+# STEP 5: STM INPUT PREPARATION
+# ----------------------------------
 
-term_list <- readRDS(here(website_data_path, "term_list.rds"))
-
-# stm object with covariate 
+# Prepare metadata for STM
 metadata <- term_list %>%
   distinct(thesis_id) %>% 
   left_join(data, by = "thesis_id") %>% 
@@ -329,7 +341,7 @@ metadata <- term_list %>%
   filter(!is.na(title_fr),
          !is.na(year_defence))
 
-#transform list of terms into stm object 
+# Convert term list to STM-ready format
 corpus_in_dfm <- term_list %>%
   # remove observations deleted by the metadata filter 
   filter(thesis_id %in% metadata$thesis_id) %>% 
@@ -338,16 +350,15 @@ corpus_in_dfm <- term_list %>%
 
 corpus_in_stm <- quanteda::convert(corpus_in_dfm, to = "stm",  docvars = metadata)
 
-saveRDS(corpus_in_stm, here(website_data_path, "corpus_in_stm.rds"))
+# ----------------------------------
+# STEP 6: RUNNING THE STM
+# ----------------------------------
 
-# RUN THE STM 
-
-corpus_in_stm <- readRDS(here(website_data_path, "corpus_in_stm.rds"))
-
-# creating the formula object, adding a stm::s() spline function 
+# Define the STM formula with a spline function
 formula_str <- paste("~ s(year_defence)")
 formula_obj <- as.formula(formula_str)
 
+# Run the STM with specified parameters
 stm <-
   stm(
     documents = corpus_in_stm$documents,
@@ -359,24 +370,35 @@ stm <-
     verbose = TRUE,
     seed = 123
   )
+```
 
+
+```{r}
+#| echo: FALSE
+#| eval: FALSE
+saveRDS(parsed, here(website_data_path, "parsed.rds"), compress = TRUE)
+saveRDS(term_list, here(website_data_path, "term_list.rds"))
+saveRDS(corpus_in_stm, here(website_data_path, "corpus_in_stm.rds"))
 saveRDS(stm, here(website_data_path, "stm.rds"))
 
 ```
 
 # Analysis
 
-For each thesis, the topic model assigns a prevalence score to each topic, indicating the probability that a specific topic is present in the thesis. Averaging these probabilities across all theses yields the average prevalence, which can provide insights into the main topics appearing in thesis titles. @fig-theta_summary shows the top 20 average prevalence; for each topic we assign the most probable words from the topic content (the $\beta_{1:K}$ distributions). For instance, among the most prevalent topics, many are related to development economics. 
-
+For each thesis, the topic model assigns a prevalence score to each topic, indicating the probability that a specific topic is present in the thesis. Averaging these probabilities across all theses yields the average prevalence, which can provide insights into the main topics appearing in theses titles. @fig-theta_summary shows the top 20 average prevalence; for each topic we assign the most probable words from the topic content (the $\beta_{1:K}$ distributions). For instance, among the most prevalent topics, many are related to development economics. 
 
 ```{r}
-#| echo: TRUE 
+#| echo: FALSE
+#| eval: TRUE
+stm <- readRDS(here(website_data_path, "stm.rds"))
+```
+
+```{r}
+#| echo: FALSE 
 #| eval: TRUE
 #| label: fig-theta_summary
-#| fig-cap: "Most average prevalent topics in theses" 
+#| fig-cap: "Topics with highest average prevalence" 
 #| fig-weight: 20
-
-stm <- readRDS(here(website_data_path, "stm.rds"))
      
 label_topic <- labelTopics(stm, n = 5)
 
@@ -398,7 +420,7 @@ theta_mean <- theta %>%
   summarise(theta = mean(gamma)) %>%
   ungroup %>%
   mutate(topic = reorder(topic, theta)) %>%
-  slice_max(theta, n = 20)
+  slice_max(theta, n = 25)
 
 theta_mean %>%
   ggplot() +
@@ -409,7 +431,7 @@ theta_mean %>%
     yend = topic
   ),
   color = "black",
-  size = 0.5) +
+  linewidth = 0.5) +
   geom_text(
     aes(x = theta, y = topic, label = topic_label_prob),
     hjust = -.01,
@@ -433,18 +455,37 @@ theta_mean %>%
 The average prevalence provides important insights into key topics but is insufficient for analyzing how this prevalence evolves over time. A straightforward way to capture the evolution of topics over time is simply to calculate the average prevalence by year (`year_defence`). A more sophisticated approach leverages the features of the `stm` framework to predict the prevalence of each topic based on `year_defence`. In this case, the goal is not merely to describe the average prevalence in a given year but to estimate the effect of a specific year on topic prevalence. This can be expressed using the following regression model:
 
 $$ \theta_{d,k} = \beta_0 + \beta_1 * year_d + \epsilon_{d,k} $$
-This regression approach has two main advantages. First, although not used here, it allows for the prediction of the isolated effects of multiple variables, such as the year, the institution, or even the gender of the authors or supervisors. Second, in comparison to a descriptive analysis, the regression approach allows for statistical inference by quantifying the strength and significance of the relationship between the year (`year_defence`) and topic prevalence. This enables us to formally test whether changes in prevalence over time are statistically meaningful, rather than merely observing trends in the data. @fig-prevalence_descriptive_inference compares the result of both analyses.
+This regression approach allows for statistical inference by quantifying the strength and significance of the relationship between the year (`year_defence`) and topic prevalence. This enables us to formally test whether changes in prevalence over time are statistically meaningful, rather than merely observing trends in the data. @fig-prevalence_descriptive_inference compares the result of both analyses.
 
 ```{r}
 #| echo: FALSE
+#| eval: FALSE
+# run regression
+estimate_effect <- estimateEffect(formula_obj,
+                                  stm,
+                                  metadata = metadata,
+                                  uncertainty = "Global",
+                                  nsims = 25)
+saveRDS(estimate_effect, here(website_data_path, "estimate_effect.rds"))
+
+```
+
+```{r}
+#| echo: FALSE
+corpus_in_stm <- readRDS(here(website_data_path, "corpus_in_stm.rds"))
+# load here for comparison with descriptive analysis but run later 
+estimate_effect <- readRDS(here(website_data_path, "estimate_effect.rds"))
+
+```
+
+```{r}
+#| echo: TRUE
 #| label: fig-prevalence_descriptive_inference
-#| fig.cap: "Prevalence overtime"
+#| fig.cap: "Prevalence over time"
 #| fig-subcap: 
 #|   - "Average prevalence"
 #|   - "Predicted prevalence"
 #| layout-ncol: 2
-
-corpus_in_stm <- readRDS(here(website_data_path, "corpus_in_stm.rds"))
 
 metadata <- corpus_in_stm$meta %>% as_tibble %>%
   mutate(
@@ -468,13 +509,12 @@ theta_mean_63 <- theta %>%
 
 plot1 <- theta_mean_63 %>%
   ggplot(aes(x = year_defence, y = theta_mean)) +
-  geom_line(color = "red") +
+  geom_line(color = ggthemes_data$wsj$palettes$red_green$value[2]) +
   labs(y = "Average prevalence", 
+       x = NULL,
        title = paste("Words:", unique(theta_mean_63$topic_label_prob))) +
+  scale_x_continuous(expand = c(0,0), breaks = seq(1900, 2020, 10)) +
   theme_light()
-
-# load here for comparison with descriptive analysis but run later 
-estimate_effect <- readRDS(here(website_data_path, "estimate_effect.rds"))
 
 ee_date_63 <- tidystm::extract.estimateEffect(
   estimate_effect,
@@ -488,20 +528,19 @@ ee_date_63 <- tidystm::extract.estimateEffect(
   left_join(top_terms_prob, by = "topic") %>% 
   filter(topic == 63) 
 
-
-
 plot2 <- ee_date_63 %>%
   ggplot(aes(x = covariate.value)) +
-  geom_line(aes(y = estimate), color = "red") +
-  geom_line(aes(y = ci.lower), linetype = "dashed", color = "red") +
-  geom_line(aes(y = ci.upper), linetype = "dashed", color = "red") +
+  geom_line(aes(y = estimate), color = ggthemes_data$wsj$palettes$red_green$value[2]) +
+  geom_line(aes(y = ci.lower), linetype = "dashed", color = ggthemes_data$wsj$palettes$red_green$value[2]) +
+  geom_line(aes(y = ci.upper), linetype = "dashed", color = ggthemes_data$wsj$palettes$red_green$value[2]) +
   geom_hline(yintercept = 0,
              linetype = "dashed",
              color = "black") +
+  scale_x_continuous(expand = c(0,0), breaks = seq(1900, 2020, 10)) +
   labs(
     title = paste("Words:", unique(ee_date_63$topic_label)),
     subtitle = "Intervalle à 95%",
-    x = "covariate.value",
+    x = NULL,
     y = "Expected prevalence"
   ) +
   theme_minimal() +
@@ -519,10 +558,10 @@ Note also that by applying a spline function to `year_defence`, this method is s
 ::: {#nte-spline .callout-note collapse="true" icon=false}
 ## The b-spline function 
 
-In a linear model, the estimator $\beta_1$ for a time variable such as the year measures the marginal effect of an additional year on the expected prevalence of the topic. This linearity does not allow for the identification of non-linear effects, such as a high prevalence during the 1990s followed by a decline. To address this, we apply a b-spline function to the year to capture potential non-linear effects. Formally, our estimator for the variable $year_d$ becomes a linear combination of $n$ estimators and polynomial functions $B(x)$, also known in this context as basis functions.
+In a linear model, the estimator $\beta_1$ for a time variable, such as years, measures the marginal effect of an additional year on the expected prevalence of the topic. This linearity does not allow for the identification of non-linear effects, such as a high prevalence during the 1990s followed by a decline. To address this, we apply a b-spline function to the year to capture potential non-linear effects. Formally, our estimator for the variable $year_d$ becomes a linear combination of $n$ estimators and polynomial functions $B(x)$, also known in this context as basis functions.
 
 $$\beta_1 * year_d = \sum_1^n \alpha_1 \times B_{1}(year_d) + ... + \alpha_{n}\times B_{n}(year_d)$$
-This B-spline transformation is performed in `R` using the function  `stm::s(df = 10)`, a wrapper for the `splines:bs()` function. 
+This B-spline transformation is performed in `R` using the function  `stm::s(df = 10)`, a wrapper for the `splines::bs()` function. 
 
 ```{r}
 #| echo: TRUE 
@@ -543,7 +582,8 @@ p <- ggplot(splines, aes(
   geom_line() + 
   labs(x = "x",
        y = unname(latex2exp::TeX("$B_n(x)$")),
-       color = "n")+
+       color = "n") +
+  scale_color_pander() +
   theme_light()
 
 print(p)
@@ -653,14 +693,10 @@ p3 <- ggplot(splines, aes(
        color = "n")+
   theme_light()
 
-
-
 # simulate beta as in plot.estimateEffect 
-
 simbetas <- stm:::simBetas(parameters = estimate_effect$parameters, nsims = 100)
 
 # covariate values 
-
 uvals <- cthis$cdata[["year_defence"]]
 
 # estimate b(x) for topic k == 63
@@ -726,15 +762,11 @@ estimate_effect <- estimateEffect(formula_obj,
                                   uncertainty = "Global",
                                   nsims = 25)
 
-saveRDS(estimate_effect, here(website_data_path, "estimate_effect.rds"))
-
 
 # calculate the expected prevalence for values in year_defence 
 
 # simulate 25 prevalence using eta matrix and predict expected prevalence for 100 year_defence values in the range 1900:2023
 # see details in the internal stm::plotContinuous function 
-
-estimate_effect <- readRDS(here(website_data_path, "estimate_effect.rds"))
 
 ee_year <- tidystm::extract.estimateEffect(
   estimate_effect,
@@ -744,19 +776,19 @@ ee_year <- tidystm::extract.estimateEffect(
   # add topic label 
   left_join(top_terms_prob, by = "topic")
 
+```
+
+```{r}
+#| echo: FALSE
+#| eval: FALSE
 
 saveRDS(ee_year, here(website_data_path, "ee_year.rds"))
-
 ```
 
 
 We can now examine the evolution of topics in French theses since 1900. Figure @fig-top_max illustrates the topics with the greatest increases and decreases in prevalence over this period, measured as the difference between 1900 and 2023. Even this preliminary topic modeling provides valuable insights into the transformation of French economics.
 
 For instance, the declining topics are characterized by terminology associated with legal vocabulary, reflecting the significant role of law faculties in shaping French academic disciplines during the first half of the 20th century. Conversely, the increasing topics predominantly feature terms related to applied and contemporary research questions, such as inequality and the environment.
-
-It’s worth noting that while probabilistic topic models excel at exploratory analysis, they tend to perform less effectively on small textual inputs like titles. However, they demonstrate far greater accuracy and insights when applied to larger text samples, such as abstracts. This is precisely what we’ll explore in our next blog post—stay tuned!
-
-
 
 :::: panel-tabset
 
@@ -791,7 +823,7 @@ gg_max <- ee_year %>%
     )) +
     geom_line(aes(y = estimate)) +
     geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
-    labs(x = "covariate.value",
+    labs(x = NULL,
          y = "Expected topic prevalence",
          color = "") +
     theme_minimal() +
@@ -801,7 +833,9 @@ gg_max <- ee_year %>%
         legend.text = element_text(size = 9), # Ajuste la taille du texte dans la légende
         legend.title = element_text(size = 9) # Ajuste la taille du titre de la légende
     ) +
-    guides(color = guide_legend(nrow = 5)) # Place la légende sur une seule ligne
+    guides(color = guide_legend(nrow = 5)) + # Place la légende sur une seule ligne
+    scale_x_continuous(expand = c(0,0), breaks = seq(1900, 2020, 10)) +
+    scale_color_wsj()
 
 min_delta <- delta_theta %>% slice_min(delta, n = 5)
 
@@ -813,8 +847,8 @@ gg_min <- ee_year %>%
     )) +
     geom_line(aes(y = estimate)) +
     geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
-    labs(x = "covariate.value",
-         y = "Expected topic prevalence",
+    labs(x = NULL,
+         y = NULL,
          color = "") +
     theme_minimal() +
     theme(
@@ -823,7 +857,9 @@ gg_min <- ee_year %>%
         legend.text = element_text(size = 9), # Ajuste la taille du texte dans la légende
         legend.title = element_text(size = 9) # Ajuste la taille du titre de la légende
     ) +
-    guides(color = guide_legend(nrow = 5)) # Place la légende sur une seule ligne
+    guides(color = guide_legend(nrow = 5)) + # Place la légende sur une seule ligne
+    scale_x_continuous(expand = c(0,0), breaks = seq(1900, 2020, 10)) +
+    scale_color_wsj()
 
 gg_min
 gg_max
@@ -849,17 +885,18 @@ for (selected_topic in unique(ee_year$topic)) {
       # color = moderator.value,
       # fill = moderator.value
     )) +
-    geom_line(aes(y = estimate), color = "red") +
-    geom_line(aes(y = ci.lower), linetype = "dashed", color = "red") +
-    geom_line(aes(y = ci.upper), linetype = "dashed", color = "red") +
+    geom_line(aes(y = estimate), color = ggthemes_data$wsj$palettes$red_green$value[2]) +
+    geom_line(aes(y = ci.lower), linetype = "dashed", color = ggthemes_data$wsj$palettes$red_green$value[2]) +
+    geom_line(aes(y = ci.upper), linetype = "dashed", color = ggthemes_data$wsj$palettes$red_green$value[2]) +
     geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
     labs(
          title = paste("Words:", unique(topic_per_year$topic_label)), 
          subtitle = "Intervalle à 95%",
-         x = "covariate.value",
+         x = NULL,
          y = "Expected topic prevalence") +
     theme_minimal() +
-    theme(strip.text = element_text(size = 3))
+    theme(strip.text = element_text(size = 3)) +
+    scale_x_continuous(expand = c(0,0), breaks = seq(1900, 2020, 10))
   
   # Print the graph and a section title
   cat(glue::glue("\n\n### Topic {selected_topic}\n\n"))
@@ -872,4 +909,6 @@ for (selected_topic in unique(ee_year$topic)) {
 :::
 
 ::::
+
+It’s worth noting that while probabilistic topic models excel at exploratory analysis, they tend to perform less effectively on small textual inputs like titles. However, they demonstrate far greater accuracy and insights when applied to larger text samples, such as abstracts. This is precisely what we’ll explore in our next blog post—stay tuned!
 
