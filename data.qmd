@@ -6,6 +6,6 @@ listing:
     - "data"
   fields: [date, title, author]  
   sort: "date desc"
-  date-format: "YYYY"
+  date-format: long
   categories: true
 ---

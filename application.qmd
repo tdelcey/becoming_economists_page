@@ -4,8 +4,9 @@ listing:
   type: grid
   contents: 
     - "application"
-  fields: [image, date, title, author, categories]  
+  fields: [image, date, title, author, categories, description]  
+  image-height: "260px"
   sort: "date desc"
-  date-format: "YYYY"
+  date-format: long
   categories: true
 ---

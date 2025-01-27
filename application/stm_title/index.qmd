@@ -6,7 +6,9 @@ author:
     email: "Thomas.delcey@u-bourgogne.fr"
   - name: "Aurelien Goutsmedt"
     affiliation: "UC Louvain; ICHEC"
-    email: "aurelien.goutsmedt@uclouvain.be" 
+    email: "aurelien.goutsmedt@uclouvain.be"
+date: last-modified
+date-format: long
 categories:
   - French data
 format: 
@@ -20,6 +22,7 @@ format:
     code-summary: "Show the code"
     warning: false
     message: false
+image: "/application/stm_title/preview.png"
 bibliography: references.bib
 editor_options: 
   chunk_output_type: console
@@ -451,6 +454,13 @@ theta_mean %>%
 )
 
 ```
+
+```{r}
+#| echo: FALSE
+#| eval: FALSE
+ggsave(here("application", "stm_title", "preview.png"), width = 6.5, height = 6.5)
+```
+
 
 The average prevalence provides important insights into key topics but is insufficient for analyzing how this prevalence evolves over time. A straightforward way to capture the evolution of topics over time is simply to calculate the average prevalence by year (`year_defence`). A more sophisticated approach leverages the features of the `stm` framework to predict the prevalence of each topic based on `year_defence`. In this case, the goal is not merely to describe the average prevalence in a given year but to estimate the effect of a specific year on topic prevalence. This can be expressed using the following regression model:
 

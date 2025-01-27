@@ -4,12 +4,12 @@ subtitle: "Becoming Economists: Bibliometric Data on Economics Ph.D."
 sidebar: true
 listing: 
   type: grid
-  sort: "date"
-  image-height: 200px
+  sort: "date desc"
+  image-height: 260px
   contents: 
     - "news/*/index.qmd"
     - "!news/changelog/index.qmd"
-  #  - "application/french/index.qmd"
+    - "application/stm_title/index.qmd"
 ---
 
 Welcome in the website of the project "Becoming Economists". This project is dedicated to the collection and analysis of bibliometric data on theses in economics in the 20th and 21st centuries across different countries. It is led by [Thomas Delcey](https://thomasdelcey.com/) and [Aurélien Goutsmedt](https://aurelien-goutsmedt.com/). At this point, the project focuses on three countries:

@@ -1,9 +1,21 @@
 [
   {
-    "listing": "/news.html",
+    "listing": "/index.html",
     "items": [
-      "/news/changelog/index.html",
+      "/application/stm_title/index.html",
       "/news/french_release/index.html"
+    ]
+  },
+  {
+    "listing": "/data.html",
+    "items": [
+      "/data/french_data.html"
+    ]
+  },
+  {
+    "listing": "/application.html",
+    "items": [
+      "/application/stm_title/index.html"
     ]
   },
   {
@@ -15,18 +27,9 @@
     ]
   },
   {
-    "listing": "/application.html",
-    "items": []
-  },
-  {
-    "listing": "/data.html",
+    "listing": "/news.html",
     "items": [
-      "/data/french_data.html"
-    ]
-  },
-  {
-    "listing": "/index.html",
-    "items": [
+      "/news/changelog/index.html",
       "/news/french_release/index.html"
     ]
   }
