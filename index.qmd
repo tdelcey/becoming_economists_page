@@ -12,7 +12,10 @@ listing:
     - "application/stm_title/index.qmd"
 ---
 
-Welcome in the website of the project "Becoming Economists". This project is dedicated to the collection and analysis of bibliometric data on theses in economics in the 20th and 21st centuries across different countries. It is led by [Thomas Delcey](https://thomasdelcey.com/) and [Aurélien Goutsmedt](https://aurelien-goutsmedt.com/). At this point, the project focuses on three countries:
+Welcome in the website of the project "Becoming Economists". This project is dedicated to the collection and analysis of bibliometric data on theses in economics in the 20th and 21st centuries across different countries. It is led by [Thomas Delcey](https://thomasdelcey.com/) and [Aurélien Goutsmedt](https://aurelien-goutsmedt.com/). Alexandre Truc contributed to an early stage of this project.
+
+
+At this point, the project focuses on three countries:
 
   - [France](./documentation/french/), collecting data from the Sudoc and Theses.fr databases;
   - The [United States](./documentation/US/), collecting data from the list of PhD granted in US universities, published each year by the American Economic Review and then the Journal of Economic Literature;
