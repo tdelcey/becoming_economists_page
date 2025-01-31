@@ -77,23 +77,33 @@ if(str_detect(getwd(), "tunex")){
       } else {
         data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
       }}}
-    print(paste("The path for data is", data_path))
-  }
+}
+
 FR_cleaned_data_path <- here(data_path, "cleaned_data/FR")
-website_data_path <- here(data_path, "website_data", "stm_abstract")
+website_data_path <- here(data_path, "website_data", "stm_gender")
+
 ```
 
-In another [blog post](../../../../documentation/french/), we explored some features of a structural topic model to analyze our data. Specifically, we examined how topic prevalences were influenced by the year of defense. However, the `stm` framework also allows for the inclusion of additional variables that could serve as determinants of authors' topic choices. In this blog article, we will ask to what extent gender influenced the topics of French theses. We will train a probabilistic topic model on french abstract `abstract_fr` and try to predict the resulted topics by authors' gender. If you are not familiar with probabilistic topic models, we recommend reviewing the first [blog post](../../../../application/stm_title/) and the related references for background information. 
+In this blog, we use the Structural Topic Model to analyze the effect of gender on Ph.D. students' choice of topics. The Structural Topic Model combines probabilistic topic modeling with regression analysis to examine the effect of document _metadata_ on the output of the topic model: topic content and topic prevalence. If you are not familiar with probabilistic topic models, we recommend reviewing the first [blog post](../../../../application/stm_title/) and the related references for background information before continuing.  
 
+In the same [blog post](../../../../documentation/french/), we examined how topic prevalence was influenced by the `year of defence`. The intuitive idea was that the topics of a thesis crucially depend on the period in which it was written; what is considered a contribution evolves with the social context characterizing a given time period.  
+
+However, we could obviously be more specific. When predicting topic prevalence using the `year of defense`, we acknowledge this "evolving social context" but do not specify what drives these changes. Yet, additional variables could help explain authors' topic choices. For instance, one of the most significant transformations in the French Ph.D. data is the increasing proportion of women pursuing a Ph.D. in economics. Are there topics that male Ph.D. students are more likely to examine, and conversely, topics that female Ph.D. students are more inclined to study? 
+
+Let's explore this issue!  
 
 # Explore the data
 
-First, let us examine the data and analyze the distribution of gender in the French dataset. The dataset includes two distinct variables, `gender` and `gender_expanded`, which provide information about the gender of individuals (e.g., authors, supervisors).
+To run our topic model, we will use the french abstracts (`abstract_fr`) as the main textual input. As already showed [here](https://tdelcey.github.io/becoming_economists_page/application/stm_title#fig-textual_data), are a far better data than title to train a topic model but are only available from the early 1980s. But we will see that it is also at pretty much at the same period that the proportion of female authors increase dramatically. 
 
-  - `gender` variable contains raw information obtained from the [idref](https://www.idref.fr/) repository. 
-  - `gender_expanded` ariable is an enhanced version that imputes missing gender values using French census data.
+Let's explore the data to compute the distribution of gender in the french dataset. The individual table includes two distinct variables, `gender` and `gender_expanded`, which provide information about the gender of individuals (e.g., authors, supervisors): 
 
-A detailed explanation of these variables can be found in the [documentation](../../../../documentation/french/) of the French database available on this website. We will use `gender_expanded` in this analysis. The `gender_expanded` variable is derived from the individual table, whereas the `abstract_fr` variable is obtained from the metadata table. To link these variables, we must utilize the edge table, which associates each thesis identifier (`thesis_id`) with corresponding entities (`entity_id`). 
+  - The `gender` variable contains raw information obtained from the [IdRef](https://www.idref.fr/) repository.
+  - The `gender_expanded` variable is our enhanced version, which imputes missing gender values using French census data.  
+
+A detailed explanation of these variables can be found in the [documentation](../../../../documentation/french/) of the French database available on this website. For this analysis, we will use the `gender_expanded` variable. 
+
+The `gender_expanded` variable is derived from the individual table, whereas our textual data come from the metadata table. To link these variables, we must use the edge table, which associates each thesis identifier (`thesis_id`) with the corresponding entities (`entity_id`).  
 
 
 ```{r}
@@ -107,16 +117,23 @@ thesis_individual <- readRDS(here(FR_cleaned_data_path, "thesis_individual.rds")
 
 # Show sample of each tables for illustration 
 
+# set seed 
+set.seed(123)
+
 # Sample data from thesis_metadata
+
 metadata_sample <- thesis_metadata %>% 
   select(thesis_id, abstract_fr, year_defence) %>% 
-  mutate(abstract_fr = str_trunc(abstract_fr, 20)) %>% 
+  filter(!is.na(abstract_fr)) %>% 
+  mutate(abstract_fr = str_trunc(abstract_fr, 10)) %>% 
   slice_sample(n = 5)
 
 # Sample data from thesis_individual
 individual_sample <- thesis_individual %>% 
   select(entity_id, entity_name, entity_firstname, gender_expanded) %>% 
   slice_sample(n = 5)
+
+
 
 # Convert samples to datatables
 metadata_table <- datatable(metadata_sample, options = list(pageLength = 5,
@@ -159,31 +176,28 @@ thesis_metadata_no_duplicate <- thesis_metadata %>%
   filter(is.na(duplicates)) %>% 
   bind_rows(duplicates)
 
-# We can now select the relevant variables for stm
+# We can now select the relevant variables for our stm
 data <- thesis_metadata_no_duplicate %>% 
   # keep relevant columns
   select(thesis_id, abstract_fr, year_defence) %>% 
-  # keep only documents with a title 
-  filter(!is.na(abstract_fr)) %>%
   # double join to add a gender to each document
   left_join(authors_doc_id, by = "thesis_id") %>%
   left_join(authors_gender, by = "entity_id")  
 
 ```
 
-We now evaluate the distribution of our data. To do so, we filter out entries where the `abstract_fr` or the authors' `gender_expanded` information is unavailable. @fig-gender_distribution illustrates the distribution of theses with a French abstract over time, categorized by gender.
+We can now evaluate the distribution of our data. @fig-gender_distribution illustrates the distribution of theses, categorized by gender.  
 
 ::: panel-tabset
 
-### Gender distribution 
+### Distribution 
 
 ```{r}
 #| echo: TRUE 
-#| fig.cap: "Distribution of authors by gender"
+#| fig.cap: "Distribution of abstracts by gender"
 #| label: fig-gender_distribution
 
 data <- data %>%
-  # filter NA abstract and gender
   filter(!is.na(gender_expanded), !is.na(year_defence))
 
 gg <- data  %>% 
@@ -235,29 +249,44 @@ distribution %>%
 
 ::: 
 
-The practice of including an abstract became common in the early 1980s and was formally institutionalized in 1984 with the Savary reform. While some abstracts exist for theses defended earlier, a closer examination reveals that these were added by librarians who created the entries. Therefore, it is reasonable to filter out theses defended before 1980.
+The practice of including an abstract became common in the early 1980s, but few abstracts were available for theses defended in earlier decades. A closer examination shows, however, that these were added by librarians who created the entries. Therefore, it is reasonable to filter out theses defended before 1980.  
 
-To run our probabilistic topic model, we do the usual pre-processing process, we already described in this [post](../../../../application/stm_title/). The primary difference in this instance is the inclusion of a few custom stopwords to address highly redundant terms frequently found in abstracts, such as chapter (_chapitre_) or thesis (_thèse_).
+To run our probabilistic topic model, we follow the usual pre-processing steps, as described in this [post](../../../../application/stm_title/). The primary difference in this instance is the inclusion of a few custom stopwords to address highly redundant terms frequently found in abstracts, such as *chapter* (_chapitre_) or *thesis* (_thèse_). We can then run the topic model. For a corpus of 11,000 abstracts, starting with $K=100$ (the number of topics) provides a reasonable basis for exploration.
+
+
 
 ```{r}
 #| echo: TRUE
 #| eval: FALSE
 #| label: "Pre-processing"
 
-# first filter year before 1984
+# ----------------------------------
+# STEP 1: DATA PREPARATION
+# ----------------------------------
+
+# Retain only rows with a gender 
+# Retain only rows with an abstract
+# Retain only rows after 1980
 
 data <- data %>% 
-  filter(year_defence > 1979)
+  filter(!is.na(gender_expanded),
+         !is.na(abstract_fr),
+         year_defence > 1979
+         )
 
-# the rest of the script is a personal stm::textProcessor()
+# ----------------------------------
+# STEP 2: TOKENIZATION AND PARSING
+# ----------------------------------
 
-# TOKENIZATION
-
-#' install spacy if necessary
-#' `spacy_install(force = TRUE)`
-#' `spacy_download_langmodel("fr_core_news_lg", force = TRUE)`
+# Initialize the spaCy model for French
+# Ensure spaCy is installed and the French language model is downloaded.
+# spacy_install(force = TRUE)
+# spacy_download_langmodel("fr_core_news_lg", force = TRUE)
 
 spacy_initialize("fr_core_news_lg") 
+
+# Parse titles using spaCy
+# Perform pre-cleaning on French abstracts
 
 parsed <- data %>%
   # some pre-cleaning of abstract
@@ -270,6 +299,7 @@ parsed <- data %>%
   # identify words 
   spacyr::spacy_parse(multithread = TRUE)
 
+# Map thesis IDs to the parsed tokens
 id <- data %>% 
   distinct(thesis_id) %>% 
   ungroup %>% 
@@ -279,10 +309,11 @@ parsed <- parsed %>%
   left_join(id, join_by(doc_id)) %>% 
   select(-doc_id)
 
-
 saveRDS(parsed, here(website_data_path, "parsed.rds"), compress = TRUE)
 
-# FILTER TOKENS 
+# ----------------------------------
+# STEP 3: TOKEN FILTERING AND CLEANING
+# ----------------------------------
 
 parsed <- readRDS(here(website_data_path, "parsed.rds"))
 
@@ -341,8 +372,11 @@ parsed_filtered <- parsed %>%
   mutate(bigram = ifelse(token_id < lead(token_id), str_c(token, lead(token), sep = "_"), NA)) %>%
   ungroup()
 
-# SELECT BIGRAMS 
+# ----------------------------------
+# STEP 4: BIGRAM CREATION AND FILTERING
+# ----------------------------------
 
+# Create and filter bigrams based on frequency and PMI
 bigrams <- parsed_filtered %>%
   select(thesis_id, sentence_id, token_id, bigram) %>%
   filter(!is.na(bigram)) %>%
@@ -385,7 +419,10 @@ term_list <- parsed_final %>%
 
 saveRDS(term_list, here(website_data_path, "term_list.rds"))
 
-# PREPARE STM INPUT 
+# ----------------------------------
+# STEP 5: STM INPUT PREPARATION
+# ----------------------------------
+
 term_list <- readRDS(here(website_data_path, "term_list.rds"))
 
 # stm object with covariate 
@@ -399,7 +436,7 @@ metadata <- term_list %>%
          !is.na(gender_expanded), 
          !is.na(year_defence))
 
-#transform list of terms into stm object 
+# Convert term list to STM-ready format
 corpus_in_dfm <- term_list %>%
   # remove observations deleted by the metadata filter 
   filter(thesis_id %in% metadata$thesis_id) %>% 
@@ -409,17 +446,10 @@ corpus_in_dfm <- term_list %>%
 corpus_in_stm <- quanteda::convert(corpus_in_dfm, to = "stm",  docvars = metadata)
 
 saveRDS(corpus_in_stm, here(website_data_path, "corpus_in_stm.rds"))
-```
 
-We can then run the topic model using `gender_expanded` and `year_defence` as covariates of the prevalences $\theta_{1:K}$. In simple terms, instead of assuming that all topics are equally distributed across documents, the inclusion of covariates ensures that topic prevalence is shaped by the structure of the data reflected in these covariates. The covariates constrain the range of possible topic prevalences ($\theta_d$) for each document, aligning them with patterns in the metadata. 
-
-For a corpus of 11,000 documents, starting with $K=100$ (the number of topics) provides a reasonable basis for exploration, balancing granularity (enough topics to capture diversity) and interpretability (avoiding overly fine-grained or redundant topics).
-
-
-```{r}
-#| echo: TRUE 
-#| eval: FALSE
-#| label: "Run stm"
+# ----------------------------------
+# STEP 6: RUNNING THE STM
+# ----------------------------------
 
 corpus_in_stm <- readRDS(here(website_data_path, "corpus_in_stm.rds"))
 
@@ -441,10 +471,11 @@ stm <-
 saveRDS(stm, here(website_data_path, "stm.rds"))
 ```
 
-
 # Analysis 
 
-@fig-theta_summary presents the top 20 topics ranked by average prevalence. For each topic, the most probable words from the topic content (based on the $\beta_{1:K}$ distributions) are assigned. Unsurprisingly, the top topics closely align with common subfields in economics, such as development economics, monetary economics, and the economics of innovation.
+@fig-theta_summary presents the top 20 topics ranked by average prevalence. For each topic, the most probable words from the topic content (based on the $\beta_{1:K}$ distributions) are assigned. Unsurprisingly, the top topics closely align with common subfields in economics, such as development economics, monetary economics, and the economics of innovation.  
+
+Notably, the topics appear more interpretable than those generated by the other [model](https://tdelcey.github.io/becoming_economists_page/application/stm_title#fig-theta_summary) we ran with `title_fr`. This can be attributed both to the use of a richer source of information and to the fact that we are covering a more recent period, in which topics are more recognizable to contemporary audiences.  
 
 ```{r}
 #| echo: TRUE 
@@ -504,7 +535,7 @@ theta_mean %>%
 
 ## Effect of gender
 
-Now that we have estimated our topics and ensured their interpretability, we may ask to what extent the author's gender predicts the topic prevalence for a given document. Given the increasing number of female authors over time, it is more likely that recent topics will exhibit a higher proportion of female authorship. Therefore, we include the year of defense in the regression to control for this increasing proportion.
+Now that we have estimated our topics and ensured their interpretability, we can examine the extent to which the author's gender predicts topic prevalence for a given document. Given the increasing number of female authors over time, topics that are more prevalent in recent theses are more likely to be associated with female authorship. Therefore, we include the `year of defense` in the regression to distinguish between trendy recent topics and topics more commonly chosen by female authors: 
 
 $$ \theta_{d,k} = \beta_0 + \beta_1 * gender_d + \beta_2 * year_d + \epsilon_{d,k} $$
 
@@ -542,11 +573,13 @@ estimate_effect <- estimateEffect(formula_obj,
 saveRDS(estimate_effect, here(website_data_path, "estimate_effect.rds"))
 ```
 
+@fig-gender_effect presents the significant estimates for the covariate gender_expanded (with a p-value < 0.1). The y-axis represents the topics, while the x-axis shows the effect of being female on the expected topic prevalence. For instance, being a woman increases the probability of topic 35 appearing in a document by 0.077. Given that the average prevalence of topic 35 is around 0.012, this effect accounts for a significant proportion of the topic's overall prevalence.
+
+The first obvious conclusion from this analysis is the presence of a strong gender bias in the choice of thesis topics. Male authors are more likely to work on theoretical topics, particularly in macroeconomics, whereas female authors are more associated with applied topics, especially in the fields of health, labor, and education.
+
+
 ::: panel-tabset
-
-
 ## Plot 
-
 
 ```{r}
 #| echo: TRUE 
@@ -632,7 +665,15 @@ summary_tibble %>%
 )
 ```
 
-::: 
+:::
+
+For a more detailed historical analysis, it is also possible to look for an interaction effect between year and gender in the regression if you are interested in exploring how gender-based topic preferences evolve over time:
+
+$$ \theta_{d,k} = \beta_0 + \beta_1 * gender_d * year_d + \epsilon_{d,k} $$
+For instance, certain topics may have been strongly associated with one gender in the early 1980s before becoming neutral or even dominated by the other gender. Here, the estimate give, for each value of `year_defence` the effect of being female on the expected prevalence of a given topic.
+
+@fig-regression_interaction presents the results of such an analysis. For each `year_defense` and `gender_expanded`, we compute the expected topic prevalence of topic 35, 53 and 92. Topics 35 and 53 are examples of topic prevalence associated with women and men, respectively. Topic 92 provides a more interesting insight: while this topic is generally associated with male authors, it was mostly prevalent in women's theses until the mid-1990s.
+
 ```{r}
 #| echo: TRUE 
 #| eval: TRUE
@@ -642,7 +683,8 @@ summary_tibble %>%
 #| fig-subcap: 
 #|   - "Topic 35"
 #|   - "Topic 53"
-#| layout-ncol: 2
+#|   - "Topic 92"
+#| layout-ncol: 3
 
 
 corpus_in_stm <- readRDS(here(website_data_path, "corpus_in_stm.rds"))
@@ -749,124 +791,184 @@ gg2 <- data_summary %>%
   theme_minimal() +
   theme(strip.text = element_text(size = 3))
 
-print(gg1)
-print(gg2)
-``` 
 
-```{r}
-#| echo: TRUE
-#| eval: FALSE 
-
-# prepare color 
-
-color <- gender_estimate %>%
-  mutate(
-    topic = reorder(topic, estimate),
-    color = ifelse(estimate > 0, "#8DD3C7", "#FFFFB3"),
-    color = ifelse(p_value >= .1, "grey", color)
-  ) %>% 
-  select(topic, color)
-
-# load the model 
-stm <- readRDS(here(website_data_path, "stm.rds"))
-
-corr <- stm::topicCorr(stm)
-
-# matrix to table
-corr_table <- reshape2::melt(corr$cor) 
-
-
-label_topic <- labelTopics(stm, n = 10)
-
-nodes <- label_topic %>% .[[1]] %>%
-  as_tibble() %>%
-  reframe(topic_label_prob = pmap_chr(., ~ paste(c(...), collapse = ", "))) %>%
-  mutate(topic = as.factor(row_number())) %>% 
-  left_join(color) %>% 
-  rename(source_id = topic)
-
-edges <- corr_table %>% 
-  dplyr::filter(Var1 != Var2) %>% 
-  rename(source_id = Var1,
-         target_id = Var2,
-         weight = value) 
-
-graph <- tidygraph::tbl_graph(nodes = nodes, edges = edges, directed = FALSE)
-
-# if you want to normalize weigth to handle negative value 
-
-# graph_normalize <- graph %>% 
-#   activate(edges) %>% 
-#   mutate(weight = rescale(weight, to = c(0.01, 1)))
-
-
-# fa 2
-graph_layout <- vite::complete_forceatlas2(graph, first.iter = 50000, kgrav = 1)
-     
-saveRDS(corr_table, here(website_data_path, "corr_table.rds"))
-
-saveRDS(graph_layout, here(website_data_path, "graph_layout.rds"))
-```
-
-
-::: panel-tabset
-### Réseau de corrélation
-
-```{r}
-#| echo: TRUE 
-#| label: fig-corr_network
-#| fig-cap: "Réseaux des thématiques (spacialisation par Force Atlas 2)"
-#| page-layout: full
-
-graph_layout <- readRDS(here(website_data_path, "graph_layout.rds"))
-
-gg <- ggraph(graph_layout, 
-             "manual", 
-             x = x, 
-             y = y) +
-  geom_edge_arc0(aes(
-          width = weight), 
-          alpha = 0.1, strength = 0.2, show.legend = FALSE) +
-  scale_edge_width_continuous(range = c(0.01,0.2)) +
-  geom_point(aes(x = x, y = y)) +
-  geom_label_repel_interactive(aes(
-    x = x,
-    y = y,
-    label = source_id,
-    tooltip = topic_label_prob,
-    data_id = source_id,
-    color = color
-  ),
-  size = 4) +
-  scale_color_identity() + 
-  scale_size_continuous(range = c(0.5,3)) +
-  labs(title = "Les noeuds sont les thématiques, les liens sont les coefficients de corrélation.") +
-  theme_void()
-
-girafe(ggobj = gg,
-       width_svg  = 16,
-       height_svg = 9)
-```
-
-### Données
-
-```{r}
-#| echo: TRUE
-#| tbl-cap: tbl-corr_table
-#| label: "Table de corrélation"
-
-corr_table <- readRDS(here(website_data_path, "corr_table.rds"))
-
-
-corr_table %>% 
-  DT::datatable(
-  extensions = 'Buttons',
-  options = list(
-    dom = 'Blfrtip',
-    buttons = c('excel', 'csv'),
-    pageLength = 5
-  )
+estimate_effect_92 <- estimateEffect(
+  c(92) ~ gender_expanded * s(year_defence),
+  stm,
+  metadata = metadata,
+  uncertainty = "None",
+  # nsims = 25
 )
 
+data_summary <- tidystm::extract.estimateEffect(
+  estimate_effect_92,
+  "year_defence",
+  stm,
+  method = "continuous",
+  moderator = "gender_expanded",
+  moderator.value = c("female", "male")
+) %>%
+  # add topic label
+  left_join(top_terms_prob, by = "topic")
+
+gg3 <- data_summary %>%
+  filter(covariate.value > 1985) %>%
+  ggplot(
+    aes(
+      x = covariate.value,
+      y = estimate,
+      ymin = ci.lower,
+      ymax = ci.upper,
+      color =  moderator.value,
+      fill = moderator.value
+    )
+  ) +
+  geom_ribbon(alpha = .5, show.legend = FALSE) +
+  geom_line() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(
+    title = paste("Words:", unique(data_summary$topic_label)),
+    subtitle = "Intervalle à 95%",
+    # Ensure topic_label is unique
+    color = "Gender",
+    x = "covariate.value",
+    y = "Expected topic prevalence"
+  ) +
+  scale_fill_manual(values = c("male" = "#FFFFB3", "female" = "#8DD3C7")) +
+  scale_color_manual(values = c("male" = "#FFFFB3", "female" = "#8DD3C7")) +
+  theme_minimal() +
+  theme(strip.text = element_text(size = 3))
+
+print(gg1)
+print(gg2)
+print(gg3)
+
+
+``` 
+
+
+```{r}
+
 ```
-:::
+
+<!-- # blabla  -->
+
+<!-- ```{r} -->
+<!-- #| echo: TRUE -->
+<!-- #| eval: FALSE  -->
+
+<!-- # prepare color  -->
+
+<!-- color <- gender_estimate %>% -->
+<!--   mutate( -->
+<!--     topic = reorder(topic, estimate), -->
+<!--     color = ifelse(estimate > 0, "#8DD3C7", "#FFFFB3"), -->
+<!--     color = ifelse(p_value >= .1, "grey", color) -->
+<!--   ) %>%  -->
+<!--   select(topic, color) -->
+
+<!-- # load the model  -->
+<!-- stm <- readRDS(here(website_data_path, "stm.rds")) -->
+
+<!-- corr <- stm::topicCorr(stm) -->
+
+<!-- # matrix to table -->
+<!-- corr_table <- reshape2::melt(corr$cor)  -->
+
+
+<!-- label_topic <- labelTopics(stm, n = 10) -->
+
+<!-- nodes <- label_topic %>% .[[1]] %>% -->
+<!--   as_tibble() %>% -->
+<!--   reframe(topic_label_prob = pmap_chr(., ~ paste(c(...), collapse = ", "))) %>% -->
+<!--   mutate(topic = as.factor(row_number())) %>%  -->
+<!--   left_join(color) %>%  -->
+<!--   rename(source_id = topic) -->
+
+<!-- edges <- corr_table %>%  -->
+<!--   dplyr::filter(Var1 != Var2) %>%  -->
+<!--   rename(source_id = Var1, -->
+<!--          target_id = Var2, -->
+<!--          weight = value)  -->
+
+<!-- graph <- tidygraph::tbl_graph(nodes = nodes, edges = edges, directed = FALSE) -->
+
+<!-- # if you want to normalize weigth to handle negative value  -->
+
+<!-- # graph_normalize <- graph %>%  -->
+<!-- #   activate(edges) %>%  -->
+<!-- #   mutate(weight = rescale(weight, to = c(0.01, 1))) -->
+
+
+<!-- # fa 2 -->
+<!-- graph_layout <- vite::complete_forceatlas2(graph, first.iter = 50000, kgrav = 1) -->
+
+<!-- saveRDS(corr_table, here(website_data_path, "corr_table.rds")) -->
+
+<!-- saveRDS(graph_layout, here(website_data_path, "graph_layout.rds")) -->
+<!-- ``` -->
+
+
+<!-- ::: panel-tabset -->
+<!-- ### Réseau de corrélation -->
+
+<!-- ```{r} -->
+<!-- #| echo: TRUE  -->
+<!-- #| label: fig-corr_network -->
+<!-- #| fig-cap: "Réseaux des thématiques (spacialisation par Force Atlas 2)" -->
+<!-- #| page-layout: full -->
+
+<!-- graph_layout <- readRDS(here(website_data_path, "graph_layout.rds")) -->
+
+<!-- gg <- ggraph(graph_layout,  -->
+<!--              "manual",  -->
+<!--              x = x,  -->
+<!--              y = y) + -->
+<!--   geom_edge_arc0(aes( -->
+<!--           width = weight),  -->
+<!--           alpha = 0.1, strength = 0.2, show.legend = FALSE) + -->
+<!--   scale_edge_width_continuous(range = c(0.01,0.2)) + -->
+<!--   geom_point(aes(x = x, y = y)) + -->
+<!--   geom_label_repel_interactive(aes( -->
+<!--     x = x, -->
+<!--     y = y, -->
+<!--     label = source_id, -->
+<!--     tooltip = topic_label_prob, -->
+<!--     data_id = source_id, -->
+<!--     color = color -->
+<!--   ), -->
+<!--   size = 4) + -->
+<!--   scale_color_identity() +  -->
+<!--   scale_size_continuous(range = c(0.5,3)) + -->
+<!--   labs(title = "Les noeuds sont les thématiques, les liens sont les coefficients de corrélation.") + -->
+<!--   theme_void() -->
+
+<!-- girafe(ggobj = gg, -->
+<!--        width_svg  = 16, -->
+<!--        height_svg = 9) -->
+<!-- ``` -->
+
+<!-- ### Données -->
+
+<!-- ```{r} -->
+<!-- #| echo: TRUE -->
+<!-- #| tbl-cap: tbl-corr_table -->
+<!-- #| label: "Table de corrélation" -->
+
+<!-- corr_table <- readRDS(here(website_data_path, "corr_table.rds")) -->
+
+
+<!-- corr_table %>%  -->
+<!--   DT::datatable( -->
+<!--   extensions = 'Buttons', -->
+<!--   options = list( -->
+<!--     dom = 'Blfrtip', -->
+<!--     buttons = c('excel', 'csv'), -->
+<!--     pageLength = 5 -->
+<!--   ) -->
+<!-- ) -->
+
+<!-- ``` -->
+<!-- ::: -->
+
+
