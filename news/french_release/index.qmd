@@ -1,22 +1,5 @@
 ---
 title: "Release of the French Ph.D. database (version 1.0)"
-author: 
-  - name: "Thomas Delcey"
-    affiliation: "Université de Bourgogne"
-    email: "Thomas.delcey@u-bourgogne.fr"
-  - name: "Aurelien Goutsmedt"
-    affiliation: "UC Louvain; ICHEC"
-    email: "aurelien.goutsmedt[at]uclouvain.be" 
-page-layout: full
-toc: true
-toc_float: true
-date: last-modified
-date-format: long
-prefer-html: true
-execute:
- echo: false
- warning: false
- message: false
 ---
 
 ::: {.column-margin}

@@ -1,0 +1,22 @@
+author: 
+  - name: "Thomas Delcey"
+    affiliation: "Université de Bourgogne"
+    email: "Thomas.delcey@u-bourgogne.fr"
+  - name: "Aurelien Goutsmedt"
+    affiliation: "UC Louvain; ICHEC"
+    email: "aurelien.goutsmedt@uclouvain.be"
+date: last-modified
+date-format: long
+format: 
+  html: 
+    page-layout: full
+    toc: true
+    toc_float: true
+    code-fold: true 
+    code-summary: "Show the code"
+    warning: false
+    message: false
+    link-external-newwindow: true
+#bibliography: references.bib
+editor_options: 
+  chunk_output_type: console

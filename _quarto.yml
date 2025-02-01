@@ -3,7 +3,7 @@ project:
   output-dir: docs
   render: 
     - "*.qmd"
-    - "!application/stm_abstract/index.qmd" # To avoid running the topic model that was not working for me
+  #  - "!application/stm_abstract/index.qmd" # To avoid running the topic model that was not working for me
 
 website:
   repo-url: https://github.com/tdelcey/becoming_economists
@@ -63,3 +63,5 @@ format:
       gutter-width: 1.5rem
     theme: litera
 
+bibliography: references.bib
+lightbox: true

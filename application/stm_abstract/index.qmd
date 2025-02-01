@@ -1,29 +1,10 @@
 ---
-title: "Exploring gender preferences in French Ph.D."
-author: 
-  - name: "Thomas Delcey"
-    affiliation: "Université de Bourgogne"
-    email: "Thomas.delcey@u-bourgogne.fr"
-  - name: "Aurelien Goutsmedt"
-    affiliation: "UC Louvain; ICHEC"
-    email: "aurelien.goutsmedt@uclouvain.be"
+title: "Exploring gender effects in French Ph.D. topics"
 categories:
   - French data 
-format: 
-  html: 
-    page-layout: full
-    toc: true
-    toc_float: true
-    date: "2024"
-    date-format: "YYYY"
-    code-fold: true 
-    code-summary: "Show the code"
-    warning: false
-    message: false
-    lightbox: true
-bibliography: references.bib
-editor_options: 
-  chunk_output_type: console
+draft: true
+draft-mode: unlinked
+image: "/application/stm_abstract/preview.png"
 ---
 
 
@@ -42,23 +23,8 @@ pacman::p_load(
   "DT",
   "spacyr",
   "ggiraph",
-  "ggraph")
-
-#### PATH ####
-
-#original text path stored in google drive 
-if(str_detect(getwd(), "tunex")){
-  data_path <- "G:/Mon Drive/Phd_Project/data"
-} else {
-  if(str_detect(getwd(), "Admin")) {
-    data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
-  } else {
-  if(str_detect(getwd(), "thomd")) {
-    data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
-    } else {
-      data_path <- "G:/.shortcut-targets-by-id/1Lhjzr0rDBjblTPYh9PoVBsi_uupV9z8L/Phd_Project/data"
-    }}
-  }
+  "ggraph",
+  "scico")
 
 #### PATH ####
 
@@ -84,27 +50,26 @@ website_data_path <- here(data_path, "website_data", "stm_gender")
 
 ```
 
-In this blog, we use the Structural Topic Model to analyze the effect of gender on Ph.D. students' choice of topics. The Structural Topic Model combines probabilistic topic modeling with regression analysis to examine the effect of document _metadata_ on the output of the topic model: topic content and topic prevalence. If you are not familiar with probabilistic topic models, we recommend reviewing the first [blog post](../../../../application/stm_title/) and the related references for background information before continuing.  
+In this blog, we use the Structural Topic Model (STM) to analyze the effect of gender on Ph.D. students' choice of research topics in economics in France. STM integrates probabilistic topic modeling with regression analysis to examine how document metadata influences two key aspects of the topic model: topic content and topic prevalence. If you are not familiar with probabilistic topic models, we recommend reviewing the first [blog post](/application/stm_title/) and the related references for background information before proceeding. 
 
-In the same [blog post](../../../../documentation/french/), we examined how topic prevalence was influenced by the `year of defence`. The intuitive idea was that the topics of a thesis crucially depend on the period in which it was written; what is considered a contribution evolves with the social context characterizing a given time period.  
+In this [blog post](/application/stm_title/), we examined how the year of defence influences the prevalence of a topic, i.e. the probability that this topic is used during this year. The underlying intuition is that thesis topics are strongly shaped by the period in which they are written; what is considered a contribution evolves alongside the social and academic context of a given time.
 
-However, we could obviously be more specific. When predicting topic prevalence using the `year of defense`, we acknowledge this "evolving social context" but do not specify what drives these changes. Yet, additional variables could help explain authors' topic choices. For instance, one of the most significant transformations in the French Ph.D. data is the increasing proportion of women pursuing a Ph.D. in economics. Are there topics that male Ph.D. students are more likely to examine, and conversely, topics that female Ph.D. students are more inclined to study? 
+However, this approach can be refined further. When predicting topic prevalence using the year of defence, we acknowledge this "evolving social context" but do not specify the mechanisms driving these changes. Additional variables could provide a clearer explanation of authors' topic choices. For instance, one of the most significant transformations in the French Ph.D. landscape is the increasing proportion of women pursuing doctoral degrees in economics. Are there research topics that male Ph.D. students are more likely to explore, while female Ph.D. students tend to focus on others?
 
 Let's explore this issue!  
 
-# Explore the data
+# Exploring the data
 
-To run our topic model, we will use the french abstracts (`abstract_fr`) as the main textual input. As already showed [here](https://tdelcey.github.io/becoming_economists_page/application/stm_title#fig-textual_data), are a far better data than title to train a topic model but are only available from the early 1980s. But we will see that it is also at pretty much at the same period that the proportion of female authors increase dramatically. 
+To run our topic model, we use the abstracts (`abstract_fr`) as the main textual input. As previously demonstrated [here](/application/stm_title#fig-textual_data), abstracts provide significantly better data than titles for training a topic model; however, they are only available from the early 1980s. Notably, this period also coincides with a sharp increase in the proportion of female authors.
 
-Let's explore the data to compute the distribution of gender in the french dataset. The individual table includes two distinct variables, `gender` and `gender_expanded`, which provide information about the gender of individuals (e.g., authors, supervisors): 
+Let’s explore the data to analyze the gender distribution in the French Ph.D. dataset. The individuals table includes two distinct variables, `gender` and `gender_expanded`, which provide information about the gender of individuals (e.g., authors, supervisors). 
 
-  - The `gender` variable contains raw information obtained from the [IdRef](https://www.idref.fr/) repository.
-  - The `gender_expanded` variable is our enhanced version, which imputes missing gender values using French census data.  
+  - The `gender` variable contains raw information obtained from the [IdRef](https://www.idref.fr/) database.
+  - The `gender_expanded` variable is our enhanced version, which imputes missing gender values using French census data. 
 
-A detailed explanation of these variables can be found in the [documentation](../../../../documentation/french/) of the French database available on this website. For this analysis, we will use the `gender_expanded` variable. 
+More information on these variables can be found in the [documentation](/documentation/french#sec-cleaning-individuals) of the French database available on this website. For this analysis, we will use the `gender_expanded` variable. 
 
-The `gender_expanded` variable is derived from the individual table, whereas our textual data come from the metadata table. To link these variables, we must use the edge table, which associates each thesis identifier (`thesis_id`) with the corresponding entities (`entity_id`).  
-
+The `gender_expanded` variable is derived from the `thesis_individual` table, whereas our textual data come from the `thesis_metadata` table. To link these variables, we must use the `thesis_edge` table, which associates each thesis identifier (`thesis_id`) with the corresponding entities (`entity_id`), and so to the author of the thesis.  
 
 ```{r}
 #| echo: TRUE
@@ -194,7 +159,7 @@ We can now evaluate the distribution of our data. @fig-gender_distribution illus
 
 ```{r}
 #| echo: TRUE 
-#| fig.cap: "Distribution of abstracts by gender"
+#| fig.cap: "Distribution of PhD by gender"
 #| label: fig-gender_distribution
 
 data <- data %>%
@@ -213,9 +178,9 @@ gg <- data  %>%
   )) +
   geom_col() +
   theme_light() +
-  labs(x = "", y = "Nombre d'auteurs", fill = "Genre") +
-  scale_fill_brewer(palette = "Set3") +
-  theme_light()
+  labs(x = NULL, y = "Authors count", fill = "Gender") +
+  scale_fill_scico_d(begin = 0.3, end = 0.9, palette = "oleron") +
+  theme_light(base_size = 15)
 
 plotly::ggplotly(gg, tooltip = "text") %>%
   plotly::config(displayModeBar = FALSE)
@@ -228,7 +193,7 @@ plotly::ggplotly(gg, tooltip = "text") %>%
 #| echo: TRUE 
 #| warning: FALSE
 #| label: tbl-gender_distribution
-#| fig.cap: "Distribution du genre par année"
+#| fig.cap: "Gender of theses' authors per year"
 
 distribution <- data  %>% 
   group_by(gender_expanded, year_defence) %>%
@@ -237,13 +202,14 @@ distribution <- data  %>%
 
 distribution %>% 
   DT::datatable(
-  extensions = 'Buttons',
-  options = list(
-    dom = 'Blfrtip',
-    buttons = c('excel', 'csv'),
-    pageLength = 12
+    extensions = 'Buttons',
+    options = list(
+      dom = 'Blfrtip',
+      buttons = c('excel', 'csv'),
+      pageLength = 10
+    ),
+    filter = 'top' # Adds a search bar for each column at the top
   )
-)
 
 ```
 
@@ -251,8 +217,7 @@ distribution %>%
 
 The practice of including an abstract became common in the early 1980s, but few abstracts were available for theses defended in earlier decades. A closer examination shows, however, that these were added by librarians who created the entries. Therefore, it is reasonable to filter out theses defended before 1980.  
 
-To run our probabilistic topic model, we follow the usual pre-processing steps, as described in this [post](../../../../application/stm_title/). The primary difference in this instance is the inclusion of a few custom stopwords to address highly redundant terms frequently found in abstracts, such as *chapter* (_chapitre_) or *thesis* (_thèse_). We can then run the topic model. For a corpus of 11,000 abstracts, starting with $K=100$ (the number of topics) provides a reasonable basis for exploration.
-
+To run our probabilistic topic model, we follow the usual pre-processing steps, as described in this [post](/application/stm_title/). The primary difference in this instance is the inclusion of a few custom stopwords to address highly redundant terms frequently found in abstracts, such as "chapitre" (_chapter_) or "thèse" (_thesis_). We can then run the topic model. For a corpus of 11,000 abstracts, starting with $K=100$ (the number of topics) provides a reasonable basis for exploration.
 
 
 ```{r}
@@ -475,7 +440,7 @@ saveRDS(stm, here(website_data_path, "stm.rds"))
 
 @fig-theta_summary presents the top 20 topics ranked by average prevalence. For each topic, the most probable words from the topic content (based on the $\beta_{1:K}$ distributions) are assigned. Unsurprisingly, the top topics closely align with common subfields in economics, such as development economics, monetary economics, and the economics of innovation.  
 
-Notably, the topics appear more interpretable than those generated by the other [model](https://tdelcey.github.io/becoming_economists_page/application/stm_title#fig-theta_summary) we ran with `title_fr`. This can be attributed both to the use of a richer source of information and to the fact that we are covering a more recent period, in which topics are more recognizable to contemporary audiences.  
+Notably, the topics appear more interpretable than those generated by the other [model](/application/stm_title#fig-theta_summary) we ran with `title_fr`. This can be attributed both to the use of a richer source of information and to the fact that we are covering a more recent period, in which topics are more recognizable to contemporary audiences.  
 
 ```{r}
 #| echo: TRUE 
@@ -624,26 +589,32 @@ gg <- gender_estimate %>%
     fill = effect,
     text = tooltip
   )) +
-  geom_col() +
-  geom_text(size = 2.5, position = position_stack(vjust = .5)) +
-  scale_fill_manual(
-    name = "Effect",
-    values = c(
-      "Negative" = "#FFFFB3",
-      "Positive" = "#8DD3C7",
-      "Not significant (90%)" = "lightgrey"
-    )
-  ) +
+  geom_col(show.legend = FALSE) +
+  geom_text(size = 3, position = position_stack(vjust = .5)) +
+  scale_fill_scico_d(begin = 0.3, end = 0.9, palette = "oleron", direction = -1) +
+  # scale_fill_manual(
+  #   name = "Effect",
+  #   values = c(
+  #     "Negative" = "#FFFFB3",
+  #     "Positive" = "#8DD3C7",
+  #     "Not significant (90%)" = "lightgrey"
+  #   )
+  # ) +
   coord_flip() +
-  ggthemes::theme_hc() +
+  ggthemes::theme_hc(base_size = 15) +
   theme(plot.title = element_text(size = 15)) +
   labs(x = NULL, y = "Estimate")
 
+gg
 
-plotly::ggplotly(gg, tooltip = "text") %>%
-  plotly::config(displayModeBar = FALSE)
+# plotly::ggplotly(gg, tooltip = "text") %>%
+#   plotly::config(displayModeBar = FALSE)
 
+```
 
+```{r}
+#| echo: false
+ggsave(here("application", "stm_abstract", "preview.png"), width = 8, height = 8)
 ```
 
 ## Regression table
@@ -667,24 +638,24 @@ summary_tibble %>%
 
 :::
 
-For a more detailed historical analysis, it is also possible to look for an interaction effect between year and gender in the regression if you are interested in exploring how gender-based topic preferences evolve over time:
+For a more detailed historical analysis, it is also possible to look for an interaction effect between `year_defence` and `gender_expanded` in the regression if you are interested in exploring how gender-based topic choices evolve over time:
 
 $$ \theta_{d,k} = \beta_0 + \beta_1 * gender_d * year_d + \epsilon_{d,k} $$
-For instance, certain topics may have been strongly associated with one gender in the early 1980s before becoming neutral or even dominated by the other gender. Here, the estimate give, for each value of `year_defence` the effect of being female on the expected prevalence of a given topic.
+For instance, certain topics may have been strongly associated with one gender in the early 1980s before becoming neutral or even dominated by the other gender. Here, the estimate give, for each value of `year_defence`, the effect of being female on the expected prevalence of a given topic.
 
-@fig-regression_interaction presents the results of such an analysis. For each `year_defense` and `gender_expanded`, we compute the expected topic prevalence of topic 35, 53 and 92. Topics 35 and 53 are examples of topic prevalence associated with women and men, respectively. Topic 92 provides a more interesting insight: while this topic is generally associated with male authors, it was mostly prevalent in women's theses until the mid-1990s.
+@fig-regression_interaction presents the results of such an analysis. For each `year_defence` and `gender_expanded`, we compute the expected topic prevalence of topic 35, 53 and 92. Topics 35 and 53 are examples of topic prevalence strongly associated with women and men, respectively. Topic 92 provides a more interesting insight: while this topic is generally associated with male authors, it was mostly prevalent in women's theses until the mid-1990s.
 
 ```{r}
 #| echo: TRUE 
 #| eval: TRUE
 #| warning: FALSE
 #| label: fig-regression_interaction
-#| fig.cap: "Régression de la prévalence avec interaction"
+#| fig.cap: "Regression of prevalence with interaction"
 #| fig-subcap: 
 #|   - "Topic 35"
 #|   - "Topic 53"
 #|   - "Topic 92"
-#| layout-ncol: 3
+#| layout-ncol: 1
 
 
 corpus_in_stm <- readRDS(here(website_data_path, "corpus_in_stm.rds"))
@@ -729,18 +700,20 @@ gg1 <- data_summary %>%
     )
   ) +
   geom_ribbon(alpha = .5, show.legend = FALSE) +
-  geom_line() +
+  geom_line(linewidth = 1.5) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   labs(
     title = paste("Words:", unique(data_summary$topic_label)),
-    subtitle = "Intervalle à 95%",
+    subtitle = "95% Interval",
     # Ensure topic_label is unique
     color = "Gender",
-    x = "covariate.value",
+    x = NULL,
     y = "Expected topic prevalence"
   ) +
-  scale_fill_manual(values = c("male" = "#FFFFB3", "female" = "#8DD3C7")) +
-  scale_color_manual(values = c("male" = "#FFFFB3", "female" = "#8DD3C7")) +
+  # scale_fill_manual(values = c("male" = "#FFFFB3", "female" = "#8DD3C7")) +
+  # scale_color_manual(values = c("male" = "#FFFFB3", "female" = "#8DD3C7")) +
+  scale_fill_scico_d(begin = 0.3, end = 0.9, palette = "oleron") +
+  scale_color_scico_d(begin = 0.3, end = 0.9, palette = "oleron") +
   theme_minimal() +
   theme(strip.text = element_text(size = 3))
 
@@ -776,18 +749,18 @@ gg2 <- data_summary %>%
     )
   ) +
   geom_ribbon(alpha = .5, show.legend = FALSE) +
-  geom_line() +
+  geom_line(linewidth = 1.5) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   labs(
     title = paste("Words:", unique(data_summary$topic_label)),
-    subtitle = "Intervalle à 95%",
+    subtitle = "95% Interval",
     # Ensure topic_label is unique
     color = "Gender",
-    x = "covariate.value",
+    x = NULL,
     y = "Expected topic prevalence"
   ) +
-  scale_fill_manual(values = c("male" = "#FFFFB3", "female" = "#8DD3C7")) +
-  scale_color_manual(values = c("male" = "#FFFFB3", "female" = "#8DD3C7")) +
+  scale_fill_scico_d(begin = 0.3, end = 0.9, palette = "oleron") +
+  scale_color_scico_d(begin = 0.3, end = 0.9, palette = "oleron") +
   theme_minimal() +
   theme(strip.text = element_text(size = 3))
 
@@ -824,18 +797,18 @@ gg3 <- data_summary %>%
     )
   ) +
   geom_ribbon(alpha = .5, show.legend = FALSE) +
-  geom_line() +
+  geom_line(linewidth = 1.5) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   labs(
     title = paste("Words:", unique(data_summary$topic_label)),
-    subtitle = "Intervalle à 95%",
+    subtitle = "95% Interval",
     # Ensure topic_label is unique
     color = "Gender",
-    x = "covariate.value",
+    x = NULL,
     y = "Expected topic prevalence"
   ) +
-  scale_fill_manual(values = c("male" = "#FFFFB3", "female" = "#8DD3C7")) +
-  scale_color_manual(values = c("male" = "#FFFFB3", "female" = "#8DD3C7")) +
+  scale_fill_scico_d(begin = 0.3, end = 0.9, palette = "oleron") +
+  scale_color_scico_d(begin = 0.3, end = 0.9, palette = "oleron") +
   theme_minimal() +
   theme(strip.text = element_text(size = 3))
 
@@ -843,13 +816,8 @@ print(gg1)
 print(gg2)
 print(gg3)
 
-
 ``` 
 
-
-```{r}
-
-```
 
 <!-- # blabla  -->
 

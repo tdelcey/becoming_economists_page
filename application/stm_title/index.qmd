@@ -1,31 +1,8 @@
 ---
 title: "Exploring trendy topics in French Ph.D. (1900-2023)"
-author: 
-  - name: "Thomas Delcey"
-    affiliation: "Université de Bourgogne"
-    email: "Thomas.delcey@u-bourgogne.fr"
-  - name: "Aurelien Goutsmedt"
-    affiliation: "UC Louvain; ICHEC"
-    email: "aurelien.goutsmedt@uclouvain.be"
-date: last-modified
-date-format: long
 categories:
   - French data
-format: 
-  html: 
-    page-layout: full
-    toc: true
-    toc_float: true
-    date: last-modified
-    date-format: long
-    code-fold: true 
-    code-summary: "Show the code"
-    warning: false
-    message: false
 image: "/application/stm_title/preview.png"
-bibliography: references.bib
-editor_options: 
-  chunk_output_type: console
 ---
 
 
@@ -457,7 +434,7 @@ theta_mean %>%
 
 ```{r}
 #| echo: FALSE
-#| eval: FALSE
+#| eval: TRUE
 ggsave(here("application", "stm_title", "preview.png"), width = 6.5, height = 6.5)
 ```
 

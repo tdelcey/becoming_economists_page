@@ -1,15 +1,17 @@
 [
   {
-    "listing": "/index.html",
+    "listing": "/news.html",
     "items": [
-      "/application/stm_title/index.html",
+      "/news/changelog/index.html",
       "/news/french_release/index.html"
     ]
   },
   {
-    "listing": "/data.html",
+    "listing": "/documentation.html",
     "items": [
-      "/data/french_data.html"
+      "/documentation/french/index.html",
+      "/documentation/US/index.html",
+      "/documentation/UK/index.html"
     ]
   },
   {
@@ -19,17 +21,15 @@
     ]
   },
   {
-    "listing": "/documentation.html",
+    "listing": "/data.html",
     "items": [
-      "/documentation/french/index.html",
-      "/documentation/UK/index.html",
-      "/documentation/US/index.html"
+      "/data/french_data.html"
     ]
   },
   {
-    "listing": "/news.html",
+    "listing": "/index.html",
     "items": [
-      "/news/changelog/index.html",
+      "/application/stm_title/index.html",
       "/news/french_release/index.html"
     ]
   }
