@@ -60,7 +60,7 @@ Let's explore this issue!
 
 # Exploring the data
 
-To run our topic model, we use the abstracts (`abstract_fr`) as the main textual input. As previously demonstrated [here](/application/stm_title#fig-textual_data), abstracts provide significantly better data than titles for training a topic model; however, they are only available from the early 1980s. Notably, this period also coincides with a sharp increase in the proportion of female authors.
+To run our topic model, we use the abstracts (`abstract_fr`) as the main textual input. As previously demonstrated [here](/application/stm_title#fig-textual_data), abstracts provide significantly better data than titles for training a topic model; however, they are only available from the early 1980s. Consequently, we limit our analysis to the past four decades. This period also marks a sharp increase in the proportion of female authors, making it particularly relevant for examining gender dynamics in academic publishing.
 
 Let’s explore the data to analyze the gender distribution in the French Ph.D. dataset. The individuals table includes two distinct variables, `gender` and `gender_expanded`, which provide information about the gender of individuals (e.g., authors, supervisors). 
 
@@ -538,7 +538,7 @@ estimate_effect <- estimateEffect(formula_obj,
 saveRDS(estimate_effect, here(website_data_path, "estimate_effect.rds"))
 ```
 
-@fig-gender_effect presents the significant estimates for the covariate gender_expanded (with a p-value < 0.1). The y-axis represents the topics, while the x-axis shows the effect of being female on the expected topic prevalence. For instance, being a woman increases the probability of topic 35 appearing in a document by 0.077. Given that the average prevalence of topic 35 is around 0.012, this effect accounts for a significant proportion of the topic's overall prevalence.
+@fig-gender_effect presents the significant estimates for the covariate gender_expanded (with a p-value < 0.1). The y-axis represents the topics, while the x-axis shows the effect of being female on the expected topic prevalence. For instance, being a woman increases the prevalence of topic 35 in a document by 0.0077. Given that the average prevalence of topic 35 is around 0.012, this effect accounts for a significant proportion of the topic's overall prevalence.
 
 The first obvious conclusion from this analysis is the presence of a strong gender bias in the choice of thesis topics. Male authors are more likely to work on theoretical topics, particularly in macroeconomics, whereas female authors are more associated with applied topics, especially in the fields of health, labor, and education.
 
