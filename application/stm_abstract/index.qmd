@@ -540,9 +540,9 @@ saveRDS(estimate_effect, here(website_data_path, "estimate_effect.rds"))
 
 @fig-gender_effect presents the significant estimates for the covariate gender_expanded (with a p-value < 0.1). The y-axis represents the topics, while the x-axis shows the effect of being female on the expected topic prevalence. For instance, being a woman increases the prevalence of topic 35 in a document by 0.0077. Given that the average prevalence of topic 35 is around 0.012, this effect accounts for a significant proportion of the topic's overall prevalence.
 
-The first obvious conclusion from this analysis is the presence of a strong gender bias in the choice of thesis topics. Male authors are more likely to work on theoretical topics, particularly in macroeconomics, whereas female authors are more associated with applied topics, especially in the fields of health, labor, and education.
+The first obvious conclusion from this analysis is the presence of a strong gender element in the choice of thesis topics. Male authors are more likely to work on theoretical topics, particularly in macroeconomics, whereas female authors are more associated with applied topics, especially in the fields of health, labor, and education. 
 
-
+**Note also that while women tends to work on more applied and empirical issue, the topic 58 about *theoretical econometrics* is strongly associated to men. This is one of the strength of topic model that is able to differentiate between applied econometric topics and theoretical econometric topics.**
 ::: panel-tabset
 ## Plot 
 
@@ -643,7 +643,9 @@ For a more detailed historical analysis, it is also possible to look for an inte
 $$ \theta_{d,k} = \beta_0 + \beta_1 * gender_d * year_d + \epsilon_{d,k} $$
 For instance, certain topics may have been strongly associated with one gender in the early 1980s before becoming neutral or even dominated by the other gender. Here, the estimate give, for each value of `year_defence`, the effect of being female on the expected prevalence of a given topic.
 
-@fig-regression_interaction presents the results of such an analysis. For each `year_defence` and `gender_expanded`, we compute the expected topic prevalence of topic 35, 53 and 92. Topics 35 and 53 are examples of topic prevalence strongly associated with women and men, respectively. Topic 92 provides a more interesting insight: while this topic is generally associated with male authors, it was mostly prevalent in women's theses until the mid-1990s.
+@fig-regression_interaction presents the results of such an analysis. For each `year_defence` and `gender_expanded`, we compute the expected topic prevalence of topic 35, 53 and 92. Topics 35 and 53 are examples of topic prevalence strongly associated with women and men, respectively. Topic 92 provides a different pattern: while this topic is generally associated with male authors, it was mostly prevalent in women's theses until the mid-1990s. 
+
+**Interactions are particularly interesting for at least two reasons. First, as shown by Topics 35 and 53 in @fig-regression_interaction, gender segregation in the choice of research topics is a very current phenomenon. Second, in the case of Topic 92, interactions enable historical analysis by capturing *changes* in the gender effect across time. A research area dominated by men today may have been initiated by women in the past, and vice versa.**
 
 ```{r}
 #| echo: TRUE 
@@ -818,125 +820,5 @@ print(gg3)
 
 ``` 
 
-
-<!-- # blabla  -->
-
-<!-- ```{r} -->
-<!-- #| echo: TRUE -->
-<!-- #| eval: FALSE  -->
-
-<!-- # prepare color  -->
-
-<!-- color <- gender_estimate %>% -->
-<!--   mutate( -->
-<!--     topic = reorder(topic, estimate), -->
-<!--     color = ifelse(estimate > 0, "#8DD3C7", "#FFFFB3"), -->
-<!--     color = ifelse(p_value >= .1, "grey", color) -->
-<!--   ) %>%  -->
-<!--   select(topic, color) -->
-
-<!-- # load the model  -->
-<!-- stm <- readRDS(here(website_data_path, "stm.rds")) -->
-
-<!-- corr <- stm::topicCorr(stm) -->
-
-<!-- # matrix to table -->
-<!-- corr_table <- reshape2::melt(corr$cor)  -->
-
-
-<!-- label_topic <- labelTopics(stm, n = 10) -->
-
-<!-- nodes <- label_topic %>% .[[1]] %>% -->
-<!--   as_tibble() %>% -->
-<!--   reframe(topic_label_prob = pmap_chr(., ~ paste(c(...), collapse = ", "))) %>% -->
-<!--   mutate(topic = as.factor(row_number())) %>%  -->
-<!--   left_join(color) %>%  -->
-<!--   rename(source_id = topic) -->
-
-<!-- edges <- corr_table %>%  -->
-<!--   dplyr::filter(Var1 != Var2) %>%  -->
-<!--   rename(source_id = Var1, -->
-<!--          target_id = Var2, -->
-<!--          weight = value)  -->
-
-<!-- graph <- tidygraph::tbl_graph(nodes = nodes, edges = edges, directed = FALSE) -->
-
-<!-- # if you want to normalize weigth to handle negative value  -->
-
-<!-- # graph_normalize <- graph %>%  -->
-<!-- #   activate(edges) %>%  -->
-<!-- #   mutate(weight = rescale(weight, to = c(0.01, 1))) -->
-
-
-<!-- # fa 2 -->
-<!-- graph_layout <- vite::complete_forceatlas2(graph, first.iter = 50000, kgrav = 1) -->
-
-<!-- saveRDS(corr_table, here(website_data_path, "corr_table.rds")) -->
-
-<!-- saveRDS(graph_layout, here(website_data_path, "graph_layout.rds")) -->
-<!-- ``` -->
-
-
-<!-- ::: panel-tabset -->
-<!-- ### Réseau de corrélation -->
-
-<!-- ```{r} -->
-<!-- #| echo: TRUE  -->
-<!-- #| label: fig-corr_network -->
-<!-- #| fig-cap: "Réseaux des thématiques (spacialisation par Force Atlas 2)" -->
-<!-- #| page-layout: full -->
-
-<!-- graph_layout <- readRDS(here(website_data_path, "graph_layout.rds")) -->
-
-<!-- gg <- ggraph(graph_layout,  -->
-<!--              "manual",  -->
-<!--              x = x,  -->
-<!--              y = y) + -->
-<!--   geom_edge_arc0(aes( -->
-<!--           width = weight),  -->
-<!--           alpha = 0.1, strength = 0.2, show.legend = FALSE) + -->
-<!--   scale_edge_width_continuous(range = c(0.01,0.2)) + -->
-<!--   geom_point(aes(x = x, y = y)) + -->
-<!--   geom_label_repel_interactive(aes( -->
-<!--     x = x, -->
-<!--     y = y, -->
-<!--     label = source_id, -->
-<!--     tooltip = topic_label_prob, -->
-<!--     data_id = source_id, -->
-<!--     color = color -->
-<!--   ), -->
-<!--   size = 4) + -->
-<!--   scale_color_identity() +  -->
-<!--   scale_size_continuous(range = c(0.5,3)) + -->
-<!--   labs(title = "Les noeuds sont les thématiques, les liens sont les coefficients de corrélation.") + -->
-<!--   theme_void() -->
-
-<!-- girafe(ggobj = gg, -->
-<!--        width_svg  = 16, -->
-<!--        height_svg = 9) -->
-<!-- ``` -->
-
-<!-- ### Données -->
-
-<!-- ```{r} -->
-<!-- #| echo: TRUE -->
-<!-- #| tbl-cap: tbl-corr_table -->
-<!-- #| label: "Table de corrélation" -->
-
-<!-- corr_table <- readRDS(here(website_data_path, "corr_table.rds")) -->
-
-
-<!-- corr_table %>%  -->
-<!--   DT::datatable( -->
-<!--   extensions = 'Buttons', -->
-<!--   options = list( -->
-<!--     dom = 'Blfrtip', -->
-<!--     buttons = c('excel', 'csv'), -->
-<!--     pageLength = 5 -->
-<!--   ) -->
-<!-- ) -->
-
-<!-- ``` -->
-<!-- ::: -->
-
+**To conclude, while the regression shows clear gender segregation across fields, it does not answer the question of why this segregation occurs. This phenomenon could be explained by various interdependent factors [@strober1976sex; @sierminska2022gender]. The decision to enter a particular field is "the culmination of a series of earlier decisions" [@strober1976sex: 304] that depend on students' socialization, preferences, and the existing opportunities or barriers. Fully addressing this question would require more detailed prosopographical data on Ph.D. students, which is beyond the scope of this blog and project: it's your turn to play !**
 
