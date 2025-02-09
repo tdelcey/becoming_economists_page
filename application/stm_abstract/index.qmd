@@ -2,8 +2,6 @@
 title: "Exploring gender effects in French Ph.D. topics"
 categories:
   - French data 
-draft: true
-draft-mode: unlinked
 image: "/application/stm_abstract/preview.png"
 ---
 
@@ -60,7 +58,7 @@ Let's explore this issue!
 
 # Exploring the data
 
-To run our topic model, we use the abstracts (`abstract_fr`) as the main textual input. As previously demonstrated [here](/application/stm_title#fig-textual_data), abstracts provide significantly better data than titles for training a topic model; however, they are only available from the early 1980s. Consequently, we limit our analysis to the past four decades. This period also marks a sharp increase in the proportion of female authors, making it particularly relevant for examining gender dynamics in academic publishing.
+To run our topic model, we use the abstracts (`abstract_fr`) as the main textual input. As previously explained [here](/application/stm_title#fig-textual_data), abstracts provide significantly better data than titles for training a topic model; however, they are only available from the early 1980s. Consequently, we limit our analysis to the past four decades. This period also marks a sharp increase in the proportion of female authors, making it particularly relevant for examining gender dynamics in academic publishing.
 
 Let’s explore the data to analyze the gender distribution in the French Ph.D. dataset. The individuals table includes two distinct variables, `gender` and `gender_expanded`, which provide information about the gender of individuals (e.g., authors, supervisors). 
 
@@ -217,7 +215,7 @@ distribution %>%
 
 The practice of including an abstract became common in the early 1980s, but few abstracts were available for theses defended in earlier decades. A closer examination shows, however, that these were added by librarians who created the entries. Therefore, it is reasonable to filter out theses defended before 1980.  
 
-To run our probabilistic topic model, we follow the usual pre-processing steps, as described in this [post](/application/stm_title/). The primary difference in this instance is the inclusion of a few custom stopwords to address highly redundant terms frequently found in abstracts, such as "chapitre" (_chapter_) or "thèse" (_thesis_). We can then run the topic model. For a corpus of 11,000 abstracts, starting with $K=100$ (the number of topics) provides a reasonable basis for exploration.
+To run our probabilistic topic model, we follow the usual pre-processing steps, as described in this [post](/application/stm_title/). The primary difference in this instance is the removal of a few custom stopwords to address highly redundant terms frequently found in abstracts, such as "chapitre" (_chapter_) or "thèse" (_thesis_). We can then run the topic model. For a corpus of 11,000 abstracts, starting with $K=100$ (the number of topics) provides a reasonable basis for exploration.
 
 
 ```{r}
@@ -540,11 +538,6 @@ saveRDS(estimate_effect, here(website_data_path, "estimate_effect.rds"))
 
 @fig-gender_effect presents the significant estimates for the covariate gender_expanded (with a p-value < 0.1). The y-axis represents the topics, while the x-axis shows the effect of being female on the expected topic prevalence. For instance, being a woman increases the prevalence of topic 35 in a document by 0.0077. Given that the average prevalence of topic 35 is around 0.012, this effect accounts for a significant proportion of the topic's overall prevalence.
 
-The first obvious conclusion from this analysis is the presence of a strong gender element in the choice of thesis topics. Male authors are more likely to work on theoretical topics, particularly in macroeconomics, whereas female authors are more associated with applied topics, especially in the fields of health, labor, and education. 
-
-**Note also that while women tends to work on more applied and empirical issue, the topic 58 about *theoretical econometrics* is strongly associated to men. This is one of the strength of topic model that is able to differentiate between applied econometric topics and theoretical econometric topics.**
-::: panel-tabset
-## Plot 
 
 ```{r}
 #| echo: TRUE 
@@ -617,35 +610,19 @@ gg
 ggsave(here("application", "stm_abstract", "preview.png"), width = 8, height = 8)
 ```
 
-## Regression table
+The first obvious conclusion from this analysis is the presence of a strong gender element in the choice of thesis topics. Male authors are more likely to work on theoretical topics, particularly in macroeconomics, whereas female authors are more associated with applied topics, especially in the fields of health, labor, and education. 
 
-```{r}
-#| echo: TRUE 
-#| warning: FALSE
-#| label: tbl-regression
-#| tbl.cap: "Régression de la prévalence avec interaction"
+Note also that while women tends to work on more applied and empirical issue, the topic 58 about *theoretical econometrics* is strongly associated to men. This is one of the strength of topic model that is able to differentiate between applied econometric topics and theoretical econometric topics.
 
-summary_tibble %>% 
-  DT::datatable(
-  extensions = 'Buttons',
-  options = list(
-    dom = 'Blfrtip',
-    buttons = c('excel', 'csv'),
-    pageLength = 11
-  )
-)
-```
-
-:::
+## Interactions between year and gender
 
 For a more detailed historical analysis, it is also possible to look for an interaction effect between `year_defence` and `gender_expanded` in the regression if you are interested in exploring how gender-based topic choices evolve over time:
 
 $$ \theta_{d,k} = \beta_0 + \beta_1 * gender_d * year_d + \epsilon_{d,k} $$
-For instance, certain topics may have been strongly associated with one gender in the early 1980s before becoming neutral or even dominated by the other gender. Here, the estimate give, for each value of `year_defence`, the effect of being female on the expected prevalence of a given topic.
 
-@fig-regression_interaction presents the results of such an analysis. For each `year_defence` and `gender_expanded`, we compute the expected topic prevalence of topic 35, 53 and 92. Topics 35 and 53 are examples of topic prevalence strongly associated with women and men, respectively. Topic 92 provides a different pattern: while this topic is generally associated with male authors, it was mostly prevalent in women's theses until the mid-1990s. 
+For instance, certain topics may have been strongly associated with one gender in the early 1980s before becoming neutral or even dominated by the other gender. Here, the estimate gives, for each value of `year_defence`, the effect of being female on the expected prevalence of a given topic.
 
-**Interactions are particularly interesting for at least two reasons. First, as shown by Topics 35 and 53 in @fig-regression_interaction, gender segregation in the choice of research topics is a very current phenomenon. Second, in the case of Topic 92, interactions enable historical analysis by capturing *changes* in the gender effect across time. A research area dominated by men today may have been initiated by women in the past, and vice versa.**
+@fig-regression_interaction presents the results of such an analysis. For each `year_defence` and `gender_expanded`, we compute the expected topic prevalence of topics 35, 53 and 92. Topics 35 and 53 are examples of topic prevalence strongly associated with women and men, respectively. Topic 92 provides a different pattern: while this topic is generally associated with male authors, it was mostly prevalent in women's theses until the mid-1990s. 
 
 ```{r}
 #| echo: TRUE 
@@ -820,5 +797,7 @@ print(gg3)
 
 ``` 
 
-**To conclude, while the regression shows clear gender segregation across fields, it does not answer the question of why this segregation occurs. This phenomenon could be explained by various interdependent factors [@strober1976sex; @sierminska2022gender]. The decision to enter a particular field is "the culmination of a series of earlier decisions" [@strober1976sex: 304] that depend on students' socialization, preferences, and the existing opportunities or barriers. Fully addressing this question would require more detailed prosopographical data on Ph.D. students, which is beyond the scope of this blog and project: it's your turn to play !**
+Interactions are particularly interesting for at least two reasons. First, as shown by topics 35 and 53 in @fig-regression_interaction, gender segregation in the choice of research topics is a very current phenomenon. Second, in the case of Topic 92, interactions allow historical analysis for capturing *changes* in the gender effect across time. A research area dominated by men today may have been initiated by women in the past, and vice versa.
+
+To conclude, while the regression shows clear gender segregation across fields, it does not answer the question of why this segregation occurs. This phenomenon could be explained by various interdependent factors [@sierminska2022gender; @iariaGenderGapsAcademia2022]. The decision to enter a particular field is "the culmination of a series of earlier decisions" [@strober1976sex: 304] that depend on students' socialization, preferences, and the existing opportunities or barriers. Fully addressing this question would require more detailed prosopographical data on Ph.D. students, which is beyond the scope of this blog post.
 

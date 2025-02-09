@@ -10,13 +10,14 @@
     "listing": "/documentation.html",
     "items": [
       "/documentation/french/index.html",
-      "/documentation/UK/index.html",
-      "/documentation/US/index.html"
+      "/documentation/US/index.html",
+      "/documentation/UK/index.html"
     ]
   },
   {
     "listing": "/application.html",
     "items": [
+      "/application/stm_abstract/index.html",
       "/application/stm_title/index.html"
     ]
   },
@@ -29,8 +30,9 @@
   {
     "listing": "/index.html",
     "items": [
-      "/news/french_release/index.html",
-      "/application/stm_title/index.html"
+      "/application/stm_abstract/index.html",
+      "/application/stm_title/index.html",
+      "/news/french_release/index.html"
     ]
   }
 ]
