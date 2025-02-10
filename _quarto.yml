@@ -8,6 +8,7 @@ project:
 website:
   repo-url: https://github.com/tdelcey/becoming_economists
   repo-actions: [source, issue]
+  site-url: https://tdelcey.github.io/becoming_economists_page/
   # navbar:
   #   tools:
   #     - icon: github
